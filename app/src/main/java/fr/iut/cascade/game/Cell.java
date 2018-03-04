@@ -1,7 +1,8 @@
 package fr.iut.cascade.game;
 
 /**
- * Created by nero9 on 04/03/2018.
+ * Created by Lilian Gallon on 04/03/2018.
+ *
  */
 
 public class Cell {
@@ -9,34 +10,63 @@ public class Cell {
     private int column;
     private int color;
 
+    /**
+     * Default constructor
+     * @param column column of the cell
+     * @param line line of the cell
+     * @param color color of the cell
+     */
     public Cell(int column, int line, int color){
         this.column = column;
         this.line = line;
         this.color = color;
     }
 
-
-    public int getColor() {
+    /**
+     * Package-private method used to get the color of the cell
+     * @return the color of the cell
+     */
+    int getColor() {
         return color;
     }
 
-    public void setColor(int color) {
+    /**
+     * Package-private method used to set the color of the cell
+     * @param color new color of the cell
+     */
+    void setColor(int color) {
         this.color = color;
     }
 
-    public int getLine() {
+    /**
+     * Package-private method used to get the line of the cell
+     * @return line of the cell
+     */
+    int getLine() {
         return line;
     }
 
-    public void setLine(int line) {
+    /**
+     * Package-private method used to set the line of the cell
+     * @param line new line of the cell
+     */
+    void setLine(int line) {
         this.line = line;
     }
 
-    public int getColumn() {
+    /**
+     * Package-private method used to get the column of the cell
+     * @return the column of the cell
+     */
+    int getColumn() {
         return column;
     }
 
-    public void setColumn(int column) {
+    /**
+     * Package-private method used to set the column of the cell
+     * @param column new column of the cell
+     */
+    void setColumn(int column) {
         this.column = column;
     }
 }

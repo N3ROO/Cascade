@@ -1,5 +1,6 @@
 package fr.iut.cascade.game;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,7 +12,8 @@ import android.view.View;
 import java.util.ArrayList;
 
 /**
- * Created by nero9 on 04/03/2018.
+ * Created by Lilian Gallon on 04/03/2018.
+ *
  */
 
 public class Grid extends View {
@@ -40,9 +42,9 @@ public class Grid extends View {
 
     /**
      * This is a sort of constructor lol
-     * @param grid_columns
-     * @param grid_lines
-     * @param cells
+     * @param grid_columns number of columns of the grid
+     * @param grid_lines number of lines of the grid
+     * @param cells cell array list
      */
     public void init(int grid_columns, int grid_lines, ArrayList<Cell> cells){
         if(grid_columns < MIN_COLUMNS) throw new IllegalArgumentException("The number of columns is set to " + grid_columns + " but the minimal value is " + MIN_COLUMNS + ".");
@@ -60,8 +62,8 @@ public class Grid extends View {
 
     /**
      * Must use this constructor to put the view in the design.xml
-     * @param context
-     * @param attrs
+     * @param context context
+     * @param attrs attrs
      */
     public Grid(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -71,9 +73,9 @@ public class Grid extends View {
 
     /**
      * Must use this constructor to put the view in the design.xml
-     * @param context
-     * @param attrs
-     * @param defStyle
+     * @param context context
+     * @param attrs attrs
+     * @param defStyle def style
      */
     public Grid(Context context, AttributeSet attrs, int defStyle){
         super(context, attrs, defStyle);
@@ -83,7 +85,7 @@ public class Grid extends View {
 
     /**
      * Give the cells to the grid
-     * @param cells
+     * @param cells cell array list
      */
     public void setCells(ArrayList<Cell> cells){
         // Verification
@@ -126,10 +128,10 @@ public class Grid extends View {
     }
 
     /**
-     * Find and returns the cell in the grid cell arraylist
+     * Find and returns the cell in the grid cell array list
      * @param column column of the cell
      * @param line line of the cell
-     * @return
+     * @return return the cell or null if not found
      */
     private Cell getCell(int column, int line){
         boolean found = false;
@@ -148,12 +150,10 @@ public class Grid extends View {
 
     /**
      * Called every time, we need to draw things here
-     * @param canvas
+     * @param canvas canvas
      */
     @Override
     protected void onDraw(Canvas canvas){
-        // Background
-        // canvas.drawColor(Color.WHITE);
         if(cells != null) {
             for (Cell c : cells) {
                 paint.setColor(c.getColor());
@@ -168,10 +168,10 @@ public class Grid extends View {
 
     /**
      * Called whenever the size of the view is changed
-     * @param width
-     * @param height
-     * @param old_width
-     * @param old_height
+     * @param width current width of the view
+     * @param height current height of the view
+     * @param old_width old width of the view
+     * @param old_height old height of the view
      */
     @Override
     protected void onSizeChanged(int width, int height, int old_width, int old_height){
@@ -180,10 +180,11 @@ public class Grid extends View {
     }
 
     /**
-     * Always returns true otherwise we won't be able to touche anymore!!
-     * @param event
-     * @return
+     * Called whenever there is an interaction with the view (touch)
+     * @param event interaction event
+     * @return true OTHERWISE we won't be able to use the method anymore
      */
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -192,7 +193,7 @@ public class Grid extends View {
 
             Cell clicked_cell = getCell(column, line);
             if(clicked_cell != null){
-                clicked_cell.setColor(Color.YELLOW);
+                updateGrid(clicked_cell);
             }
 
             // If something changes and it needs to be reflected on screen, we need to call invalidate()
@@ -200,5 +201,22 @@ public class Grid extends View {
         }
 
         return true;
+    }
+
+    /**
+     * It updates the grid and the score of the player according to the cell he clicked
+     * @param cell clicked cell
+     */
+    private void updateGrid(Cell cell){
+        // TODO: Game algorithm
+
+        // Update the score
+        // ...
+
+        // Update the grid
+        // ...
+
+        // Redraw
+        invalidate();
     }
 }

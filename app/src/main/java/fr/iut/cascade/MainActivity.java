@@ -19,6 +19,10 @@ public class MainActivity extends AppCompatActivity{
         difficultyBar.setIsIndicator(true);
     }
 
+    /**
+     * Called whenever a button is pressed
+     * @param view view that sent the method
+     */
     public void onButtonClick(View view) {
         switch (view.getId()){
             case R.id.play_button:
@@ -41,6 +45,10 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * Update the difficulty bar (visual)
+     * @param increment increment
+     */
     private void updateDifficultyBar(int increment){
         RatingBar difficultyBar = findViewById(R.id.difficulty_bar);
         difficultyBar.setIsIndicator(false);

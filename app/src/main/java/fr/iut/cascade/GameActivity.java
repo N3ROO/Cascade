@@ -11,6 +11,10 @@ import fr.iut.cascade.game.Grid;
 
 public class GameActivity extends AppCompatActivity {
 
+    /**
+     * Represents the difficulty, determined by the number of lines and columns.
+     * From 1 to 4 (defined in MainActivity)
+     */
     private int difficulty;
 
     @Override
@@ -18,11 +22,13 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        // Recovery of the difficulty chosen
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.difficulty = extras.getInt(MainActivity.DIFFICULTY);
         }
 
+        // Initialisation of the grid
         Grid grid = findViewById(R.id.grid);
         ArrayList<Cell> cells = new ArrayList<>();
         cells.add(new Cell(0,0, Color.RED));
