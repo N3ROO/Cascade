@@ -8,6 +8,8 @@ import android.widget.RatingBar;
 
 public class MainActivity extends AppCompatActivity{
 
+    public final static String DIFFICULTY = "difficulty";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +23,7 @@ public class MainActivity extends AppCompatActivity{
         switch (view.getId()){
             case R.id.play_button:
                 Intent gameActivityIntent = new Intent(this, GameActivity.class);
-                gameActivityIntent.putExtra("difficulty",((RatingBar) findViewById(R.id.difficulty_bar)).getNumStars());
+                gameActivityIntent.putExtra(DIFFICULTY,((RatingBar) findViewById(R.id.difficulty_bar)).getNumStars());
                 startActivity(gameActivityIntent);
                 break;
             case R.id.plus_button:
