@@ -105,6 +105,17 @@ public class Grid extends View {
     }
 
     /**
+     * It updates the dimensions of the grid, since the grid adapts itself to the view size
+     */
+    private void updateDimensions(){
+        if (this.grid_columns > 0 || this.grid_lines > 0) {
+            this.cell_width = getWidth() / grid_columns;
+            this.cell_height = getHeight() / grid_lines;
+            invalidate();
+        }
+    }
+
+    /**
      * Give the cells to the grid
      * @param cells cell array list
      */
@@ -138,15 +149,13 @@ public class Grid extends View {
     }
 
     /**
-     * It updates the dimensions of the grid, since the grid adapts itself to the view size
+     * It removes all the defined cells from the grid
+     * @param cells cells array to remove
      */
-    private void updateDimensions(){
-        if (this.grid_columns > 0 || this.grid_lines > 0) {
-            this.cell_width = getWidth() / grid_columns;
-            this.cell_height = getHeight() / grid_lines;
-            invalidate();
-        }
+    private void removeCells(ArrayList<Cell> cells){
+        this.cells.removeAll(cells);
     }
+
 
     /**
      * Find and returns the cell in the grid cell array list
@@ -167,6 +176,32 @@ public class Grid extends View {
         }
         if(found) return cell;
         else return null;
+    }
+
+    /**
+     * Returns if the cell has at least a neighbor that has the same color
+     * @param cell cell
+     * @return has a same color neighbor
+     */
+    private boolean hasSameColorNeighbor(Cell cell){
+        Cell up_cell = getCell(cell.getColumn(), cell.getLine() - 1);
+        Cell down_cell = getCell(cell.getColumn(), cell.getLine() + 1);
+        Cell right_cell = getCell(cell.getColumn() + 1, cell.getLine());
+        Cell left_cell = getCell(cell.getColumn() - 1, cell.getLine());
+
+        if(up_cell != null)
+            if(up_cell.getColor() == cell.getColor())
+                return true;
+        if(down_cell != null)
+            if(down_cell.getColor() == cell.getColor())
+                return true;
+        if(right_cell != null)
+            if(right_cell.getColor() == cell.getColor())
+                return true;
+        if(left_cell != null)
+            if (left_cell.getColor() == cell.getColor())
+                return true;
+        return false;
     }
 
     /**
@@ -229,15 +264,83 @@ public class Grid extends View {
      * @param cell clicked cell
      */
     private void updateGrid(Cell cell){
-        // TODO: Game algorithm
+        // TODO: Finish game algorithm ez pz lmn sqz
+
+        // Check if the cell has at least one neighbor with the same
+        if(!hasSameColorNeighbor(cell)) return;
+
+        // Get all the cells that will be deleted
+        ArrayList<Cell> cells = getSameColorAndNeighborsCells(cell, cell.getColor(), new ArrayList<Cell>());
+
+        // Remove the cells from the grid
+        removeCells(cells);
+
+        // Get those cells down if there is space
+
+        // Get those cells left if there is space
+
+        // Update the size of the grid
 
         // Update the score
-        // ...
-
-        // Update the grid
-        // ...
+        // int number_of_cells = cells.size();
+        // Do something with it
 
         // Redraw
         invalidate();
     }
+
+    /**
+     * Recursive method that return an ArrayList containing all the cells that have the same color
+     * as the "cell", and that are neighbor of it
+     * You can see it as a 4-children tree if the 4 children : up_cell, down_cell, right_cell, left_cell
+     * We use the container tree member to insure that we won't run an infinite loop
+     * @param cell cell
+     * @param color color
+     * @param tree_members members of the tree
+     * @return array list
+     */
+    private ArrayList<Cell> getSameColorAndNeighborsCells(Cell cell, int color, ArrayList<Cell> tree_members){
+        ArrayList<Cell> cells_found = new ArrayList<>();
+
+        // Get all the neighbors
+        Cell up_cell = getCell(cell.getColumn(), cell.getLine() - 1);
+        Cell down_cell = getCell(cell.getColumn(), cell.getLine() + 1);
+        Cell right_cell = getCell(cell.getColumn() + 1, cell.getLine());
+        Cell left_cell = getCell(cell.getColumn() - 1, cell.getLine());
+
+        // Get the children of the cell father
+        ArrayList<Cell> children = new ArrayList<>();
+        if(up_cell != null)
+            if(up_cell.getColor() == color && !tree_members.contains(up_cell)) {
+                children.add(up_cell);
+                tree_members.add(up_cell);
+            }
+        if(down_cell != null)
+            if(down_cell.getColor() == color && !tree_members.contains(down_cell)) {
+                children.add(down_cell);
+                tree_members.add(down_cell);
+            }
+        if(right_cell != null)
+            if(right_cell.getColor() == color && !tree_members.contains(right_cell)) {
+                children.add(right_cell);
+                tree_members.add(right_cell);
+            }
+        if(left_cell != null)
+            if(left_cell.getColor() == color && !tree_members.contains(left_cell)) {
+                children.add(left_cell);
+                tree_members.add(left_cell);
+            }
+
+        for (Cell child : children) {
+            cells_found.addAll(getSameColorAndNeighborsCells(child, color, tree_members));
+        }
+
+        cells_found.add(cell);
+
+        return cells_found;
+    }
+
+
+
+
 }
