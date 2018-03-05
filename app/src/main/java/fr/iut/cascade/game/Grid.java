@@ -22,8 +22,8 @@ public class Grid extends View {
     private final int MIN_LINES = 5;
     private final int MAX_LINES = 25;
 
-    private int grid_lines;
-    private int grid_columns;
+    private int grid_lines = -1;
+    private int grid_columns = -1;
     private int cell_width;
     private int cell_height;
     private ArrayList<Cell> cells;
@@ -44,9 +44,8 @@ public class Grid extends View {
      * This is a sort of constructor lol
      * @param grid_columns number of columns of the grid
      * @param grid_lines number of lines of the grid
-     * @param cells cell array list
      */
-    public void init(int grid_columns, int grid_lines, ArrayList<Cell> cells){
+    public void init(int grid_columns, int grid_lines){
         if(grid_columns < MIN_COLUMNS) throw new IllegalArgumentException("The number of columns is set to " + grid_columns + " but the minimal value is " + MIN_COLUMNS + ".");
         if(grid_columns > MAX_COLUMNS) throw new IllegalArgumentException("The number of columns is set to " + grid_columns + " but the maximal value is " + MAX_COLUMNS + ".");
         if(grid_lines < MIN_LINES) throw new IllegalArgumentException("The number of lines is set to " + grid_lines + " but the minimal value is " + MIN_LINES + ".");
@@ -54,10 +53,32 @@ public class Grid extends View {
 
         this.grid_columns = grid_columns;
         this.grid_lines = grid_lines;
-        setCells(cells);
+
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(Color.BLUE);
+        colors.add(Color.RED);
+        resetCells(colors);
 
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
+    }
+
+    /**
+     *  It set gives a brand new cells array list to the grid with random colors
+     * @param colors ArrayList of the random colors that we want for the grid
+     */
+    public void resetCells(ArrayList<Integer> colors){
+        if(grid_lines == -1 || grid_columns == -1 ) throw new IllegalStateException("You should call init() before trying to initialise the cells");
+        ArrayList<Cell> cells = new ArrayList<>();
+        for(int line = 0 ; line < grid_lines ; ++line){
+            for(int column = 0 ; column < grid_columns ; ++column){
+                int random = (int) (Math.random() * colors.size());
+                int color = colors.get(random);
+                Cell cell = new Cell(column, line, color);
+                cells.add(cell);
+            }
+        }
+        this.cells = cells;
     }
 
     /**

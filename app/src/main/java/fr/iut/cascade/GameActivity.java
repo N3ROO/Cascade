@@ -33,6 +33,6 @@ public class GameActivity extends AppCompatActivity {
         ArrayList<Cell> cells = new ArrayList<>();
         cells.add(new Cell(0,0, Color.RED));
         cells.add(new Cell(4,4, Color.GREEN));
-        grid.init(5,5, cells);
+        grid.init(5,5);
     }
 }
