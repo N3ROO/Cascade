@@ -308,9 +308,10 @@ public class Grid extends View {
         removeCells(cells);
 
         // Get those cells down if there is space
-        applyGravity();
+        applyDownGravity();
 
         // Get those cells left if there is space
+        applyLeftGravity();
 
         // Update the size of the grid
 
@@ -376,7 +377,7 @@ public class Grid extends View {
     /**
      * Applies the down gravity for the cells
      */
-    private void applyGravity(){
+    private void applyDownGravity(){
 
         // 1. We get the matrix
         Cell cells[][] = getGridMatrix();
@@ -388,13 +389,15 @@ public class Grid extends View {
                 Cell current_cell = cells[column][line];
                 // If the cell that is down is empty
                 if(cells[column][line + 1] == null && current_cell != null){
-                    System.out.println(column + " " + line);
+                    // Move the cell because there is a hole at the bottom
                     current_cell.setLine(current_cell.getLine() + void_counter);
                     cells[column][line + void_counter] = current_cell;
                     cells[column][line] = null;
+                    // Reset
                     line = line + (void_counter - 1);
                     void_counter = 1;
                 }else if(cells[column][line + 1] == null && current_cell == null){
+                    // Big hole :o
                     void_counter ++;
                 }
             }
@@ -403,5 +406,20 @@ public class Grid extends View {
         setGridMatrix(cells);
     }
 
+    /**
+     * Applies the left gravity for the cells
+     */
+    private void applyLeftGravity(){
+        // 1. Get the matrix
+        // ...
+
+        // 2. If there is an empty column
+        // remove it (move all cells from the right to the left
+        // with a step defined by the number of empty column
+        // => a : count empty columns at the left of each columns array[column] = number_of_empty_columns_at_the_left
+        // => b : move the columns with the number of empty columns at its left move(c) with array[c] number
+
+        // 3. Apply the matrix to the grid
+    }
 
 }
