@@ -159,11 +159,13 @@ public class Grid extends View {
 
     /**
      * Find and returns the cell in the grid cell array list
+     * It is frequently used and need to be optimized
      * @param column column of the cell
      * @param line line of the cell
      * @return return the cell or null if not found
      */
     private Cell getCell(int column, int line){
+        if(column < 0 || column >= grid_columns || line < 0 || line >= grid_lines) return null;
         boolean found = false;
         int index = 0;
         Cell cell = null;
@@ -276,6 +278,7 @@ public class Grid extends View {
         removeCells(cells);
 
         // Get those cells down if there is space
+        //applyGravity();
 
         // Get those cells left if there is space
 
@@ -340,7 +343,61 @@ public class Grid extends View {
         return cells_found;
     }
 
+    /**
+     * Applies the down gravity for the cells
+     */
+    private void applyGravity(){
 
+        boolean a_cell_has_been_updated = true;
+        while(a_cell_has_been_updated) {
 
+            int index = 0;
+            a_cell_has_been_updated = false;
+
+            while (index < this.cells.size() && !a_cell_has_been_updated) {
+                Cell cell = this.cells.get(index);
+
+                // If the cell is already at the bottom, we jump to the next loop
+                if (cell.getLine() == 0) continue;
+
+                Cell down_cell = getCell(cell.getColumn(), cell.getLine() - 1);
+
+                // it means that there is place
+                if (down_cell == null) {
+                    // So we move the cell and start re-iterating since the start
+                    cell.setLine(cell.getLine() - 1);
+                    //a_cell_has_been_updated = true;
+                }
+
+                System.out.println(index);
+
+                index ++;
+
+            }
+        }
+
+    }
+
+    /*
+    //boolean a_cell_has_been_updated = true;
+        //while(a_cell_has_been_updated) {
+            int index = 0;
+            boolean a_cell_has_been_updated = false;
+
+            while()
+
+            for (Cell c : this.cells) {
+                // If the cell is already at the bottom, we jump to the next loop
+                if (c.getLine() == 0) continue;
+
+                Cell down_cell = getCell(c.getColumn(), c.getLine() - 1);
+
+                // it means that there is place
+                if (down_cell == null) {
+                    a_cell_has_been_updated = true;
+                }
+            }
+        //}
+     */
 
 }
