@@ -57,6 +57,8 @@ public class Grid extends View {
         ArrayList<Integer> colors = new ArrayList<>();
         colors.add(Color.BLUE);
         colors.add(Color.RED);
+        colors.add(Color.YELLOW);
+        colors.add(Color.GREEN);
         resetCells(colors);
 
         this.paint = new Paint();
@@ -102,6 +104,34 @@ public class Grid extends View {
         super(context, attrs, defStyle);
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
+    }
+
+    /**
+     * Gives a 2D array of the cells
+     * @return cells matrix
+     */
+    private Cell[][] getGridMatrix(){
+        Cell[][] cells = new Cell[grid_columns][grid_lines];
+
+        for(Cell c : this.cells){
+            cells[c.getColumn()][c.getLine()] = c;
+        }
+
+        return cells;
+    }
+
+    private void setGridMatrix(Cell[][] cells){
+        ArrayList<Cell> new_cells = new ArrayList<>();
+
+        for(int column = 0 ; column < grid_columns ; column ++) {
+            for (int line = 0; line < grid_lines; line++) {
+                Cell current_cell = cells[column][line];
+                if(current_cell != null)
+                    new_cells.add(current_cell);
+            }
+        }
+
+        setCells(new_cells);
     }
 
     /**
@@ -278,7 +308,7 @@ public class Grid extends View {
         removeCells(cells);
 
         // Get those cells down if there is space
-        //applyGravity();
+        applyGravity();
 
         // Get those cells left if there is space
 
@@ -348,56 +378,30 @@ public class Grid extends View {
      */
     private void applyGravity(){
 
-        boolean a_cell_has_been_updated = true;
-        while(a_cell_has_been_updated) {
+        // 1. We get the matrix
+        Cell cells[][] = getGridMatrix();
 
-            int index = 0;
-            a_cell_has_been_updated = false;
-
-            while (index < this.cells.size() && !a_cell_has_been_updated) {
-                Cell cell = this.cells.get(index);
-
-                // If the cell is already at the bottom, we jump to the next loop
-                if (cell.getLine() == 0) continue;
-
-                Cell down_cell = getCell(cell.getColumn(), cell.getLine() - 1);
-
-                // it means that there is place
-                if (down_cell == null) {
-                    // So we move the cell and start re-iterating since the start
-                    cell.setLine(cell.getLine() - 1);
-                    //a_cell_has_been_updated = true;
+        // 2. We will iterate over each line to apply the down gravity
+        for(int column = 0 ; column < grid_columns ; column ++) {
+            int void_counter = 1;
+            for (int line = grid_lines - 2; line >= 0; line--) {
+                Cell current_cell = cells[column][line];
+                // If the cell that is down is empty
+                if(cells[column][line + 1] == null && current_cell != null){
+                    System.out.println(column + " " + line);
+                    current_cell.setLine(current_cell.getLine() + void_counter);
+                    cells[column][line + void_counter] = current_cell;
+                    cells[column][line] = null;
+                    line = line + (void_counter - 1);
+                    void_counter = 1;
+                }else if(cells[column][line + 1] == null && current_cell == null){
+                    void_counter ++;
                 }
-
-                System.out.println(index);
-
-                index ++;
-
             }
         }
 
+        setGridMatrix(cells);
     }
 
-    /*
-    //boolean a_cell_has_been_updated = true;
-        //while(a_cell_has_been_updated) {
-            int index = 0;
-            boolean a_cell_has_been_updated = false;
-
-            while()
-
-            for (Cell c : this.cells) {
-                // If the cell is already at the bottom, we jump to the next loop
-                if (c.getLine() == 0) continue;
-
-                Cell down_cell = getCell(c.getColumn(), c.getLine() - 1);
-
-                // it means that there is place
-                if (down_cell == null) {
-                    a_cell_has_been_updated = true;
-                }
-            }
-        //}
-     */
 
 }
