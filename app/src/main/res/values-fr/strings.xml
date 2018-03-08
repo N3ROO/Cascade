@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Cascade</string>
     <string name="not_record">Vous n\'avez battu aucun de vos records.</string>
-    <string name="scoreboard_button">Tableau des scores</string>
+    <string name="scoreboard_button">Records</string>
     <string name="score_label">Score :</string>
     <string name="play_button">Jouer</string>
     <string name="image_content">Fond d\'écran</string>
