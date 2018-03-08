@@ -2,7 +2,10 @@ package fr.iut.cascade;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
+
 import fr.iut.cascade.game.Grid;
+import fr.iut.cascade.game.listeners.GridEventListener;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -11,6 +14,7 @@ public class GameActivity extends AppCompatActivity {
      * From 1 to 4 (defined in MainActivity)
      */
     private int difficulty;
+    private final String SCORE_PREFIX = "Score : ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,5 +33,13 @@ public class GameActivity extends AppCompatActivity {
         // Initialisation of the grid
         Grid grid = findViewById(R.id.grid);
         grid.init(difficulty);
+        //((TextView) findViewById(R.id.scoreValue)).setText(grid.getScore());
+
+        grid.setGridEventListener(new GridEventListener() {
+            @Override
+            public void scoreChanged(Grid grid) {
+                ((TextView) findViewById(R.id.scoreValue)).setText(grid.getScore());
+            }
+        });
     }
 }

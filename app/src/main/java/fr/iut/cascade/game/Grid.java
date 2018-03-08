@@ -11,6 +11,8 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+import fr.iut.cascade.game.listeners.GridEventListener;
+
 /**
  * Created by Lilian Gallon on 04/03/2018.
  *
@@ -22,12 +24,15 @@ public class Grid extends View {
     private final int MIN_LINES = 0;
     private final int MAX_LINES = 25;
 
+    GridEventListener gridEventListener;
+
     private int grid_lines = -1;
     private int grid_columns = -1;
     private int cell_width;
     private int cell_height;
     private ArrayList<Cell> cells;
     private Paint paint;
+    private int score;
 
     /**
      * Must use this constructor to put the view in the design.xml
@@ -85,6 +90,8 @@ public class Grid extends View {
 
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
+
+        this.score = 0;
     }
 
     /**
@@ -110,6 +117,7 @@ public class Grid extends View {
      * @param context context
      * @param attrs attrs
      */
+
     public Grid(Context context, AttributeSet attrs){
         super(context, attrs);
         this.paint = new Paint();
@@ -126,6 +134,14 @@ public class Grid extends View {
         super(context, attrs, defStyle);
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
+    }
+
+    /**
+     * Sets the gridEventListener
+     * @param gridEventListener event listener
+     */
+    public void setGridEventListener(GridEventListener gridEventListener){
+        this.gridEventListener = gridEventListener;
     }
 
     /**
@@ -161,10 +177,18 @@ public class Grid extends View {
     }
 
     /**
+     * Accessor current score
+     * @return the current score
+     */
+    public int getScore(){
+        return this.score;
+    }
+
+    /**
      * It updates the dimensions of the grid, since the grid adapts itself to the view size
      */
     private void updateDimensions(){
-        if (this.grid_columns > 0 || this.grid_lines > 0) {
+        if (this.grid_columns > 0 && this.grid_lines > 0) {
             this.cell_width = getWidth() / grid_columns;
             this.cell_height = getHeight() / grid_lines;
             invalidate();
@@ -315,6 +339,15 @@ public class Grid extends View {
         }
 
         return true;
+    }
+
+    /**
+     * Updates the score
+     */
+    private void updateScore(int score_increment){
+        this.score += score_increment;
+        if(this.gridEventListener != null)
+            this.gridEventListener.scoreChanged(this);
     }
 
     /**
