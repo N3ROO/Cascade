@@ -17,14 +17,17 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        difficulty = 1;
         // Recovery of the difficulty chosen
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.difficulty = extras.getInt(MainActivity.DIFFICULTY);
+        }else{
+            throw new IllegalStateException("The user shouldn't be able to play without choosing the difficulty, has he cheated ?");
         }
 
         // Initialisation of the grid
         Grid grid = findViewById(R.id.grid);
-        grid.init(5,5);
+        grid.init(difficulty);
     }
 }

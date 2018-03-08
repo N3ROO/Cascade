@@ -17,9 +17,9 @@ import java.util.ArrayList;
  */
 
 public class Grid extends View {
-    private final int MIN_COLUMNS = 5;
+    private final int MIN_COLUMNS = 0;
     private final int MAX_COLUMNS = 25;
-    private final int MIN_LINES = 5;
+    private final int MIN_LINES = 0;
     private final int MAX_LINES = 25;
 
     private int grid_lines = -1;
@@ -42,10 +42,32 @@ public class Grid extends View {
 
     /**
      * This is a sort of constructor lol
-     * @param grid_columns number of columns of the grid
-     * @param grid_lines number of lines of the grid
+     * @param difficulty the level difficulty
      */
-    public void init(int grid_columns, int grid_lines){
+    public void init(int difficulty){
+        int grid_lines;
+        int grid_columns;
+        switch (difficulty){
+            case 1:
+                grid_columns = 10;
+                grid_lines = 10;
+                break;
+            case 2:
+                grid_columns = 15;
+                grid_lines = 15;
+                break;
+            case 3:
+                grid_columns = 20;
+                grid_lines = 20;
+                break;
+            case 4:
+                grid_columns = 15;
+                grid_lines = 25;
+                break;
+            default:
+                throw new IllegalArgumentException("The difficulty value is set to " + difficulty + " but has to be between 1 and 4 included");
+        }
+
         if(grid_columns < MIN_COLUMNS) throw new IllegalArgumentException("The number of columns is set to " + grid_columns + " but the minimal value is " + MIN_COLUMNS + ".");
         if(grid_columns > MAX_COLUMNS) throw new IllegalArgumentException("The number of columns is set to " + grid_columns + " but the maximal value is " + MAX_COLUMNS + ".");
         if(grid_lines < MIN_LINES) throw new IllegalArgumentException("The number of lines is set to " + grid_lines + " but the minimal value is " + MIN_LINES + ".");
