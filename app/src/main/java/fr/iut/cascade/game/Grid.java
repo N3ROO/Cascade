@@ -120,6 +120,10 @@ public class Grid extends View {
         return cells;
     }
 
+    /**
+     * Updates the current grid cells with a 2D matrix
+     * @param cells
+     */
     private void setGridMatrix(Cell[][] cells){
         ArrayList<Cell> new_cells = new ArrayList<>();
 
@@ -408,18 +412,64 @@ public class Grid extends View {
 
     /**
      * Applies the left gravity for the cells
+     *
+     * Algorithm explanation :
+     * First, it counts the number of void columns at the left of each column and then
+     * we move each column according to the void column at its left.
+     *
+     * Example: there are 2 void columns in the left of the third column, we say to the
+     * third column that there is 2 void columns at its left, and it will move it to 2
+     * columns at its left.
      */
     private void applyLeftGravity(){
         // 1. Get the matrix
-        // ...
+        Cell cells[][] = getGridMatrix();
 
-        // 2. If there is an empty column
-        // remove it (move all cells from the right to the left
-        // with a step defined by the number of empty column
-        // => a : count empty columns at the left of each columns array[column] = number_of_empty_columns_at_the_left
-        // => b : move the columns with the number of empty columns at its left move(c) with array[c] number
+        // 2. Initiate the void counter
+        // We don't need to count the number of void cells at the left of the very left column
+        // SO DO NOT CHECK left_void_counter[0] it will be always 0
+        int left_void_counter[] = new int[grid_columns];
+        for(int i = 0 ; i < left_void_counter.length ; ++ i)
+            left_void_counter[i] = 0;
 
-        // 3. Apply the matrix to the grid
+        // 3. Count the number of void columns at the left of each movable column
+        for(int column = 1 ; column < grid_columns ; ++ column){
+            int line = 0;
+            boolean empty = true;
+            while(line < grid_lines && empty){
+                Cell cell = cells[column][line];
+                if(cell != null){
+                    empty = false;
+                }else{
+                    ++ line;
+                }
+            }
+
+            if(empty){
+                if(column < grid_columns)
+                    for (int col = (column + 1); col < left_void_counter.length; ++col)
+                        left_void_counter[col]++;
+
+            }
+        }
+
+        // 4. Now move each column
+        for(int column = 1 ; column < grid_columns ; ++ column){
+            if(left_void_counter[column] != 0){
+                for(int line = 0 ; line < grid_lines ; ++ line){
+                    Cell cell = cells[column][line];
+                    if(cell != null){
+                        int shift = left_void_counter[column];
+                        cell.setColumn(cell.getColumn() - shift);
+                        cells[column - shift][line] = cell;
+                        cells[column][line] = null;
+                    }
+                }
+            }
+        }
+
+        // 5. Apply the matrix to the grid
+        setGridMatrix(cells);
     }
 
 }
