@@ -1,11 +1,24 @@
 package fr.iut.cascade.game;
 
 /**
- * Created by Lilian Gallon on 04/03/2018.
+ * This file is part of Cascade.
  *
+ * Cascade is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Cascade is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Cascade. If not, see <http://www.gnu.org/licenses/>.
+ * Author(s) : Lilian Gallon (N3RO)
  */
 
-public class Cell {
+class Cell {
     private int line;
     private int column;
     private int color;
@@ -16,7 +29,7 @@ public class Cell {
      * @param line line of the cell
      * @param color color of the cell
      */
-    public Cell(int column, int line, int color){
+    Cell(int column, int line, int color){
         this.column = column;
         this.line = line;
         this.color = color;

@@ -32,15 +32,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_weight="1"
+            android:text="@string/score_label"
             app:layout_constraintStart_toEndOf="@+id/frameLayout"
-            tools:layout_editor_absoluteY="16dp"
-            tools:text="@string/score" />
+            tools:layout_editor_absoluteY="16dp" />
 
         <TextView
             android:id="@+id/scoreValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="20"
+            android:text=""
             tools:layout_editor_absoluteX="67dp"
             tools:layout_editor_absoluteY="11dp" />
     </LinearLayout>

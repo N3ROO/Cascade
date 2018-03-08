@@ -8,21 +8,31 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import fr.iut.cascade.game.listeners.GridEventListener;
 
 /**
- * Created by Lilian Gallon on 04/03/2018.
+ * This file is part of Cascade.
  *
+ * Cascade is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Cascade is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Cascade. If not, see <http://www.gnu.org/licenses/>.
+ * Author(s) : Lilian Gallon (N3RO)
  */
 
 public class Grid extends View {
-    private final int MIN_COLUMNS = 0;
-    private final int MAX_COLUMNS = 25;
-    private final int MIN_LINES = 0;
-    private final int MAX_LINES = 25;
 
     GridEventListener gridEventListener;
 
@@ -33,6 +43,7 @@ public class Grid extends View {
     private ArrayList<Cell> cells;
     private Paint paint;
     private int score;
+    private Toast informationToast;
 
     /**
      * Must use this constructor to put the view in the design.xml
@@ -72,11 +83,6 @@ public class Grid extends View {
             default:
                 throw new IllegalArgumentException("The difficulty value is set to " + difficulty + " but has to be between 1 and 4 included");
         }
-
-        if(grid_columns < MIN_COLUMNS) throw new IllegalArgumentException("The number of columns is set to " + grid_columns + " but the minimal value is " + MIN_COLUMNS + ".");
-        if(grid_columns > MAX_COLUMNS) throw new IllegalArgumentException("The number of columns is set to " + grid_columns + " but the maximal value is " + MAX_COLUMNS + ".");
-        if(grid_lines < MIN_LINES) throw new IllegalArgumentException("The number of lines is set to " + grid_lines + " but the minimal value is " + MIN_LINES + ".");
-        if(grid_lines > MAX_LINES) throw new IllegalArgumentException("The number of lines is set to " + grid_lines + " but the maximal value is " + MAX_LINES + ".");
 
         this.grid_columns = grid_columns;
         this.grid_lines = grid_lines;
@@ -160,7 +166,7 @@ public class Grid extends View {
 
     /**
      * Updates the current grid cells with a 2D matrix
-     * @param cells
+     * @param cells 2D matrix
      */
     private void setGridMatrix(Cell[][] cells){
         ArrayList<Cell> new_cells = new ArrayList<>();
@@ -177,7 +183,7 @@ public class Grid extends View {
     }
 
     /**
-     * Accessor current score
+     * Accessor on the current score
      * @return the current score
      */
     public int getScore(){
@@ -235,7 +241,6 @@ public class Grid extends View {
     private void removeCells(ArrayList<Cell> cells){
         this.cells.removeAll(cells);
     }
-
 
     /**
      * Find and returns the cell in the grid cell array list
@@ -345,9 +350,25 @@ public class Grid extends View {
      * Updates the score
      */
     private void updateScore(int score_increment){
+        sendInformation("+ " + Integer.toString(score_increment));
         this.score += score_increment;
+        // Send the scoreChanged event
         if(this.gridEventListener != null)
             this.gridEventListener.scoreChanged(this);
+    }
+
+    /**
+     * It sends an information at the screen.
+     * It prevents sending multiple information at the same time by removing
+     * the last one and keeping the one sent.
+     * @param information the information to display
+     */
+    private void sendInformation(String information){
+        if (informationToast != null) {
+            informationToast.cancel();
+        }
+        informationToast = Toast.makeText(getContext(), information, Toast.LENGTH_SHORT);
+        informationToast.show();
     }
 
     /**
@@ -355,30 +376,43 @@ public class Grid extends View {
      * @param cell clicked cell
      */
     private void updateGrid(Cell cell){
-        // TODO: Finish game algorithm ez pz lmn sqz
-
-        // Check if the cell has at least one neighbor with the same
+        // 1. Check if the cell has at least one neighbor with the same color
         if(!hasSameColorNeighbor(cell)) return;
 
-        // Get all the cells that will be deleted
+        // 2. Get all the cells that will be deleted
         ArrayList<Cell> cells = getSameColorAndNeighborsCells(cell, cell.getColor(), new ArrayList<Cell>());
 
-        // Remove the cells from the grid
+        // 3. Remove the cells from the grid
         removeCells(cells);
 
-        // Get those cells down if there is space
+        // 4. Get those cells down if there is space
         applyDownGravity();
 
-        // Get those cells left if there is space
+        // 5. Get those cells left if there is space
         applyLeftGravity();
 
-        // Update the size of the grid
+        // 6. Update the size of the grid
 
-        // Update the score
-        // int number_of_cells = cells.size();
-        // Do something with it
+        // 7. Update the score
+        int number_of_cells_removed = cells.size();
+        int score_increment = 0;
+        if(number_of_cells_removed == 2){
+            score_increment = 5;
+        }else if(number_of_cells_removed > 2 && number_of_cells_removed <= 4){
+            score_increment = number_of_cells_removed * 10;
+        }else if(number_of_cells_removed > 4 && number_of_cells_removed <= 6){
+            score_increment = number_of_cells_removed * 15;
+        }else if(number_of_cells_removed > 6 && number_of_cells_removed <= 8){
+            score_increment = number_of_cells_removed * 20;
+        }else if(number_of_cells_removed > 8){
+            score_increment = number_of_cells_removed * 30;
+        }
+        updateScore(score_increment);
 
-        // Redraw
+        // 9. Check if there it is still possible to play
+        // in this case, remove 10 * number of cells remaining to the score
+
+        // 8. Redraw
         invalidate();
     }
 

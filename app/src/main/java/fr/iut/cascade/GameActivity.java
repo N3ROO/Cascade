@@ -7,6 +7,24 @@ import android.widget.TextView;
 import fr.iut.cascade.game.Grid;
 import fr.iut.cascade.game.listeners.GridEventListener;
 
+/**
+ * This file is part of Cascade.
+ *
+ * Cascade is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Cascade is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Cascade. If not, see <http://www.gnu.org/licenses/>.
+ * Author(s) : Lilian Gallon (N3RO)
+ */
+
 public class GameActivity extends AppCompatActivity {
 
     /**
@@ -14,7 +32,6 @@ public class GameActivity extends AppCompatActivity {
      * From 1 to 4 (defined in MainActivity)
      */
     private int difficulty;
-    private final String SCORE_PREFIX = "Score : ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +50,14 @@ public class GameActivity extends AppCompatActivity {
         // Initialisation of the grid
         Grid grid = findViewById(R.id.grid);
         grid.init(difficulty);
-        //((TextView) findViewById(R.id.scoreValue)).setText(grid.getScore());
+        String score = Integer.toString(grid.getScore());
+        ((TextView) findViewById(R.id.scoreValue)).setText(score);
 
         grid.setGridEventListener(new GridEventListener() {
             @Override
             public void scoreChanged(Grid grid) {
-                ((TextView) findViewById(R.id.scoreValue)).setText(grid.getScore());
+                String score = Integer.toString(grid.getScore());
+                ((TextView) findViewById(R.id.scoreValue)).setText(score);
             }
         });
     }
