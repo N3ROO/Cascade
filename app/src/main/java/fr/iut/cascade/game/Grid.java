@@ -201,6 +201,45 @@ public class Grid extends View {
         }
     }
 
+    /*
+     * It updates the grid dimensions (grid_columns, grid_lines) to, then resize the grid.
+     * For the moment it is unused because it isn't a user-friendly thing. It updates the size of the
+     * cells so there is no animation anymore, but only automatic resize. The user could not understand
+     * what happens. => The animation is better !
+     * The code is cool so I let that method in case if we need it one day.
+     *
+    public void updateGridDimensions(){
+        int min_lines = Integer.MAX_VALUE;
+        int max_column = 0;
+        for(Cell c : cells){
+            int line = c.getLine();
+            int column = c.getColumn() + 1;
+            if(line < min_lines){
+                min_lines = line;
+            }
+            if(column > max_column){
+                max_column = column;
+            }
+        }
+
+        // If the new size isn't the same as before we move the cells and change the dimensions variables
+        if(min_lines != 0 || this.grid_columns != max_column){
+            for(Cell c : cells){
+                if(min_lines != 0){
+                    c.setLine(c.getLine() - min_lines);
+                }
+                if(this.grid_columns != max_column){
+                    c.setColumn(c.getColumn() + (this.grid_columns-(max_column+1)));
+                }
+            }
+        }
+
+        this.grid_lines = this.grid_lines - min_lines;
+        this.grid_columns = max_column;
+        updateDimensions();
+    }
+     */
+
     /**
      * Give the cells to the grid
      * @param cells cell array list
@@ -392,6 +431,10 @@ public class Grid extends View {
         applyLeftGravity();
 
         // 6. Update the size of the grid
+        // It is working, but it is actually not a user-friendly thing.
+        // It seems better to animate the cells when it drops instead of
+        // resizing the grid every time.
+        // updateGridDimensions();
 
         // 7. Update the score
         int number_of_cells_removed = cells.size();

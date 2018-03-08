@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity{
         switch (view.getId()){
             case R.id.play_button:
                 Intent gameActivityIntent = new Intent(this, GameActivity.class);
-                gameActivityIntent.putExtra(DIFFICULTY,((RatingBar) findViewById(R.id.difficulty_bar)).getNumStars());
+                gameActivityIntent.putExtra(DIFFICULTY,(int)((RatingBar) findViewById(R.id.difficulty_bar)).getRating());
                 startActivity(gameActivityIntent);
                 break;
             case R.id.plus_button:
