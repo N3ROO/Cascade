@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import fr.iut.cascade.utils.SettingsUtil;
+
 /**
  * This file is part of Cascade.
  *
@@ -30,12 +34,32 @@ public class ScoreboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard);
 
-        /*
-        LinearLayout layoutDifficulty1 = findViewById(R.id.layoutDifficulty1);
-        TextView textView = new TextView(this);
-        textView.setText("hallo hallo");
-        textView.setWidth(88);
-        layoutDifficulty1.addView(textView);
-        */
+        ArrayList<LinearLayout> layouts = new ArrayList<>();
+        layouts.add((LinearLayout) findViewById(R.id.layoutDifficulty1));
+        layouts.add((LinearLayout) findViewById(R.id.layoutDifficulty2));
+        layouts.add((LinearLayout) findViewById(R.id.layoutDifficulty3));
+        layouts.add((LinearLayout) findViewById(R.id.layoutDifficulty4));
+
+        updateScoreboards(layouts);
+    }
+
+    /**
+     * It updates all the scoreboards with the scores
+     * @param layouts layouts
+     */
+    private void updateScoreboards(ArrayList<LinearLayout> layouts){
+        for(int index = 0 ; index < layouts.size() ; ++ index){
+            LinearLayout layout = layouts.get(index);
+
+            ArrayList<Integer> score_list = SettingsUtil.loadScore(index + 1, GameActivity.SHARED_PREFERENCES_SCOREBOARD_NAME, getApplicationContext());
+            for(int score : score_list){
+                TextView textView = new TextView(this);
+                String score_str = Integer.toString(score);
+                textView.setText(score_str);
+                textView.setWidth(88);
+                layout.addView(textView);
+            }
+        }
+
     }
 }

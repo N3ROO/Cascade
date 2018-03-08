@@ -36,10 +36,11 @@ public class Grid extends View {
 
     GridEventListener gridEventListener;
 
-    private int grid_lines = -1;
-    private int grid_columns = -1;
+    private int grid_lines;
+    private int grid_columns;
     private int cell_width;
     private int cell_height;
+    private int difficulty;
     private ArrayList<Cell> cells;
     private Paint paint;
     private int score;
@@ -98,6 +99,15 @@ public class Grid extends View {
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
 
         this.score = 0;
+        this.difficulty = difficulty;
+    }
+
+    /**
+     * Resets the entire game
+     */
+    public void reset(){
+        init(this.difficulty);
+        // If we need to do special stuff, here we go
     }
 
     /**
@@ -389,11 +399,11 @@ public class Grid extends View {
      * Updates the score
      */
     private void updateScore(int score_increment){
-        sendInformation("+ " + Integer.toString(score_increment));
+        sendInformation(Integer.toString(score_increment));
         this.score += score_increment;
         // Send the scoreChanged event
         if(this.gridEventListener != null)
-            this.gridEventListener.scoreChanged(this);
+            this.gridEventListener.onScoreChanged(this);
     }
 
     /**
@@ -454,6 +464,12 @@ public class Grid extends View {
 
         // 9. Check if there it is still possible to play
         // in this case, remove 10 * number of cells remaining to the score
+        // and we send the end game event
+        if(isGameFinished()){
+            if(this.cells.size() == 0) updateScore(500);
+            else updateScore(-this.cells.size() * 10);
+            gridEventListener.onGameFinished(this);
+        }
 
         // 8. Redraw
         invalidate();
@@ -565,7 +581,7 @@ public class Grid extends View {
             left_void_counter[i] = 0;
 
         // 3. Count the number of void columns at the left of each movable column
-        for(int column = 1 ; column < grid_columns ; ++ column){
+        for(int column = 0 ; column < grid_columns ; ++ column){
             int line = 0;
             boolean empty = true;
             while(line < grid_lines && empty){
@@ -604,4 +620,28 @@ public class Grid extends View {
         setGridMatrix(cells);
     }
 
+    /**
+     * It says if there are remaining solutions in the grid
+     * @return true if there is at least one remaining solution
+     */
+    private boolean isGameFinished(){
+        boolean has_remaining_cells = false;
+        int index = 0;
+        while(!has_remaining_cells && index < this.cells.size()){
+            Cell cell = this.cells.get(index);
+            if(hasSameColorNeighbor(cell))
+                has_remaining_cells = true;
+            else
+                ++ index;
+        }
+        return !has_remaining_cells;
+    }
+
+    /**
+     * Accessor on the current difficulty
+     * @return the current difficulty
+     */
+    public int getDifficulty() {
+        return difficulty;
+    }
 }

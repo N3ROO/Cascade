@@ -23,8 +23,14 @@ import fr.iut.cascade.game.Grid;
 public interface GridEventListener {
 
     /**
-     * Called whenever the score changes
+     * Called when the score changes
      * @param grid the grid that called the event
      */
-    void scoreChanged(Grid grid);
+    void onScoreChanged(Grid grid);
+
+    /**
+     * Called when the game finishes
+     * @param grid the grid that called the event
+     */
+    void onGameFinished(Grid grid);
 }

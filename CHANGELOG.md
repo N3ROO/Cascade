@@ -7,7 +7,7 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 ### Version 1 "Game base" - Release date : ??/??/??
 - ✔ Game base
 - ✔ Difficulty selector
-- 🏗 Scoreboard
+- ✔️ Scoreboard
 - 🏳️ Changing the screen orientation or putting the application in the background does not remove reset everything
 - 🏳️ FR / EN Languages
 

@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import fr.iut.cascade.game.Grid;
 import fr.iut.cascade.game.listeners.GridEventListener;
+import fr.iut.cascade.utils.SettingsUtil;
 
 /**
  * This file is part of Cascade.
@@ -33,6 +34,8 @@ public class GameActivity extends AppCompatActivity {
      */
     private int difficulty;
 
+    public final static String SHARED_PREFERENCES_SCOREBOARD_NAME = "scoreboard";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,10 +58,18 @@ public class GameActivity extends AppCompatActivity {
 
         grid.setGridEventListener(new GridEventListener() {
             @Override
-            public void scoreChanged(Grid grid) {
+            public void onScoreChanged(Grid grid) {
                 String score = Integer.toString(grid.getScore());
                 ((TextView) findViewById(R.id.scoreValue)).setText(score);
             }
+
+            @Override
+            public void onGameFinished(Grid grid) {
+                SettingsUtil.saveScore(grid.getScore(), grid.getDifficulty(), SHARED_PREFERENCES_SCOREBOARD_NAME, getApplicationContext());
+                grid.reset();
+            }
         });
     }
+
+
 }
