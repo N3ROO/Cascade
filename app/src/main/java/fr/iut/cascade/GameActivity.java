@@ -67,9 +67,9 @@ public class GameActivity extends AppCompatActivity {
             public void onGameFinished(Grid grid) {
                 SettingsUtil.saveScore(grid.getScore(), grid.getDifficulty(), SHARED_PREFERENCES_SCOREBOARD_NAME, getApplicationContext());
                 grid.reset();
+                String score = Integer.toString(grid.getScore());
+                ((TextView) findViewById(R.id.scoreValue)).setText(score);
             }
         });
     }
-
-
 }

@@ -1,5 +1,7 @@
 package fr.iut.cascade.game;
 
+import java.io.Serializable;
+
 /**
  * This file is part of Cascade.
  *
@@ -18,7 +20,7 @@ package fr.iut.cascade.game;
  * Author(s) : Lilian Gallon (N3RO)
  */
 
-class Cell {
+class Cell implements Serializable{
     private int line;
     private int column;
     private int color;

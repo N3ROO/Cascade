@@ -8,7 +8,7 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - ✔ Game base
 - ✔ Difficulty selector
 - ✔️ Scoreboard
-- 🏳️ Changing the screen orientation or putting the application in the background does not remove reset everything
+- ✔️ Changing the screen orientation or putting the application in the background does not remove reset everything
 - 🏳️ FR / EN Languages
 
 ### Version 2 - Release date : ??/??/??

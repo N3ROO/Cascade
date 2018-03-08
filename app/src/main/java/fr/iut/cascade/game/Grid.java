@@ -5,11 +5,14 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import fr.iut.cascade.game.listeners.GridEventListener;
@@ -32,7 +35,7 @@ import fr.iut.cascade.game.listeners.GridEventListener;
  * Author(s) : Lilian Gallon (N3RO)
  */
 
-public class Grid extends View {
+public class Grid extends View implements Serializable {
 
     GridEventListener gridEventListener;
 
@@ -643,5 +646,37 @@ public class Grid extends View {
      */
     public int getDifficulty() {
         return difficulty;
+    }
+
+    /**
+     * Called when the application is killed
+     * => save stuff
+     * @return Parcelable
+     */
+    @Override
+    public Parcelable onSaveInstanceState()
+    {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("superState", super.onSaveInstanceState());
+        bundle.putSerializable("cells", this.cells);
+        return bundle;
+    }
+
+    /**
+     * Called when the application is restored
+     * => load stuff
+     * @param state state
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void onRestoreInstanceState(Parcelable state)
+    {
+        if (state instanceof Bundle)
+        {
+            Bundle bundle = (Bundle) state;
+            this.cells = (ArrayList<Cell>) bundle.getSerializable("cells");
+            state = bundle.getParcelable("superState");
+        }
+        super.onRestoreInstanceState(state);
     }
 }
