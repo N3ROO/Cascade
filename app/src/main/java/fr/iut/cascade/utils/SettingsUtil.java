@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import fr.iut.cascade.R;
+
 /**
  * This file is part of Cascade.
  *
@@ -49,7 +51,7 @@ public class SettingsUtil {
 
         // It isn't a best score we don't save it obviously
         if(!place_found && score_list.size() > 10){
-            Toast.makeText(app_context, "Vous n'avez battu aucun de vos record", Toast.LENGTH_SHORT).show();
+            Toast.makeText(app_context, R.string.not_record, Toast.LENGTH_SHORT).show();
             return;
         }
 
