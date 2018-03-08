@@ -2,6 +2,8 @@ package fr.iut.cascade;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * This file is part of Cascade.
@@ -27,5 +29,13 @@ public class ScoreboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard);
+
+        /*
+        LinearLayout layoutDifficulty1 = findViewById(R.id.layoutDifficulty1);
+        TextView textView = new TextView(this);
+        textView.setText("hallo hallo");
+        textView.setWidth(88);
+        layoutDifficulty1.addView(textView);
+        */
     }
 }
