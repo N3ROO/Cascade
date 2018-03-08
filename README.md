@@ -15,10 +15,6 @@ desc....
 When the game finishes, so when there is no more cell to remove, we remove (number of cells remaining * 10) to the score.
 If there is no cell remaining on the grid, the user gets a +500 score bonus.
 
-## To do list:
+## Information about updates
 
-```
-- [ ] Cell opacity
-- [ ] Animation
-- [ ] Save on application restart / resize
-```
+Check the [changelog](CHANGELOG.md) to get an idea of the advancement and the objectives of each update.
