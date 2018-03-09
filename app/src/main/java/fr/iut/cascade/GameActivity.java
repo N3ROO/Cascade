@@ -56,6 +56,8 @@ public class GameActivity extends AppCompatActivity {
         grid.init(difficulty);
         String score = Integer.toString(grid.getScore());
         ((TextView) findViewById(R.id.scoreValue)).setText(score);
+        String difficulty_str = Integer.toString(difficulty);
+        ((TextView) findViewById(R.id.difficultyValue)).setText(difficulty_str);
 
         grid.setGridEventListener(new GridEventListener() {
             @Override

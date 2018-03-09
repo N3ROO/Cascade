@@ -7,5 +7,6 @@
     <string name="play_button">Jouer</string>
     <string name="image_content">ui image</string>
     <string name="plus_button">+</string>
+    <string name="difficulty_label">Difficulté :</string>
     <string name="minus_button">-</string>
 </resources>

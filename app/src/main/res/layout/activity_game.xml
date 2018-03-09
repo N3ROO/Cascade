@@ -10,17 +10,17 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/waterfall_game">
+        android:background="@mipmap/game_background">
 
     </FrameLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,27 +30,44 @@
             android:id="@+id/scoreTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginTop="3dp"
             android:layout_weight="1"
-            android:text="@string/score_label"
-            app:layout_constraintStart_toEndOf="@+id/frameLayout"
-            tools:layout_editor_absoluteY="16dp" />
+            android:text="@string/score_label" />
 
         <TextView
             android:id="@+id/scoreValue"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_weight="20"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
             android:text=""
             tools:layout_editor_absoluteX="67dp"
             tools:layout_editor_absoluteY="11dp" />
+
+        <TextView
+            android:id="@+id/difficultyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:text="@string/difficulty_label" />
+
+        <TextView
+            android:id="@+id/difficultyValue"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <fr.iut.cascade.game.Grid
         android:id="@+id/grid"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginEnd="6dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="42dp"
