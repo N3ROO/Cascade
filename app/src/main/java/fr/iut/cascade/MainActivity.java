@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * This file is part of Cascade.
@@ -44,37 +42,7 @@ public class MainActivity extends AppCompatActivity{
         difficulty = 2;
         setDifficultyStars(this.difficulty);
 
-        HashMap<ImageView, int[]> buttons = new HashMap<>();
-        buttons.put((ImageView) findViewById(R.id.play_button), new int[]{R.mipmap.play_default, R.mipmap.play_pushed});
-        buttons.put((ImageView) findViewById(R.id.plus_button), new int[]{R.mipmap.plus_defaut, R.mipmap.plus_pushed});
-        buttons.put((ImageView) findViewById(R.id.minus_button), new int[]{R.mipmap.minus_defaut, R.mipmap.minus_pushed});
-        buttons.put((ImageView) findViewById(R.id.scoreboard_button), new int[]{R.mipmap.scoreboard_default, R.mipmap.scoreboard_pushed});
-        // Actually there are 4 states for the sound button : enabled & pushed, enabled & default, disabled & pushed, disabled & default
-        buttons.put((ImageView) findViewById(R.id.sound_button), new int[]{R.mipmap.sound_enabled_default, R.mipmap.sound_disabled_default});
-
-        for (Map.Entry<ImageView, int[]> entry : buttons.entrySet()) {
-            ImageView button = entry.getKey();
-            final int[] resources = entry.getValue();
-
-            // Animate the buttons
-            button.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    // Pressed
-                    if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                        ((ImageView) view).setImageResource(resources[1]);
-                    }
-                    // Released
-                    if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-                        ((ImageView) view).setImageResource(resources[0]);
-                        // why the fuck is the warning about???
-                        view.performClick();
-                    }
-                    return true;
-                }
-
-            });
-        }
+        initButtons();
     }
 
     /**
@@ -134,5 +102,39 @@ public class MainActivity extends AppCompatActivity{
             default:
         }
         this.difficulty = difficulty;
+    }
+
+    private void initButtons(){
+        ArrayList<int[]> buttons = new ArrayList<>();
+        buttons.add(new int[]{R.id.play_button, R.mipmap.play_default, R.mipmap.play_pushed});
+        buttons.add(new int[]{R.id.plus_button, R.mipmap.plus_defaut, R.mipmap.plus_pushed});
+        buttons.add(new int[]{R.id.minus_button, R.mipmap.minus_defaut, R.mipmap.minus_pushed});
+        buttons.add(new int[]{R.id.scoreboard_button, R.mipmap.scoreboard_default, R.mipmap.scoreboard_pushed});
+        // Actually there are 4 states for the sound button : enabled & pushed, enabled & default, disabled & pushed, disabled & default
+        buttons.add(new int[]{R.id.sound_button, R.mipmap.sound_enabled_default, R.mipmap.sound_disabled_default});
+
+        for (int[] values : buttons) {
+            int button_id = values[0];
+            final int button_res_default = values[1];
+            final int button_res_pushed = values[2];
+
+            // Animate the buttons
+            findViewById(button_id).setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    // Pressed
+                    if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                        ((ImageView) view).setImageResource(button_res_pushed);
+                    }
+                    // Released
+                    if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                        ((ImageView) view).setImageResource(button_res_default);
+                        // why the fuck is the warning about???
+                        view.performClick();
+                    }
+                    return true;
+                }
+            });
+        }
     }
 }
