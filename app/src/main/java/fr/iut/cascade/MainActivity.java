@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity{
                     // Released
                     if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                         ((ImageView) view).setImageResource(button_res_default);
-                        // why the fuck is the warning about???
                         view.performClick();
                     }
                     return true;
