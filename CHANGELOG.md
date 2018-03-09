@@ -13,8 +13,8 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 ### Version 1.1 "Bug fixing" - Release date : 09/03/18
 - ✨ When the user finishes a grid, the final score is displayed at the screen
 - ✨ Improved grid size which now adapts itself correctly with the background image
-- 💫 Difficulty selector that could be 0
-- 💫 Grid for difficulty 4 had the wrong number of columns
+- 💫 issue#01 Difficulty selector that could be 0
+- 💫 issue#02 Grid for difficulty 4 had the wrong number of columns
 
 ### Version 2 "User friendly interface" - Release date : ??/??/??
 - 🏳️ Animation

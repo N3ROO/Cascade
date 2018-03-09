@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity{
     private void updateDifficultyBar(int increment){
         RatingBar difficultyBar = findViewById(R.id.difficulty_bar);
         difficultyBar.setIsIndicator(false);
-        if(increment < 0 && difficultyBar.getRating() != 0){
+        if(increment < 0 && difficultyBar.getRating() != 1){
             difficultyBar.setRating(difficultyBar.getRating() + increment);
         }else if(increment > 0 && difficultyBar.getMax() != difficultyBar.getRating()) {
             difficultyBar.setRating(difficultyBar.getRating() + increment);
