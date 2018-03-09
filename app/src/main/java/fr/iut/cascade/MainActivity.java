@@ -3,8 +3,12 @@ package fr.iut.cascade;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.RatingBar;
+import android.widget.ImageView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This file is part of Cascade.
@@ -27,14 +31,50 @@ import android.widget.RatingBar;
 public class MainActivity extends AppCompatActivity{
 
     public final static String DIFFICULTY = "difficulty";
+    private static final int DIFFICULTY_MIN = 1;
+    private static final int DIFFICULTY_MAX = 4;
+    private int difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        // Default difficulty
+        difficulty = 2;
+        setDifficultyStars(this.difficulty);
 
-        RatingBar difficultyBar = findViewById(R.id.difficulty_bar);
-        difficultyBar.setIsIndicator(true);
+        HashMap<ImageView, int[]> buttons = new HashMap<>();
+        buttons.put((ImageView) findViewById(R.id.play_button), new int[]{R.mipmap.play_default, R.mipmap.play_pushed});
+        buttons.put((ImageView) findViewById(R.id.plus_button), new int[]{R.mipmap.plus_defaut, R.mipmap.plus_pushed});
+        buttons.put((ImageView) findViewById(R.id.minus_button), new int[]{R.mipmap.minus_defaut, R.mipmap.minus_pushed});
+        buttons.put((ImageView) findViewById(R.id.scoreboard_button), new int[]{R.mipmap.scoreboard_default, R.mipmap.scoreboard_pushed});
+        // Actually there are 4 states for the sound button : enabled & pushed, enabled & default, disabled & pushed, disabled & default
+        buttons.put((ImageView) findViewById(R.id.sound_button), new int[]{R.mipmap.sound_enabled_default, R.mipmap.sound_disabled_default});
+
+        for (Map.Entry<ImageView, int[]> entry : buttons.entrySet()) {
+            ImageView button = entry.getKey();
+            final int[] resources = entry.getValue();
+
+            // Animate the buttons
+            button.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    // Pressed
+                    if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                        ((ImageView) view).setImageResource(resources[1]);
+                    }
+                    // Released
+                    if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                        ((ImageView) view).setImageResource(resources[0]);
+                        // why the fuck is the warning about???
+                        view.performClick();
+                    }
+                    return true;
+                }
+
+            });
+        }
     }
 
     /**
@@ -45,14 +85,14 @@ public class MainActivity extends AppCompatActivity{
         switch (view.getId()){
             case R.id.play_button:
                 Intent gameActivityIntent = new Intent(this, GameActivity.class);
-                gameActivityIntent.putExtra(DIFFICULTY,(int)((RatingBar) findViewById(R.id.difficulty_bar)).getRating());
+                gameActivityIntent.putExtra(DIFFICULTY, this.difficulty);
                 startActivity(gameActivityIntent);
                 break;
             case R.id.plus_button:
-                updateDifficultyBar(1);
+                updateDifficultyStars(1);
                 break;
             case R.id.minus_button:
-                updateDifficultyBar(-1);
+                updateDifficultyStars(-1);
                 break;
             case R.id.scoreboard_button:
                 Intent scoreboardIntent = new Intent(this, ScoreboardActivity.class);
@@ -64,17 +104,35 @@ public class MainActivity extends AppCompatActivity{
     }
 
     /**
-     * Update the difficulty bar (visual)
+     * Controller to update the difficulty bar (visual)
      * @param increment increment
      */
-    private void updateDifficultyBar(int increment){
-        RatingBar difficultyBar = findViewById(R.id.difficulty_bar);
-        difficultyBar.setIsIndicator(false);
-        if(increment < 0 && difficultyBar.getRating() != 1){
-            difficultyBar.setRating(difficultyBar.getRating() + increment);
-        }else if(increment > 0 && difficultyBar.getMax() != difficultyBar.getRating()) {
-            difficultyBar.setRating(difficultyBar.getRating() + increment);
+    private void updateDifficultyStars(int increment){
+        if(increment < 0 && difficulty != DIFFICULTY_MIN){
+            setDifficultyStars(this.difficulty + increment);
+        }else if(increment > 0 && difficulty != DIFFICULTY_MAX) {
+            setDifficultyStars(this.difficulty + increment);
         }
-        difficultyBar.setIsIndicator(true);
+    }
+    
+    private void setDifficultyStars(int difficulty){
+        ImageView difficultyStars = findViewById(R.id.difficulty_stars);
+
+        switch (difficulty){
+            case 1 :
+                difficultyStars.setImageResource(R.mipmap.dif_1);
+                break;
+            case 2:
+                difficultyStars.setImageResource(R.mipmap.dif_2);
+                break;
+            case 3:
+                difficultyStars.setImageResource(R.mipmap.dif_3);
+                break;
+            case 4:
+                difficultyStars.setImageResource(R.mipmap.dif_4);
+                break;
+            default:
+        }
+        this.difficulty = difficulty;
     }
 }

@@ -18,8 +18,9 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - 💫 issue#03 "not record" displaying its ID instead of its string value
 
 ### Version 2 "User friendly interface" - Release date : ??/??/??
-- 🏳️ Animation
+- 🏗 Clean overall theme
+- 🏳️ Animations
 - 🏳️ Visual effects on touch
-- 🏳️ Clean main menu
 - 🏳 End screen with useful information (score rank, number of clicks, ...)
+- 🏳 Sound
 - 🏳 Statistics

@@ -17,71 +17,87 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/image_content"
             android:scaleType="centerCrop"
-            app:srcCompat="@mipmap/waterfall" />
+            app:srcCompat="@mipmap/menu_background"
+            />
 
     </FrameLayout>
 
+    <ImageView
+        android:id="@+id/difficulty_stars"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginTop="100dp"
+        android:contentDescription="@string/image_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/dif_2" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="244dp"
+        android:layout_marginTop="70dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/difficulty_stars">
 
-        <RatingBar
-            android:id="@+id/difficulty_bar"
-            style="@style/Widget.AppCompat.RatingBar"
-            android:layout_width="wrap_content"
+
+        <ImageView
+            android:id="@+id/play_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:isIndicator="false"
-            android:numStars="4"
-            android:rating="2"
-            android:stepSize="1" />
+            android:contentDescription="@string/image_content"
+            android:onClick="onButtonClick"
+            app:srcCompat="@mipmap/play_default" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_weight="0"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="InefficientWeight">
 
-            <Button
+            <ImageView
                 android:id="@+id/minus_button"
-                style="@style/Widget.AppCompat.Button"
-                android:layout_width="60dp"
-                android:layout_height="50dp"
-                android:layout_weight="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/image_content"
                 android:onClick="onButtonClick"
-                android:text="@string/minus_button" />
+                app:srcCompat="@mipmap/minus_defaut" />
 
-            <Button
-                android:id="@+id/play_button"
-                style="@style/Widget.AppCompat.Button"
-                android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:onClick="onButtonClick"
-                android:text="@string/play_button" />
-
-            <Button
+            <ImageView
                 android:id="@+id/plus_button"
-                android:layout_width="60dp"
-                android:layout_height="50dp"
-                android:layout_weight="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/image_content"
                 android:onClick="onButtonClick"
-                android:text="@string/plus_button" />
+                app:srcCompat="@mipmap/plus_defaut" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/scoreboard_button"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:onClick="onButtonClick"
-            android:text="@string/scoreboard_button" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/sound_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/image_content"
+                android:onClick="onButtonClick"
+                app:srcCompat="@mipmap/sound_enabled_default" />
+
+            <ImageView
+                android:id="@+id/scoreboard_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/image_content"
+                android:onClick="onButtonClick"
+                app:srcCompat="@mipmap/scoreboard_default" />
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
