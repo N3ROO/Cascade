@@ -1,4 +1,4 @@
-# Cascade  ![Version](https://img.shields.io/badge/Code_version-1.0-green.svg) ![Android](https://img.shields.io/badge/Android_version-5.0+-green.svg) ![Android API](https://img.shields.io/badge/Android_API-21+-green.svg) ![Licence](https://img.shields.io/badge/License-GNU_GPL_3.0-blue.svg)
+# Cascade  ![Version](https://img.shields.io/badge/Code_version-1.1-green.svg) ![Android](https://img.shields.io/badge/Android_version-5.0+-green.svg) ![Android API](https://img.shields.io/badge/Android_API-21+-green.svg) ![Licence](https://img.shields.io/badge/License-GNU_GPL_3.0-blue.svg)
 
 The goal of the game is to destroy a brick wall in a as less clicks as possible. But ... care to not let unbreakable bricks...
 

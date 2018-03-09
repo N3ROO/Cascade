@@ -3,6 +3,7 @@ package fr.iut.cascade;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import fr.iut.cascade.game.Grid;
 import fr.iut.cascade.game.listeners.GridEventListener;
@@ -65,10 +66,12 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onGameFinished(Grid grid) {
-                SettingsUtil.saveScore(grid.getScore(), grid.getDifficulty(), SHARED_PREFERENCES_SCOREBOARD_NAME, getApplicationContext());
+                int score = grid.getScore();
+                String score_str = Integer.toString(grid.getScore());
+                SettingsUtil.saveScore(score, grid.getDifficulty(), SHARED_PREFERENCES_SCOREBOARD_NAME, getApplicationContext());
+                Toast.makeText(getBaseContext(), getString(R.string.score_label) + " " + score_str, Toast.LENGTH_LONG).show();
                 grid.reset();
-                String score = Integer.toString(grid.getScore());
-                ((TextView) findViewById(R.id.scoreValue)).setText(score);
+                ((TextView) findViewById(R.id.scoreValue)).setText(score_str);
             }
         });
     }
