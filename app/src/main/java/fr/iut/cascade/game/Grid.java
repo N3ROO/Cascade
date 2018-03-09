@@ -41,8 +41,8 @@ public class Grid extends View implements Serializable {
 
     private int grid_lines;
     private int grid_columns;
-    private int cell_width;
-    private int cell_height;
+    private float cell_width;
+    private float cell_height;
     private int difficulty;
     private ArrayList<Cell> cells;
     private Paint paint;
@@ -81,7 +81,7 @@ public class Grid extends View implements Serializable {
                 grid_lines = 20;
                 break;
             case 4:
-                grid_columns = 15;
+                grid_columns = 25;
                 grid_lines = 25;
                 break;
             default:
@@ -208,8 +208,8 @@ public class Grid extends View implements Serializable {
      */
     private void updateDimensions(){
         if (this.grid_columns > 0 && this.grid_lines > 0) {
-            this.cell_width = getWidth() / grid_columns;
-            this.cell_height = getHeight() / grid_lines;
+            this.cell_width = (float) getWidth() / (float) grid_columns;
+            this.cell_height = (float) getHeight() / (float) grid_lines;
             invalidate();
         }
     }
@@ -352,10 +352,10 @@ public class Grid extends View implements Serializable {
         if(cells != null) {
             for (Cell c : cells) {
                 paint.setColor(c.getColor());
-                float left = (float) (c.getColumn() * cell_width);
-                float top = (float) (c.getLine() * cell_height);
-                float right = (float) ((c.getColumn() + 1) * cell_width);
-                float bottom = (float) ((c.getLine() + 1) * cell_height);
+                float left =  ((float) c.getColumn() * cell_width);
+                float top =  ((float) c.getLine() * cell_height);
+                float right =  ((float) (c.getColumn() + 1) * cell_width);
+                float bottom =  ((float) (c.getLine() + 1) * cell_height);
                 canvas.drawRect(left, top, right, bottom, paint);
             }
         }
