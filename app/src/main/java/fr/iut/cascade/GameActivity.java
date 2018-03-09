@@ -69,7 +69,7 @@ public class GameActivity extends AppCompatActivity {
                 int score = grid.getScore();
                 String score_str = Integer.toString(grid.getScore());
                 SettingsUtil.saveScore(score, grid.getDifficulty(), SHARED_PREFERENCES_SCOREBOARD_NAME, getApplicationContext());
-                Toast.makeText(getApplicationContext(), R.string.score_label + " " + score_str, Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getString(R.string.score_label) + " " + score_str, Toast.LENGTH_LONG).show();
                 grid.reset();
                 ((TextView) findViewById(R.id.scoreValue)).setText(score_str);
             }
