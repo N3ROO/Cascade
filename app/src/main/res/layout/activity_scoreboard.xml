@@ -10,66 +10,54 @@
         android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/waterfall_scoreboard">
+        android:background="@mipmap/scoreboard_background">
 
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/layoutDifficulty1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="5dp"
-        android:layout_marginEnd="290dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="145dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageView
+        android:id="@+id/minus_button"
+        android:layout_width="56dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="90dp"
+        android:contentDescription="@string/image_content"
+        android:onClick="onButtonClick"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/minus_default" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutDifficulty2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="5dp"
-        android:layout_marginEnd="195dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="145dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/plus_button"
+        android:layout_width="56dp"
+        android:layout_height="58dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="90dp"
+        android:contentDescription="@string/image_content"
+        android:onClick="onButtonClick"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/plus_default" />
 
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/difficulty_stars"
+        android:layout_width="200dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="80dp"
+        android:contentDescription="@string/image_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/dif_4" />
 
     <LinearLayout
-        android:id="@+id/layoutDifficulty3"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/rankingLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginStart="195dp"
-        android:layout_marginTop="145dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutDifficulty4"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="290dp"
-        android:layout_marginTop="145dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="185dp"
+        android:gravity="center_vertical|center_horizontal"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

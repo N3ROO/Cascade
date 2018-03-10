@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import java.util.ArrayList;
 
@@ -29,18 +30,21 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity{
 
     public final static String DIFFICULTY = "difficulty";
-    private static final int DIFFICULTY_MIN = 1;
-    private static final int DIFFICULTY_MAX = 4;
+    public static final int DIFFICULTY_MIN = 1;
+    public static final int DIFFICULTY_MAX = 4;
     private int difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Hide system bar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
         
         // Default difficulty
-        difficulty = 2;
-        setDifficultyStars(this.difficulty);
+        setDifficultyStars(2);
 
         initButtons();
     }
@@ -82,7 +86,11 @@ public class MainActivity extends AppCompatActivity{
             setDifficultyStars(this.difficulty + increment);
         }
     }
-    
+
+    /**
+     * Changes the displayed image according to the selected difficulty
+     * @param difficulty new difficulty
+     */
     private void setDifficultyStars(int difficulty){
         ImageView difficultyStars = findViewById(R.id.difficulty_stars);
 
@@ -104,11 +112,14 @@ public class MainActivity extends AppCompatActivity{
         this.difficulty = difficulty;
     }
 
+    /**
+     * Init the buttons dynamic (pushed / released)
+     */
     private void initButtons(){
         ArrayList<int[]> buttons = new ArrayList<>();
         buttons.add(new int[]{R.id.play_button, R.mipmap.play_default, R.mipmap.play_pushed});
-        buttons.add(new int[]{R.id.plus_button, R.mipmap.plus_defaut, R.mipmap.plus_pushed});
-        buttons.add(new int[]{R.id.minus_button, R.mipmap.minus_defaut, R.mipmap.minus_pushed});
+        buttons.add(new int[]{R.id.plus_button, R.mipmap.plus_default, R.mipmap.plus_pushed});
+        buttons.add(new int[]{R.id.minus_button, R.mipmap.minus_default, R.mipmap.minus_pushed});
         buttons.add(new int[]{R.id.scoreboard_button, R.mipmap.scoreboard_default, R.mipmap.scoreboard_pushed});
         // Actually there are 4 states for the sound button : enabled & pushed, enabled & default, disabled & pushed, disabled & default
         buttons.add(new int[]{R.id.sound_button, R.mipmap.sound_enabled_default, R.mipmap.sound_disabled_default});

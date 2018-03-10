@@ -3,10 +3,10 @@
     <string name="app_name">Cascade</string>
     <string name="not_record">Vous n\'avez battu aucun de vos records.</string>
     <string name="scoreboard_button">Records</string>
-    <string name="score_label">Score :</string>
+    <string name="score_label">Score : </string>
     <string name="play_button">Jouer</string>
     <string name="image_content">ui image</string>
     <string name="plus_button">+</string>
-    <string name="difficulty_label">Difficulté :</string>
+    <string name="difficulty_label">Difficulté : </string>
     <string name="minus_button">-</string>
 </resources>

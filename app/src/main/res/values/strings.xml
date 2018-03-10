@@ -5,7 +5,7 @@
     <string name="minus_button">-</string>
     <string name="plus_button">+</string>
     <string name="scoreboard_button">Scoreboard</string>
-    <string name="score_label">Score :</string>
-    <string name="difficulty_label">Difficulty :</string>
+    <string name="score_label">Score : </string>
+    <string name="difficulty_label">Difficulty : </string>
     <string name="not_record">You did not beat any of your records.</string>
 </resources>
