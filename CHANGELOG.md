@@ -21,7 +21,8 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - ✔ Clean overall theme
 - ✔ End screen with useful information (score place, score total, restart option, best combo, number of clicks)
 - ✔️ Visual effects on touch
-- ✔️ Animations
+- ✔️ Cells animation
+- 🏗 Interface animation
 - 🏳 Sound
 - 🏳 Statistics on the scoreboard
 - 🏳 Settings to change animation speed, and game colors
