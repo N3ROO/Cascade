@@ -41,6 +41,7 @@ import fr.iut.cascade.game.listeners.GridEventListener;
 
 public class Grid extends View implements Serializable {
 
+
     GridEventListener gridEventListener;
 
     private int grid_lines;
@@ -63,6 +64,9 @@ public class Grid extends View implements Serializable {
     private static final int YELLOW = Color.rgb(240, 225, 0);
     private static final int AQUA = Color.rgb(0,240,200);
     private static final int ORANGE = Color.rgb(255, 180, 0);
+
+
+    private float animation_speed;
 
     /**
      * Must use this constructor to put the view in the design.xml
@@ -88,18 +92,22 @@ public class Grid extends View implements Serializable {
             case 1:
                 grid_columns = 10;
                 grid_lines = 10;
+                this.animation_speed = 0.05f;
                 break;
             case 2:
                 grid_columns = 15;
                 grid_lines = 15;
+                this.animation_speed = 0.1f;
                 break;
             case 3:
                 grid_columns = 20;
                 grid_lines = 20;
+                this.animation_speed = 0.2f;
                 break;
             case 4:
                 grid_columns = 25;
                 grid_lines = 25;
+                this.animation_speed = 0.5f;
                 break;
             default:
                 throw new IllegalArgumentException("The difficulty value is set to " + difficulty + " but has to be between 1 and 4 included");
@@ -123,6 +131,7 @@ public class Grid extends View implements Serializable {
 
         this.best_combo = 0;
         this.total_clicks = 0;
+
     }
 
     /**
@@ -374,10 +383,22 @@ public class Grid extends View implements Serializable {
             for (Cell c : cells) {
                 paint.setColor(c.getColor());
                 paint.setAlpha(210);
-                float left =  ((float) c.getColumn() * cell_width);
-                float top =  ((float) c.getLine() * cell_height);
-                float right =  ((float) (c.getColumn() + 1) * cell_width);
-                float bottom =  ((float) (c.getLine() + 1) * cell_height);
+                float left,top,right,bottom;
+
+                if(c.isMoving()){
+                    left =  c.getMovingColumn() * cell_width;
+                    top =  c.getMovingLine() * cell_height;
+                    right =  (c.getMovingColumn() + 1f) * cell_width;
+                    bottom =  (c.getMovingLine() + 1f) * cell_height;
+                    c.move(animation_speed);
+                    invalidate();
+                }else{
+                    left =  ((float) c.getColumn() * cell_width);
+                    top =  ((float) c.getLine() * cell_height);
+                    right =  ((float) (c.getColumn() + 1) * cell_width);
+                    bottom =  ((float) (c.getLine() + 1) * cell_height);
+                }
+
                 canvas.drawRect(left, top, right, bottom, paint);
             }
         }
@@ -610,6 +631,7 @@ public class Grid extends View implements Serializable {
                     cells[column][line] = null;
                     // Reset
                     line = line + (void_counter - 1);
+
                     void_counter = 1;
                 }else if(cells[column][line + 1] == null && current_cell == null){
                     // Big hole :o
@@ -763,4 +785,19 @@ public class Grid extends View implements Serializable {
     public int getBestComboScore(){
         return calculateScoreIncrement(this.best_combo);
     }
+
+    /*
+     * Sets the animation speed
+     * Needs to be between 0 excluded and 1 included
+     * We recommend a value between 0.05 and 0.3 otherwise it's too fast
+     * @param animation_speed
+     *
+     * Removed for the moment because it sounds better that the grid has to handle
+     * the animation by itself. At the moment, the animation speed changes according
+     * to the level.
+     *
+    public void setAnimationSpeed(int animation_speed) {
+        if(animation_speed <= 1 && animation_speed > 0)
+            this.animation_speed = animation_speed;
+    }*/
 }

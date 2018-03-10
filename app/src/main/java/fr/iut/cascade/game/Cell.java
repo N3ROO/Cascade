@@ -25,6 +25,9 @@ class Cell implements Serializable{
     private int column;
     private int color;
 
+    private float moving_line;
+    private float moving_column;
+
     /**
      * Default constructor
      * @param column column of the cell
@@ -35,6 +38,8 @@ class Cell implements Serializable{
         this.column = column;
         this.line = line;
         this.color = color;
+        this.moving_column = column;
+        this.moving_line = line;
     }
 
     /**
@@ -83,5 +88,63 @@ class Cell implements Serializable{
      */
     void setColumn(int column) {
         this.column = column;
+    }
+
+    /**
+     * Package-private method used to know if the cell is moving
+     * @return if the cell is moving or not
+     */
+    boolean isMoving(){
+        return this.moving_column != this.column || this.moving_line != this.line;
+    }
+
+    /**
+     * Package-private method used to get the column of the cell (moving)
+     * @return the column of the cell
+     */
+    float getMovingLine() {
+        return moving_line;
+    }
+
+    /**
+     * Package-private method used to get the column of the cell (moving)
+     * @return the column of the cell
+     */
+    float getMovingColumn() {
+        return moving_column;
+    }
+
+    /**
+     * Package-private method which moves the cell with the desired increment
+     * AT THE MOMENT IT DOES NOT WORK FOR LEFT TO RIGHT AND BOTTOM TO TOP MOVEMENTS
+     * (and we don't care for the moment)
+     *
+     * If we want the cell to bounce, remove "- increment" or "+ increment" in the if statement.
+     * Explanations :
+     *  The animation speed (between 0 and 1) should be a multiple of 1 to prevent
+     *  the cells to bounce when the animation is finished.
+     *  The bounce is cause because sometimes, the value isn't exactly, for example 0.2
+     *  but 0.20000000000051202005 and so on. This causes the cell to exceed the final position.
+     *  The program detects it and put the cell at its right place and this causes the bounce.
+     *
+     * The program here detects if the cell will exceed the final position, so it puts it at
+     * the right place before going over its final position. And since the shift is small, we don't
+     * see the cell doing strange moves when finishing the movement.
+     *
+     * @param increment between 0 excluded and 1 included (no animation for 1)
+     */
+    void move(float increment){
+        // For the right to left movement, it means that we moved too far, we have to
+        // synchronize the two values (we finished the animation)
+        if(moving_column - increment <= column)
+            moving_column = column;
+        else
+            moving_column -= increment;
+
+        // Same thing but for the top to bottom movement
+        if(moving_line + increment >= line)
+            moving_line = line;
+        else
+            moving_line += increment;
     }
 }
