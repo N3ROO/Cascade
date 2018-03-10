@@ -11,6 +11,10 @@ Logo : Achievement
 Licence : https://file000.flaticon.com/downloads/license/license.pdf
 Credits : Icon made by Freepik from https://www.flaticon.com/free-icon/trophy_120119#term=achievement&page=1&position=23
 ==============
+Logo : Restart
+Licence : https://file000.flaticon.com/downloads/license/license.pdf
+Credits : Icon made by Freepik from https://www.flaticon.com/free-icon/update-arrow_2046#term=restart&page=1&position=4
+==============
 The rest of the design has been made by Lilian Gallon (N3ROO)
 Licence : See the github licence on the Cascade project
 Credits : https://github.com/N3ROO/Cascade

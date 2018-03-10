@@ -49,6 +49,10 @@ public class Grid extends View implements Serializable {
     private int score;
     private Toast informationToast;
 
+    // stats
+    private int best_combo;
+    private int total_clicks;
+
     /**
      * Must use this constructor to put the view in the design.xml
      * @param context context
@@ -103,6 +107,9 @@ public class Grid extends View implements Serializable {
 
         this.score = 0;
         this.difficulty = difficulty;
+
+        this.best_combo = 0;
+        this.total_clicks = 0;
     }
 
     /**
@@ -110,7 +117,7 @@ public class Grid extends View implements Serializable {
      */
     public void reset(){
         init(this.difficulty);
-        // If we need to do special stuff, here we go
+        invalidate();
     }
 
     /**
@@ -136,7 +143,6 @@ public class Grid extends View implements Serializable {
      * @param context context
      * @param attrs attrs
      */
-
     public Grid(Context context, AttributeSet attrs){
         super(context, attrs);
         this.paint = new Paint();
@@ -428,6 +434,7 @@ public class Grid extends View implements Serializable {
      * @param cell clicked cell
      */
     private void updateGrid(Cell cell){
+
         // 1. Check if the cell has at least one neighbor with the same color
         if(!hasSameColorNeighbor(cell)) return;
 
@@ -450,19 +457,8 @@ public class Grid extends View implements Serializable {
         // updateGridDimensions();
 
         // 7. Update the score
-        int number_of_cells_removed = cells.size();
-        int score_increment = 0;
-        if(number_of_cells_removed == 2){
-            score_increment = 5;
-        }else if(number_of_cells_removed > 2 && number_of_cells_removed <= 4){
-            score_increment = number_of_cells_removed * 10;
-        }else if(number_of_cells_removed > 4 && number_of_cells_removed <= 6){
-            score_increment = number_of_cells_removed * 15;
-        }else if(number_of_cells_removed > 6 && number_of_cells_removed <= 8){
-            score_increment = number_of_cells_removed * 20;
-        }else if(number_of_cells_removed > 8){
-            score_increment = number_of_cells_removed * 30;
-        }
+        int number_of_removed_cells = cells.size();
+        int score_increment = calculateScoreIncrement(number_of_removed_cells);
         updateScore(score_increment);
 
         // 9. Check if there it is still possible to play
@@ -474,8 +470,35 @@ public class Grid extends View implements Serializable {
             gridEventListener.onGameFinished(this);
         }
 
-        // 8. Redraw
+        // 8. Update the stats
+        total_clicks ++;
+        if(this.best_combo < number_of_removed_cells){
+            this.best_combo = number_of_removed_cells;
+        }
+
+        // 9. Redraw
         invalidate();
+    }
+
+    /**
+     * Calculates the score increment according to the number of removed cells
+     * @param number_of_removed_cells number of removed cells
+     * @return score increment
+     */
+    private int calculateScoreIncrement(int number_of_removed_cells){
+        int score_increment = 0;
+        if(number_of_removed_cells == 2){
+            score_increment = 5;
+        }else if(number_of_removed_cells > 2 && number_of_removed_cells <= 4){
+            score_increment = number_of_removed_cells * 10;
+        }else if(number_of_removed_cells > 4 && number_of_removed_cells <= 6){
+            score_increment = number_of_removed_cells * 15;
+        }else if(number_of_removed_cells > 6 && number_of_removed_cells <= 8){
+            score_increment = number_of_removed_cells * 20;
+        }else if(number_of_removed_cells > 8){
+            score_increment = number_of_removed_cells * 30;
+        }
+        return score_increment;
     }
 
     /**
@@ -678,5 +701,29 @@ public class Grid extends View implements Serializable {
             state = bundle.getParcelable("superState");
         }
         super.onRestoreInstanceState(state);
+    }
+
+    /**
+     * Getter on the total of clicks
+     * @return the number of clicks
+     */
+    public int getTotalClicks() {
+        return total_clicks;
+    }
+
+    /**
+     * Getter on the best combo
+     * @return the best number of cells removed at the same time
+     */
+    public int getBestCombo() {
+        return best_combo;
+    }
+
+    /**
+     * Gives the value in score of the best combo
+     * @return the value of the best combo
+     */
+    public int getBestComboScore(){
+        return calculateScoreIncrement(this.best_combo);
     }
 }

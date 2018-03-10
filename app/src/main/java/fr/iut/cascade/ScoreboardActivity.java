@@ -1,7 +1,5 @@
 package fr.iut.cascade;
 
-import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.content.res.ResourcesCompat;
@@ -12,7 +10,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -40,6 +37,7 @@ import fr.iut.cascade.utils.SettingsUtil;
 public class ScoreboardActivity extends AppCompatActivity {
 
     private int difficulty;
+    private int[] last_score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +47,25 @@ public class ScoreboardActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_scoreboard);
 
+        // Default values
+        difficulty = 2;
+        last_score = new int[]{-1, -1};
+
         initButtons();
 
-        // Default difficulty
-        setDifficultyStars(2);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            this.difficulty = extras.getInt(MainActivity.DIFFICULTY);
+
+            if(getIntent().hasExtra(GameActivity.LAST_SCORE)){
+                this.last_score[0] = this.difficulty;
+                this.last_score[1] = extras.getInt(GameActivity.LAST_SCORE);
+            }
+        }else{
+            throw new IllegalStateException("The user shouldn't be able to play without choosing the difficulty, has he cheated ?");
+        }
+
+        setDifficultyStars(this.difficulty);
     }
 
     /**
@@ -71,7 +84,12 @@ public class ScoreboardActivity extends AppCompatActivity {
             String score_str = Integer.toString(score);
             textView.setText(score_str);
             textView.setLayoutParams(layoutParams);
-            textView.setTextColor(Color.WHITE);
+
+            if(this.last_score[0] == this.difficulty && this.last_score[1] == score)
+                textView.setTextColor(getResources().getColor(R.color.greenTheme));
+            else
+                textView.setTextColor(getResources().getColor(R.color.white));
+
             textView.setTextSize(30);
             textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             //android:fontFamily="@font/rubik_mono_one"
@@ -114,7 +132,7 @@ public class ScoreboardActivity extends AppCompatActivity {
      * @param difficulty new difficulty
      */
     private void setDifficultyStars(int difficulty){
-        ImageView difficultyStars = findViewById(R.id.difficulty_stars);
+        ImageView difficultyStars = findViewById(R.id.end_screen_difficulty);
 
         switch (difficulty){
             case 1 :

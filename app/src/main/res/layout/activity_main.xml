@@ -23,7 +23,7 @@
     </FrameLayout>
 
     <ImageView
-        android:id="@+id/difficulty_stars"
+        android:id="@+id/end_screen_difficulty"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginTop="110dp"
@@ -37,7 +37,7 @@
         android:layout_marginTop="60dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/difficulty_stars">
+        app:layout_constraintTop_toBottomOf="@id/end_screen_difficulty">
 
 
         <ImageView

@@ -33,8 +33,14 @@ public class SettingsUtil {
      * Important note : the score is stored using this template :
      * {difficulty} -> {1st score}:{2nd score}:{3rd score}:{4th score}:{5th score}
      * and so on (max of 10 for the moment)
+     *
+     * @param score_to_add new score
+     * @param difficulty difficulty of the score
+     * @param location location of the scoreboard
+     * @param app_context context of the app
+     * @return the place of the score in the scoreboard (-1 if not found)
      */
-    public static void saveScore(int score_to_add, int difficulty,  String location, Context app_context){
+    public static int saveScore(int score_to_add, int difficulty,  String location, Context app_context){
 
         ArrayList<Integer> score_list = loadScore(difficulty, location, app_context);
 
@@ -50,9 +56,8 @@ public class SettingsUtil {
         }
 
         // It isn't a best score we don't save it obviously
-        if(!place_found && score_list.size() > 10){
-            Toast.makeText(app_context, app_context.getString(R.string.not_record), Toast.LENGTH_SHORT).show();
-            return;
+        if(!place_found && score_list.size() >= 10){
+            return -1;
         }
 
         // We add the nex record at its right place, and update the size of the array,
@@ -83,6 +88,8 @@ public class SettingsUtil {
         // Apply better than commit since it stores the data in the background, so the application continues
         // its execution whereas commit does it directly
         scoreboard_editor.apply();
+
+        return index + 1;
     }
 
     /**

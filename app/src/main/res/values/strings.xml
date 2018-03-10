@@ -7,6 +7,10 @@
     <string name="scoreboard_button">Scoreboard</string>
     <string name="score_label">Score : </string>
     <string name="difficulty_label">Difficulty : </string>
-    <string name="not_record">You did not beat any of your records.</string>
+    <string name="not_record">No records beaten.</string>
     <string name="credits">Made by Lilian Gallon, a project for \"IUT de Bordeaux\".</string>
+    <string name="best_record">New best record !</string>
+    <string name="record">New record #</string>
+    <string name="max_combo">Best combo :</string>
+    <string name="total_clicks">Total clicks :</string>
 </resources>

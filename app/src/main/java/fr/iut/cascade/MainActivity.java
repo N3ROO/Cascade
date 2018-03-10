@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity{
                 break;
             case R.id.scoreboard_button:
                 Intent scoreboardIntent = new Intent(this, ScoreboardActivity.class);
+                scoreboardIntent.putExtra(DIFFICULTY, this.difficulty);
                 startActivity(scoreboardIntent);
                 break;
             default:
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity{
      * @param difficulty new difficulty
      */
     private void setDifficultyStars(int difficulty){
-        ImageView difficultyStars = findViewById(R.id.difficulty_stars);
+        ImageView difficultyStars = findViewById(R.id.end_screen_difficulty);
 
         switch (difficulty){
             case 1 :
