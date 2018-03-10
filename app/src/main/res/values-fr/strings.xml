@@ -9,4 +9,5 @@
     <string name="plus_button">+</string>
     <string name="difficulty_label">Difficulté : </string>
     <string name="minus_button">-</string>
+    <string name="credits">Réalisé par Lilian Gallon, un projet pour l\'IUT de Bordeaux.</string>
 </resources>

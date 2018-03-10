@@ -8,4 +8,5 @@
     <string name="score_label">Score : </string>
     <string name="difficulty_label">Difficulty : </string>
     <string name="not_record">You did not beat any of your records.</string>
+    <string name="credits">Made by Lilian Gallon, a project for \"IUT de Bordeaux\".</string>
 </resources>
