@@ -358,6 +358,7 @@ public class Grid extends View implements Serializable {
         if(cells != null) {
             for (Cell c : cells) {
                 paint.setColor(c.getColor());
+                paint.setAlpha(150);
                 float left =  ((float) c.getColumn() * cell_width);
                 float top =  ((float) c.getLine() * cell_height);
                 float right =  ((float) (c.getColumn() + 1) * cell_width);
