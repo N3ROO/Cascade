@@ -34,4 +34,4 @@ Check the [changelog](CHANGELOG.md) to get an idea of the advancement and the ob
 ## App design
 
 The design has been entirely made by Lilian Gallon, all the logos and symbols used have been modified to be uniformed.
-The UI production used the same licence as the one of the project. [See details](LICENCE.md)
+The UI production used the same licence as the one of the project. [See details](LICENSE.md)
