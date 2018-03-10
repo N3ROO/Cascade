@@ -20,7 +20,7 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 ### Version 2 "User friendly interface" - Release date : ??/??/??
 - ✔ Clean overall theme
 - ✔ End screen with useful information (score place, score total, restart option, best combo, number of clicks)
+- ✔️ Visual effects on touch
 - 🏳️ Animations
-- 🏳️ Visual effects on touch
 - 🏳 Sound
 - 🏳 Statistics on the scoreboard

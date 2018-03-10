@@ -1,6 +1,7 @@
 package fr.iut.cascade.game;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,9 +13,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.plattysoft.leonids.ParticleSystem;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import fr.iut.cascade.R;
 import fr.iut.cascade.game.listeners.GridEventListener;
 
 /**
@@ -49,9 +53,16 @@ public class Grid extends View implements Serializable {
     private int score;
     private Toast informationToast;
 
+    private Activity activity;
+
     // stats
     private int best_combo;
     private int total_clicks;
+
+    private static final int GREEN = Color.rgb(140, 230, 65);
+    private static final int YELLOW = Color.rgb(240, 225, 0);
+    private static final int AQUA = Color.rgb(0,240,200);
+    private static final int ORANGE = Color.rgb(255, 180, 0);
 
     /**
      * Must use this constructor to put the view in the design.xml
@@ -62,6 +73,8 @@ public class Grid extends View implements Serializable {
 
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
+
+        this.activity = (Activity) context;
     }
 
     /**
@@ -96,10 +109,10 @@ public class Grid extends View implements Serializable {
         this.grid_lines = grid_lines;
 
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.BLUE);
-        colors.add(Color.RED);
-        colors.add(Color.YELLOW);
-        colors.add(Color.GREEN);
+        colors.add(AQUA);
+        colors.add(YELLOW);
+        colors.add(ORANGE);
+        colors.add(GREEN);
         resetCells(colors);
 
         this.paint = new Paint();
@@ -147,6 +160,7 @@ public class Grid extends View implements Serializable {
         super(context, attrs);
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        this.activity = (Activity) context;
     }
 
     /**
@@ -159,6 +173,7 @@ public class Grid extends View implements Serializable {
         super(context, attrs, defStyle);
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        this.activity = (Activity) context;
     }
 
     /**
@@ -358,7 +373,7 @@ public class Grid extends View implements Serializable {
         if(cells != null) {
             for (Cell c : cells) {
                 paint.setColor(c.getColor());
-                paint.setAlpha(150);
+                paint.setAlpha(210);
                 float left =  ((float) c.getColumn() * cell_width);
                 float top =  ((float) c.getLine() * cell_height);
                 float right =  ((float) (c.getColumn() + 1) * cell_width);
@@ -390,13 +405,34 @@ public class Grid extends View implements Serializable {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
             int column = (int)(event.getX() / cell_width);
             int line = (int)(event.getY() / cell_height);
 
             Cell clicked_cell = getCell(column, line);
+            int particle_resource = R.drawable.star_white;
             if(clicked_cell != null){
+
+                int color = clicked_cell.getColor();
+                if(color == AQUA)  particle_resource = R.drawable.star_aqua;
+                if(color == ORANGE)  particle_resource = R.drawable.star_orange;
+                if(color == YELLOW)  particle_resource = R.drawable.star_yellow;
+                if(color == GREEN)  particle_resource = R.drawable.star_green;
+
                 updateGrid(clicked_cell);
             }
+
+            // Particle image shift
+            final float x_shift =  20 / 2;
+            final float y_shift = - 22 / 2;
+
+            ParticleSystem particles = new ParticleSystem(this.activity, 50, particle_resource, 100);
+            particles.setSpeedRange(0.2f, 0.5f);
+            particles.setAcceleration(0.0005f, 90);
+            particles.emit((int)(event.getX() + x_shift) , (int)(event.getY() + cell_height + y_shift), 50, 100);
+
+
+
 
             // If something changes and it needs to be reflected on screen, we need to call invalidate()
             invalidate();
