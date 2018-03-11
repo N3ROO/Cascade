@@ -22,7 +22,13 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - ✔ End screen with useful information (score place, score total, restart option, best combo, number of clicks)
 - ✔️ Visual effects on touch
 - ✔️ Cells animation
-- 🏗 Interface animation
-- 🏳 Sound
-- 🏳 Statistics on the scoreboard
+- ✔ Interface animation
+- 🏳 Gravity acceleration for the animation
+- 🏳 Sounds
+- 🏳 Statistics
 - 🏳 Settings to change animation speed, and game colors
+
+### Version 3 "New game mode : race against time" - Release date : ??/??/??
+- 🏳 Game mode selection in the menu
+- 🏳 Race against time game implementation
+- 🏳 Race against time statistics

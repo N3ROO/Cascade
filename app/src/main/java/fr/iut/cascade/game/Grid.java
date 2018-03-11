@@ -92,7 +92,7 @@ public class Grid extends View implements Serializable {
             case 1:
                 grid_columns = 10;
                 grid_lines = 10;
-                this.animation_speed = 0.05f;
+                this.animation_speed = 0.1f;
                 break;
             case 2:
                 grid_columns = 15;
