@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.plattysoft.leonids.ParticleSystem;
 
 import java.util.ArrayList;
 
@@ -38,6 +41,7 @@ public class ScoreboardActivity extends AppCompatActivity {
 
     private int difficulty;
     private int[] last_score;
+    private ParticleSystem particleSystem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,5 +187,32 @@ public class ScoreboardActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    /**
+     * Called when the user touches the screen
+     * @param event event
+     * @return true ;)
+     */
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                // Create a particle system and start emitting
+                particleSystem = new ParticleSystem(this, 100, R.drawable.star_dark_green, 800);
+                particleSystem.setScaleRange(0.7f, 1.3f);
+                particleSystem.setSpeedRange(0.05f, 0.1f);
+                particleSystem.setRotationSpeedRange(90, 180);
+                particleSystem.setFadeOut(200, new AccelerateInterpolator());
+                particleSystem.emit((int) event.getX(), (int) event.getY(), 40);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                particleSystem.updateEmitPoint((int) event.getX(), (int) event.getY());
+                break;
+            case MotionEvent.ACTION_UP:
+                particleSystem.stopEmitting();
+                break;
+        }
+        return true;
     }
 }
