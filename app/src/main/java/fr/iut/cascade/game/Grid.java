@@ -17,6 +17,9 @@ import com.plattysoft.leonids.ParticleSystem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import fr.iut.cascade.R;
 import fr.iut.cascade.game.listeners.GridEventListener;
@@ -53,7 +56,6 @@ public class Grid extends View implements Serializable {
     private Paint paint;
     private int score;
     private Toast informationToast;
-
 
     private boolean shouldSendInformation;
 
@@ -109,7 +111,7 @@ public class Grid extends View implements Serializable {
             case 4:
                 grid_columns = 25;
                 grid_lines = 25;
-                this.animation_speed = 0.5f;
+                this.animation_speed = 0.2f;
                 break;
             default:
                 throw new IllegalArgumentException("The difficulty value is set to " + difficulty + " but has to be between 1 and 4 included");
@@ -383,6 +385,7 @@ public class Grid extends View implements Serializable {
     @Override
     protected void onDraw(Canvas canvas){
         if(cells != null) {
+            boolean should_invalidate = false;
             for (Cell c : cells) {
                 paint.setColor(c.getColor());
                 paint.setAlpha(210);
@@ -394,7 +397,7 @@ public class Grid extends View implements Serializable {
                     right =  (c.getMovingColumn() + 1f) * cell_width;
                     bottom =  (c.getMovingLine() + 1f) * cell_height;
                     c.move(animation_speed);
-                    invalidate();
+                    should_invalidate = true;
                 }else{
                     left =  ((float) c.getColumn() * cell_width);
                     top =  ((float) c.getLine() * cell_height);
@@ -404,7 +407,13 @@ public class Grid extends View implements Serializable {
 
                 canvas.drawRect(left, top, right, bottom, paint);
             }
+
+            // Small optimization
+            if(should_invalidate){
+                invalidate();
+            }
         }
+
     }
 
     /**
