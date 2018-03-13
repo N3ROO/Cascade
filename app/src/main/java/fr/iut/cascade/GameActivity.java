@@ -126,6 +126,7 @@ public class GameActivity extends AppCompatActivity {
         final TextView end_clicks = findViewById(R.id.end_screen_clicks);
         final ImageView end_difficulty = findViewById(R.id.end_screen_difficulty);
 
+
         // Set up the views
         if(place == -1){
             end_place.setText(getString(R.string.not_record));
@@ -162,10 +163,10 @@ public class GameActivity extends AppCompatActivity {
         }
 
         // Animate the views and set their visibility according to their animation
+        end_layout.setVisibility(View.VISIBLE);
         end_combo.setVisibility(View.INVISIBLE);
         end_clicks.setVisibility(View.INVISIBLE);
         end_place.setVisibility(View.INVISIBLE);
-        end_layout.setVisibility(View.VISIBLE);
 
         // Particles
         ParticleSystem ps = new ParticleSystem(this, 100, R.drawable.star_dark_green, 1000);
@@ -211,7 +212,7 @@ public class GameActivity extends AppCompatActivity {
                 findViewById(R.id.end_layout).getHeight(),  // fromYDelta
                 0);                // toYDelta
         animate.setDuration(1000);
-        animate.setFillAfter(true);
+        animate.setFillAfter(false);
         animate.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
