@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,9 +60,11 @@ public class GameActivity extends AppCompatActivity {
 
     public final static String SHARED_PREFERENCES_SCOREBOARD_NAME = "scoreboard";
     public final static String LAST_SCORE = "last_score";
+    private final static int FAST_SCORE_INFO_DISPLAY_DURATION = 2000;
+    private final static int FAST_SCORE_INFO_FADE_DURATION = 250;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Hide system bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -91,9 +94,10 @@ public class GameActivity extends AppCompatActivity {
 
         grid.setGridEventListener(new GridEventListener() {
             @Override
-            public void onScoreChanged(Grid grid) {
+            public void onScoreChanged(Grid grid, int score_increment) {
                 String score = Integer.toString(grid.getScore());
                 ((TextView) findViewById(R.id.scoreValue)).setText(score);
+                showInstantScoreInformation(score_increment);
             }
 
             @Override
@@ -107,6 +111,66 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    /**
+     * Shows the text indicating the last score increment
+     * @param score_increment score_increment
+     */
+    private void showInstantScoreInformation(int score_increment){
+        final TextView text = findViewById(R.id.instant_score_info);
+
+        // Animation of the text (fade in and then fade out)
+        final Animation in = new AlphaAnimation(0.0f, 1.0f);
+        final Animation out = new AlphaAnimation(1.0f, 0.0f);
+        in.setDuration(FAST_SCORE_INFO_FADE_DURATION);
+        out.setDuration(FAST_SCORE_INFO_FADE_DURATION);
+
+        // We say that the out animation will start later
+        out.setStartOffset(FAST_SCORE_INFO_DISPLAY_DURATION);
+
+        // Then android gives us a nice animation set ;)
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.addAnimation(in);
+        animationSet.addAnimation(out);
+
+        // Let's apply the animation to our text
+        String score_increment_str = Integer.toString(score_increment);
+        text.setText(score_increment_str);
+        text.setVisibility(View.VISIBLE);
+        text.startAnimation(animationSet);
+
+        // But, don't forget to turn off the text when the animation ends !
+        out.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                text.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+        // Now, we put particles according to the score increment
+        int particle_number;
+        if(score_increment < 200){
+            particle_number = 5;
+        }else if(score_increment >= 200 && score_increment < 500){
+            particle_number = 10;
+        }else if(score_increment >= 500 && score_increment < 900){
+            particle_number = 15;
+        }else if(score_increment >= 900 && score_increment < 1200){
+            particle_number = 20;
+        }else{
+            particle_number = 25;
+        }
+
+        new ParticleSystem(this, 25, R.drawable.star_white, FAST_SCORE_INFO_DISPLAY_DURATION )
+                .setSpeedRange(0.1f, 0.2f)
+                .oneShot(text, particle_number);
     }
 
     /**

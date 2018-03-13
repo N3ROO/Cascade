@@ -25,8 +25,9 @@ public interface GridEventListener {
     /**
      * Called when the score changes
      * @param grid the grid that called the event
+     * @param score_increment the value in which the score was incremented
      */
-    void onScoreChanged(Grid grid);
+    void onScoreChanged(Grid grid, int score_increment);
 
     /**
      * Called when the game finishes

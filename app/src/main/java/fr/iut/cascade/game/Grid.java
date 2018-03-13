@@ -54,6 +54,9 @@ public class Grid extends View implements Serializable {
     private int score;
     private Toast informationToast;
 
+
+    private boolean shouldSendInformation;
+
     private Activity activity;
 
     // stats
@@ -64,7 +67,6 @@ public class Grid extends View implements Serializable {
     private static final int YELLOW = Color.rgb(240, 225, 0);
     private static final int AQUA = Color.rgb(0,240,200);
     private static final int ORANGE = Color.rgb(255, 180, 0);
-
 
     private float animation_speed;
 
@@ -132,6 +134,7 @@ public class Grid extends View implements Serializable {
         this.best_combo = 0;
         this.total_clicks = 0;
 
+        this.shouldSendInformation = false;
     }
 
     /**
@@ -452,9 +455,6 @@ public class Grid extends View implements Serializable {
             particles.setAcceleration(0.0005f, 90);
             particles.emit((int)(event.getX() + x_shift) , (int)(event.getY() + cell_height + y_shift), 50, 100);
 
-
-
-
             // If something changes and it needs to be reflected on screen, we need to call invalidate()
             invalidate();
         }
@@ -466,11 +466,12 @@ public class Grid extends View implements Serializable {
      * Updates the score
      */
     private void updateScore(int score_increment){
-        sendInformation(Integer.toString(score_increment));
+        if(this.shouldSendInformation)
+            sendInformation(Integer.toString(score_increment));
         this.score += score_increment;
         // Send the scoreChanged event
         if(this.gridEventListener != null)
-            this.gridEventListener.onScoreChanged(this);
+            this.gridEventListener.onScoreChanged(this, score_increment);
     }
 
     /**
@@ -800,4 +801,14 @@ public class Grid extends View implements Serializable {
         if(animation_speed <= 1 && animation_speed > 0)
             this.animation_speed = animation_speed;
     }*/
+
+    /**
+     * If you want the grid to display a fast information about the last score that
+     * was made, enable it. Otherwise you have to handle it by using onScoreChanged listener.
+     * @param shouldSendInformation should send information
+     */
+    @SuppressWarnings("unused")
+    public void setShouldSendInformation(boolean shouldSendInformation) {
+        this.shouldSendInformation = shouldSendInformation;
+    }
 }

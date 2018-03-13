@@ -23,6 +23,7 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - ✔️ Visual effects on touch
 - ✔️ Cells animation
 - ✔ Interface animation
+- ✔ Last score information animation
 - 🏳 Gravity acceleration for the animation
 - 🏳 Sounds
 - 🏳 Statistics
