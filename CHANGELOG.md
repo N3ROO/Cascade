@@ -24,7 +24,6 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - ✔️ Cells animation
 - ✔ Interface animation
 - ✔ Last score information animation
-- 🏳 Gravity acceleration for the animation
 - 🏳 Sounds
 - 🏳 Statistics
 - 🏳 Settings to change animation speed, and game colors
@@ -33,3 +32,8 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - 🏳 Game mode selection in the menu
 - 🏳 Race against time game implementation
 - 🏳 Race against time statistics
+
+### Ideas
+Those ideas may be implemented, but it isn't sure.
+- 🏳 Gravity acceleration for the animation
+- 🏳 Multi-threading drawing
