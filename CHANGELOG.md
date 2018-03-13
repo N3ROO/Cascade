@@ -24,9 +24,9 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - ✔️ Cells animation
 - ✔ Interface animation
 - ✔ Last score information animation
-- 🏳 Sounds
+- 🏗 Settings to toggle animation, game colors, and particles
 - 🏳 Statistics
-- 🏳 Settings to change animation speed, and game colors
+- 🏳 Sounds
 
 ### Version 3 "New game mode : race against time" - Release date : ??/??/??
 - 🏳 Game mode selection in the menu

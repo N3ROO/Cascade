@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity{
         // Default difficulty
         setDifficultyStars(2);
 
+        // TODO: Add a settings button
         initButtons();
     }
 
