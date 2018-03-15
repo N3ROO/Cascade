@@ -93,10 +93,20 @@
                 android:id="@+id/scoreboard_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/image_content"
                 android:onClick="onButtonClick"
                 app:srcCompat="@mipmap/scoreboard_default" />
+
+            <ImageView
+                android:id="@+id/settings_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/image_content"
+                android:onClick="onButtonClick"
+                app:srcCompat="@mipmap/settings_default" />
         </LinearLayout>
     </LinearLayout>
 

@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity{
         // Default difficulty
         setDifficultyStars(2);
 
-        // TODO: Add a settings button
         initButtons();
     }
 
@@ -77,6 +76,10 @@ public class MainActivity extends AppCompatActivity{
                 Intent scoreboardIntent = new Intent(this, ScoreboardActivity.class);
                 scoreboardIntent.putExtra(DIFFICULTY, this.difficulty);
                 startActivity(scoreboardIntent);
+                break;
+            case R.id.settings_button:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
                 break;
             default:
                 break;
@@ -129,6 +132,7 @@ public class MainActivity extends AppCompatActivity{
         buttons.add(new int[]{R.id.plus_button, R.mipmap.plus_default, R.mipmap.plus_pushed});
         buttons.add(new int[]{R.id.minus_button, R.mipmap.minus_default, R.mipmap.minus_pushed});
         buttons.add(new int[]{R.id.scoreboard_button, R.mipmap.scoreboard_default, R.mipmap.scoreboard_pushed});
+        buttons.add(new int[]{R.id.settings_button, R.mipmap.settings_default, R.mipmap.settings_pushed});
         // Actually there are 4 states for the sound button : enabled & pushed, enabled & default, disabled & pushed, disabled & default
         buttons.add(new int[]{R.id.sound_button, R.mipmap.sound_enabled_default, R.mipmap.sound_disabled_default});
 

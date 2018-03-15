@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import fr.iut.cascade.R;
 
@@ -27,6 +28,72 @@ import fr.iut.cascade.R;
  */
 
 public class SettingsUtil {
+
+    /**
+     * Basic saver which saves the value "value" under the key "key", in the location "location"
+     * @param app_context application context
+     * @param location location
+     * @param key key of the setting
+     * @param value value of the setting
+     * @throws IllegalArgumentException if the value type is invalid
+     */
+    public static void saveData(Context app_context, String location, String key, Object value) throws IllegalArgumentException{
+
+        SharedPreferences settings = app_context.getSharedPreferences(location,0);
+        SharedPreferences.Editor settings_editor = settings.edit();
+
+        if(value.getClass() == Boolean.class){
+            settings_editor.putBoolean(key, (Boolean) value);
+        }else if(value.getClass() == Integer.class){
+            settings_editor.putInt(key, (Integer) value);
+        }else if(value.getClass() == Float.class){
+            settings_editor.putFloat(key, (Float) value);
+        }else if(value.getClass() == Long.class){
+            settings_editor.putLong(key, (Long) value);
+        }else if(value.getClass() == String.class){
+            settings_editor.putString(key, (String) value);
+        }else{
+           throw new IllegalArgumentException("The value object is invalid (" + value.getClass().getName() + "). Expected Boolean, Integer, Float, Long or String.");
+        }
+
+        settings_editor.apply();
+    }
+
+    /**
+     * Basic loader which loads an object under the key "key", in the location "location"
+     * If the value was not found, these values are returned :
+     * String -> null
+     * Boolean -> true (lol)
+     * Float -> max float
+     * Int -> max int
+     * Long -> max long
+     * @param app_context application context
+     * @param location location
+     * @param key key
+     * @param type type of the data loaded
+     * @return data
+     */
+    public static Object loadData(Context app_context, String location, String key, Class<?> type) throws IllegalArgumentException{
+
+        Object loaded_data;
+        SharedPreferences settings = app_context.getSharedPreferences(location, 0);
+
+        if(type == Boolean.class){
+            loaded_data = settings.getBoolean(key, true);
+        }else if(type == Integer.class){
+            loaded_data = settings.getInt(key, Integer.MAX_VALUE);
+        }else if(type == Float.class){
+            loaded_data = settings.getFloat(key, Float.MAX_VALUE);
+        }else if(type == Long.class){
+            loaded_data = settings.getLong(key, Long.MAX_VALUE);
+        }else if(type == String.class){
+            loaded_data = settings.getString(key, null);
+        }else{
+            throw new IllegalArgumentException("The value object is invalid (" + type.getName() + "). Expected Boolean, Integer, Float, Long or String.");
+        }
+
+        return loaded_data;
+    }
 
     /**
      * Saves the score if it is a new record

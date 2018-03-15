@@ -10,8 +10,12 @@
     <string name="difficulty_label">Difficulté : </string>
     <string name="minus_button">-</string>
     <string name="credits">Réalisé par Lilian Gallon, un projet pour l\'IUT de Bordeaux.</string>
-    <string name="best_record">Nouveau meilleur record !</string>
+    <string name="best_record">Nouveau meilleur record</string>
     <string name="record">Nouveau record #</string>
     <string name="max_combo">Meilleur combo :</string>
     <string name="total_clicks">Total de clics :</string>
+    <string name="particles_selector">Particules</string>
+    <string name="color_intensity_selector">Intensité des couleurs</string>
+    <string name="animation_selector">Animation</string>
+    <string name="language">Langue</string>
 </resources>
