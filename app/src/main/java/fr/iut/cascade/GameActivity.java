@@ -105,7 +105,7 @@ public class GameActivity extends AppCompatActivity {
         colors.add(PURPLE);
         colors.add(GREEN);
         colors.add(YELLOW);
-        grid.init(difficulty, colors, LocalSettingsUtil.color_intensity, LocalSettingsUtil.animation);
+        grid.init(difficulty, colors, LocalSettingsUtil.color_intensity * 255 / 100, LocalSettingsUtil.animation);
         String score = Integer.toString(grid.getScore());
         ((TextView) findViewById(R.id.scoreValue)).setText(score);
         String difficulty_str = Integer.toString(difficulty);
@@ -199,21 +199,42 @@ public class GameActivity extends AppCompatActivity {
 
         // Now, we put particles according to the score increment
         int particle_number;
-        if(score_increment < 200){
+        int drawable_id;
+        int text_color;
+
+        if(score_increment < 100){
+            drawable_id = R.drawable.star_red;
             particle_number = 5 * LocalSettingsUtil.particles / 50;
-        }else if(score_increment >= 200 && score_increment < 500){
+            text_color = RED;
+        }else if(score_increment >= 100 && score_increment < 250){
+            drawable_id = R.drawable.star_orange;
             particle_number = 10 * LocalSettingsUtil.particles / 50;
-        }else if(score_increment >= 500 && score_increment < 900){
+            text_color = ORANGE;
+        }else if(score_increment >= 250 && score_increment < 700){
+            drawable_id = R.drawable.star_yellow;
             particle_number = 15 * LocalSettingsUtil.particles / 50;
-        }else if(score_increment >= 900 && score_increment < 1200){
+            text_color = YELLOW;
+        }else if(score_increment >= 700 && score_increment < 1000){
+            drawable_id = R.drawable.star_green;
             particle_number = 20 * LocalSettingsUtil.particles / 50;
-        }else{
+            text_color = GREEN;
+        }else if(score_increment >= 1000 && score_increment < 1600){
+            drawable_id = R.drawable.star_dark_green;
             particle_number = 25 * LocalSettingsUtil.particles / 50;
+            text_color = GREEN;
+        }else{
+            drawable_id = R.drawable.animated_particle;
+            particle_number = 30 * LocalSettingsUtil.particles / 50;
+            text_color = BLUE;
         }
 
-        new ParticleSystem(this, 25 * LocalSettingsUtil.particles / 50, R.drawable.star_white, FAST_SCORE_INFO_DISPLAY_DURATION )
+        text.setTextColor(text_color);
+
+
+        new ParticleSystem(this, 30 * LocalSettingsUtil.particles / 50, drawable_id, FAST_SCORE_INFO_DISPLAY_DURATION )
                 .setSpeedRange(0.1f, 0.2f)
                 .oneShot(text, particle_number);
+
     }
 
     /**

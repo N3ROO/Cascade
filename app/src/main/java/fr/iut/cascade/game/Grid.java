@@ -119,7 +119,7 @@ public class Grid extends View implements Serializable {
         this.grid_columns = grid_columns;
         this.grid_lines = grid_lines;
 
-        this.color_alpha = color_alpha * 255 / 100;
+        setColorAlpha(color_alpha);
         this.colors = colors;
         resetCells(colors);
 
@@ -531,7 +531,7 @@ public class Grid extends View implements Serializable {
         // and we send the end game event
         if(isGameFinished()){
             if(this.cells.size() == 0) updateScore(500);
-            else updateScore(-this.cells.size() * 10);
+            else updateScore(-this.cells.size() * 50);
             gridEventListener.onGameFinished(this);
         }
 
@@ -551,19 +551,7 @@ public class Grid extends View implements Serializable {
      * @return score increment
      */
     private int calculateScoreIncrement(int number_of_removed_cells){
-        int score_increment = 0;
-        if(number_of_removed_cells == 2){
-            score_increment = 5;
-        }else if(number_of_removed_cells > 2 && number_of_removed_cells <= 4){
-            score_increment = number_of_removed_cells * 10;
-        }else if(number_of_removed_cells > 4 && number_of_removed_cells <= 6){
-            score_increment = number_of_removed_cells * 15;
-        }else if(number_of_removed_cells > 6 && number_of_removed_cells <= 8){
-            score_increment = number_of_removed_cells * 20;
-        }else if(number_of_removed_cells > 8){
-            score_increment = number_of_removed_cells * 30;
-        }
-        return score_increment;
+        return 5 * ( number_of_removed_cells * number_of_removed_cells );
     }
 
     /**

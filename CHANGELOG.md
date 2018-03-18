@@ -25,6 +25,7 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - ✔ Interface animation
 - ✔ Last score information animation
 - ✔ Settings to toggle animation, game colors, and particles with a previewer
+- ✨ Changed score calculation to get an exponential one
 - 🏳 Statistics
 - 🏳 Sounds
 
