@@ -35,26 +35,27 @@ public class SoundUtil {
      * @param volume volume (between 0 and 1)
      */
     public static void playMusic(Context context, int id, float volume){
-
+        if(!LocalSettingsUtil.sound) return;
         try {
             if(mediaPlayer != null) {
                 if (mediaPlayer.isPlaying()) {
                     // *stops* the current ongoing music with that object.
                     mediaPlayer.stop();
-                    mediaPlayer.release();
                 }
+                // We need to release() the media players otherwise the resources are not released,
+                // and we soon get out of memory (since we allocate them again next time).
+                mediaPlayer.release();
             }
             // creates the new object of media player. this object is having music file from raw folder which is to be played when start() method is called
             mediaPlayer = MediaPlayer.create(context, id);
             // starts playing music* if object Media player is initialized. Otherwise gives an exception.
             mediaPlayer.setVolume(volume, volume);
             mediaPlayer.start();
-            /*
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            /* other fix for the memory
+            mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     // the music file path is no longer associated with Media player object. So we need to reallocate memory and all. Mind it media player would not be null.
-                    mediaPlayer.stop();
                     mediaPlayer.release();
                 }
             });

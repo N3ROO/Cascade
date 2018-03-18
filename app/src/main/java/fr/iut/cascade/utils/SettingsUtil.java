@@ -233,6 +233,14 @@ public class SettingsUtil {
             setLocale("fr", activity, false);
         }
 
+        // Sound
+        try {
+            LocalSettingsUtil.sound = (Boolean) loadData(activity.getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.SOUND_KEY, Boolean.class);
+        }catch (Exception e){
+            LocalSettingsUtil.sound = LocalSettingsUtil.DEFAULT_SOUND;
+            LoggerUtil.log("SettingsUtils/initLocalSettings", "Couldn't load sound setting, the value has been set to the default value. Error message : " + e.toString(), LoggerUtil.MESSAGE_TYPE.ERROR);
+        }
+
     }
 
     /**

@@ -30,7 +30,10 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - 🏳 Statistics
 - ✨ Changed score calculation to get an exponential one
 
-### Version 3 "New game mode : race against time" - Release date : ??/??/??
+### Version 3 "Google play compatibility" - Release date : ??/??/??
+- 🏳 Compatible layouts for any device
+
+### Version 4 "New game mode : race against time" - Release date : ??/??/??
 - 🏳 Game mode selection in the menu
 - 🏳 Race against time game implementation
 - 🏳 Race against time statistics

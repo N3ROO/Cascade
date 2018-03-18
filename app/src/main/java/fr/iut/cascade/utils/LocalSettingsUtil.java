@@ -25,6 +25,7 @@ public class LocalSettingsUtil {
     public final static String COLOR_INTENSITY_KEY = "color_intensity";
     public final static String ANIMATION_KEY = "animation";
     public final static String LANG_KEY = "lang";
+    public final static String SOUND_KEY = "sound";
 
     public final static int MAX_PARTICLES = 100;
     public final static int DEFAULT_PARTICLES = 50;
@@ -38,10 +39,13 @@ public class LocalSettingsUtil {
 
     final static boolean DEFAULT_ANIMATION = true;
 
+    static boolean DEFAULT_SOUND = true;
+
     public final static String[] AVAILABLE_LANGUAGES = new String[]{"English", "Français"};
 
     public static String language;
     public static int particles;
     public static int color_intensity;
     public static boolean animation;
+    public static boolean sound;
 }

@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity{
         buttons.add(new int[]{R.id.scoreboard_button, R.mipmap.scoreboard_default, R.mipmap.scoreboard_pushed});
         buttons.add(new int[]{R.id.settings_button, R.mipmap.settings_default, R.mipmap.settings_pushed});
         // Actually there are 4 states for the sound button : enabled & pushed, enabled & default, disabled & pushed, disabled & default
-        buttons.add(new int[]{R.id.sound_button, R.mipmap.sound_enabled_default, R.mipmap.sound_disabled_default});
 
         for (int[] values : buttons) {
             int button_id = values[0];
@@ -165,6 +164,37 @@ public class MainActivity extends AppCompatActivity{
                 }
             });
         }
+
+        if(LocalSettingsUtil.sound)
+            ((ImageView) findViewById(R.id.sound_button)).setImageResource(R.mipmap.sound_enabled_default);
+        else
+            ((ImageView) findViewById(R.id.sound_button)).setImageResource(R.mipmap.sound_disabled_default);
+        // We need to handle the special case of the sound button
+        findViewById(R.id.sound_button).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // Pressed && setting sounds on => need to toggle of and show "sound disabled"
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN && LocalSettingsUtil.sound){
+                    ((ImageView) view).setImageResource(R.mipmap.sound_enabled_default);
+                }else if(motionEvent.getAction() == MotionEvent.ACTION_DOWN && !LocalSettingsUtil.sound){
+                    ((ImageView) view).setImageResource(R.mipmap.sound_disabled_pushed);
+                }
+
+                // Release
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP && LocalSettingsUtil.sound){
+                    ((ImageView) view).setImageResource(R.mipmap.sound_disabled_default);
+                    SettingsUtil.saveData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.SOUND_KEY, false);
+                    LocalSettingsUtil.sound = false;
+                    view.performClick();
+                }else if(motionEvent.getAction() == MotionEvent.ACTION_UP && !LocalSettingsUtil.sound){
+                    ((ImageView) view).setImageResource(R.mipmap.sound_enabled_default);
+                    SettingsUtil.saveData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.SOUND_KEY, false);
+                    LocalSettingsUtil.sound = true;
+                    view.performClick();
+                }
+                return true;
+            }
+        });
     }
 
     /**
