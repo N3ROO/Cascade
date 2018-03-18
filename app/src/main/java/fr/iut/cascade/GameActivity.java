@@ -6,13 +6,10 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -21,13 +18,9 @@ import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.plattysoft.leonids.ParticleSystem;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -35,7 +28,6 @@ import fr.iut.cascade.game.Cell;
 import fr.iut.cascade.game.Grid;
 import fr.iut.cascade.game.listeners.GridEventListener;
 import fr.iut.cascade.utils.LocalSettingsUtil;
-import fr.iut.cascade.utils.LoggerUtil;
 import fr.iut.cascade.utils.SettingsUtil;
 
 /**

@@ -2,8 +2,8 @@ package fr.iut.cascade.game.listeners;
 
 import android.view.MotionEvent;
 
-import fr.iut.cascade.game.Grid;
 import fr.iut.cascade.game.Cell;
+import fr.iut.cascade.game.Grid;
 
 
 /**

@@ -7,14 +7,9 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
-
-import fr.iut.cascade.R;
-import fr.iut.cascade.SettingsActivity;
 
 /**
  * This file is part of Cascade.

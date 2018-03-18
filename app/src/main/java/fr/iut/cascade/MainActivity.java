@@ -1,9 +1,8 @@
 package fr.iut.cascade;
 
 import android.content.Intent;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,7 +14,6 @@ import com.plattysoft.leonids.ParticleSystem;
 import java.util.ArrayList;
 
 import fr.iut.cascade.utils.LocalSettingsUtil;
-import fr.iut.cascade.utils.LoggerUtil;
 import fr.iut.cascade.utils.SettingsUtil;
 
 /**

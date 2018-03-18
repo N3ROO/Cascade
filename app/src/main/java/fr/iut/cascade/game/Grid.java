@@ -1,10 +1,8 @@
 package fr.iut.cascade.game;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -15,6 +13,7 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
 import fr.iut.cascade.game.listeners.GridEventListener;
 
 /**

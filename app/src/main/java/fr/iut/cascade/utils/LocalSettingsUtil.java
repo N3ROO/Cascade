@@ -1,7 +1,5 @@
 package fr.iut.cascade.utils;
 
-import java.util.Locale;
-
 /**
  * This file is part of Cascade.
  *
