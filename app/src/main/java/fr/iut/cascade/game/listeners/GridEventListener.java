@@ -1,6 +1,10 @@
 package fr.iut.cascade.game.listeners;
 
+import android.view.MotionEvent;
+
 import fr.iut.cascade.game.Grid;
+import fr.iut.cascade.game.Cell;
+
 
 /**
  * This file is part of Cascade.
@@ -34,4 +38,14 @@ public interface GridEventListener {
      * @param grid the grid that called the event
      */
     void onGameFinished(Grid grid);
+
+    /**
+     * Called when the grid is touched.
+     * We could use the view default one, but this one has the clicked_cell parameter
+     * @param clicked_cell clicked_cell (null if none)
+     * @param cell_width clicked_cell width
+     * @param cell_height clicked_cell height
+     * @param motionEvent motion event
+     */
+    void onTouchEvent(Cell clicked_cell, float cell_width, float cell_height, MotionEvent motionEvent);
 }

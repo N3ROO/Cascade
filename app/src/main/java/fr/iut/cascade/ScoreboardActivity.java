@@ -17,6 +17,7 @@ import com.plattysoft.leonids.ParticleSystem;
 
 import java.util.ArrayList;
 
+import fr.iut.cascade.utils.LocalSettingsUtil;
 import fr.iut.cascade.utils.SettingsUtil;
 
 /**
@@ -82,7 +83,7 @@ public class ScoreboardActivity extends AppCompatActivity {
         Typeface font = ResourcesCompat.getFont(getApplicationContext(), R.font.rubik_mono_one);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0f);
 
-        ArrayList<Integer> score_list = SettingsUtil.loadScore(this.difficulty, GameActivity.SHARED_PREFERENCES_SCOREBOARD_NAME, getApplicationContext());
+        ArrayList<Integer> score_list = SettingsUtil.loadScore(this.difficulty, LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, getApplicationContext());
         for(int score : score_list){
             TextView textView = new TextView(this);
             String score_str = Integer.toString(score);

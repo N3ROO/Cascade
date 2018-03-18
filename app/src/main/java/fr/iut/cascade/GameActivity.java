@@ -3,7 +3,10 @@ package fr.iut.cascade;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
@@ -28,8 +31,11 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import fr.iut.cascade.game.Cell;
 import fr.iut.cascade.game.Grid;
 import fr.iut.cascade.game.listeners.GridEventListener;
+import fr.iut.cascade.utils.LocalSettingsUtil;
+import fr.iut.cascade.utils.LoggerUtil;
 import fr.iut.cascade.utils.SettingsUtil;
 
 /**
@@ -58,10 +64,17 @@ public class GameActivity extends AppCompatActivity {
      */
     private int difficulty;
 
-    public final static String SHARED_PREFERENCES_SCOREBOARD_NAME = "scoreboard";
     public final static String LAST_SCORE = "last_score";
     private final static int FAST_SCORE_INFO_DISPLAY_DURATION = 2000;
     private final static int FAST_SCORE_INFO_FADE_DURATION = 250;
+
+    private static int GREEN = Color.rgb(135 , 245, 50);
+    private static int YELLOW = Color.rgb(245, 245, 50);
+    private static int BLUE = Color.rgb(50,50,245);
+    private static int ORANGE = Color.rgb(245, 190, 50);
+    private static int RED = Color.rgb(245, 70, 50);
+    private static int PURPLE = Color.rgb(230, 50, 245);
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -72,8 +85,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         initButtons();
-        findViewById(R.id.end_layout).setVisibility(View.INVISIBLE
-        );
+        findViewById(R.id.end_layout).setVisibility(View.INVISIBLE);
 
         difficulty = 1;
         // Recovery of the difficulty chosen
@@ -85,8 +97,15 @@ public class GameActivity extends AppCompatActivity {
         }
 
         // Initialisation of the grid
-        Grid grid = findViewById(R.id.grid);
-        grid.init(difficulty);
+        final Grid grid = findViewById(R.id.grid);
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(BLUE);
+        colors.add(RED);
+        colors.add(ORANGE);
+        colors.add(PURPLE);
+        colors.add(GREEN);
+        colors.add(YELLOW);
+        grid.init(difficulty, colors, LocalSettingsUtil.color_intensity, LocalSettingsUtil.animation);
         String score = Integer.toString(grid.getScore());
         ((TextView) findViewById(R.id.scoreValue)).setText(score);
         String difficulty_str = Integer.toString(difficulty);
@@ -105,9 +124,33 @@ public class GameActivity extends AppCompatActivity {
                 // Get the final score
                 int score = grid.getScore();
                 // Save the score and get the place
-                int place = SettingsUtil.saveScore(score, grid.getDifficulty(), SHARED_PREFERENCES_SCOREBOARD_NAME, getApplicationContext());
+                int place = SettingsUtil.saveScore(score, grid.getDifficulty(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, getApplicationContext());
                 // Set up the end screen
                 showEndScreen(grid, place);
+            }
+
+            @Override
+            public void onTouchEvent(Cell clicked_cell, float cell_width, float cell_height, MotionEvent motionEvent) {
+                int particle_resource = R.drawable.star_white;
+
+                if(clicked_cell != null) {
+                    int color = clicked_cell.getColor();
+                    if (color == BLUE) particle_resource = R.drawable.star_blue;
+                    if (color == ORANGE) particle_resource = R.drawable.star_orange;
+                    if (color == YELLOW) particle_resource = R.drawable.star_yellow;
+                    if (color == GREEN) particle_resource = R.drawable.star_green;
+                    if (color == RED) particle_resource = R.drawable.star_red;
+                    if (color == PURPLE) particle_resource = R.drawable.star_purple;
+                }
+
+                // Particle image shift
+                final float x_shift =  20 / 2;
+                final float y_shift = - 22 / 2;
+
+                ParticleSystem particles = new ParticleSystem((Activity) grid.getContext(), 50 * LocalSettingsUtil.particles / 50, particle_resource, 100);
+                particles.setSpeedRange(0.2f, 0.5f);
+                particles.setAcceleration(0.0005f, 90);
+                particles.emit((int)(motionEvent.getX() + x_shift) , (int)(motionEvent.getY() + cell_height + y_shift), 50, 100);
             }
         });
 
@@ -157,18 +200,18 @@ public class GameActivity extends AppCompatActivity {
         // Now, we put particles according to the score increment
         int particle_number;
         if(score_increment < 200){
-            particle_number = 5;
+            particle_number = 5 * LocalSettingsUtil.particles / 50;
         }else if(score_increment >= 200 && score_increment < 500){
-            particle_number = 10;
+            particle_number = 10 * LocalSettingsUtil.particles / 50;
         }else if(score_increment >= 500 && score_increment < 900){
-            particle_number = 15;
+            particle_number = 15 * LocalSettingsUtil.particles / 50;
         }else if(score_increment >= 900 && score_increment < 1200){
-            particle_number = 20;
+            particle_number = 20 * LocalSettingsUtil.particles / 50;
         }else{
-            particle_number = 25;
+            particle_number = 25 * LocalSettingsUtil.particles / 50;
         }
 
-        new ParticleSystem(this, 25, R.drawable.star_white, FAST_SCORE_INFO_DISPLAY_DURATION )
+        new ParticleSystem(this, 25 * LocalSettingsUtil.particles / 50, R.drawable.star_white, FAST_SCORE_INFO_DISPLAY_DURATION )
                 .setSpeedRange(0.1f, 0.2f)
                 .oneShot(text, particle_number);
     }
@@ -233,13 +276,13 @@ public class GameActivity extends AppCompatActivity {
         end_place.setVisibility(View.INVISIBLE);
 
         // Particles
-        ParticleSystem ps = new ParticleSystem(this, 100, R.drawable.star_dark_green, 1000);
+        ParticleSystem ps = new ParticleSystem(this, 100 * LocalSettingsUtil.particles / 50, R.drawable.star_dark_green, 1000);
         ps.setScaleRange(0.7f, 1.3f);
         ps.setSpeedModuleAndAngleRange(0.07f, 0.16f, 0, 180);
         ps.setRotationSpeedRange(90, 180);
         ps.setAcceleration(0.00013f, 90);
         ps.setFadeOut(200, new AccelerateInterpolator());
-        ps.emit(end_score, 100, 1500);
+        ps.emit(end_score, 100 * LocalSettingsUtil.particles / 50, 1500);
         // Animation
         ValueAnimator animator = ValueAnimator.ofInt(0, score);
         animator.setDuration(1500);

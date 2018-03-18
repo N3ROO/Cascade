@@ -20,7 +20,7 @@ import java.io.Serializable;
  * Author(s) : Lilian Gallon (N3RO)
  */
 
-class Cell implements Serializable{
+public class Cell implements Serializable{
     private int line;
     private int column;
     private int color;
@@ -43,10 +43,10 @@ class Cell implements Serializable{
     }
 
     /**
-     * Package-private method used to get the color of the cell
+     * Method used to get the color of the cell
      * @return the color of the cell
      */
-    int getColor() {
+    public int getColor() {
         return color;
     }
 
@@ -59,7 +59,7 @@ class Cell implements Serializable{
     }
 
     /**
-     * Package-private method used to get the line of the cell
+     * Method used to get the line of the cell
      * @return line of the cell
      */
     int getLine() {
@@ -75,7 +75,7 @@ class Cell implements Serializable{
     }
 
     /**
-     * Package-private method used to get the column of the cell
+     * Method used to get the column of the cell
      * @return the column of the cell
      */
     int getColumn() {
@@ -91,7 +91,7 @@ class Cell implements Serializable{
     }
 
     /**
-     * Package-private method used to know if the cell is moving
+     * Method used to know if the cell is moving
      * @return if the cell is moving or not
      */
     boolean isMoving(){

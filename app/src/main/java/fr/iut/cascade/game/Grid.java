@@ -13,15 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.plattysoft.leonids.ParticleSystem;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
-import fr.iut.cascade.R;
 import fr.iut.cascade.game.listeners.GridEventListener;
 
 /**
@@ -65,11 +58,12 @@ public class Grid extends View implements Serializable {
     private int best_combo;
     private int total_clicks;
 
-    private static final int GREEN = Color.rgb(140, 230, 65);
-    private static final int YELLOW = Color.rgb(240, 225, 0);
-    private static final int AQUA = Color.rgb(0,240,200);
-    private static final int ORANGE = Color.rgb(255, 180, 0);
+    private ArrayList<Integer> colors;
+    private int number_of_colors;
 
+    private int color_alpha;
+
+    private boolean should_animate;
     private float animation_speed;
 
     /**
@@ -89,28 +83,33 @@ public class Grid extends View implements Serializable {
      * This is a sort of constructor lol
      * @param difficulty the level difficulty
      */
-    public void init(int difficulty){
+    public void init(int difficulty, ArrayList<Integer> colors, int color_alpha, boolean should_animate){
         int grid_lines;
         int grid_columns;
+
         switch (difficulty){
             case 1:
                 grid_columns = 10;
                 grid_lines = 10;
+                this.number_of_colors = 4;
                 this.animation_speed = 0.1f;
                 break;
             case 2:
                 grid_columns = 15;
                 grid_lines = 15;
+                this.number_of_colors = 4;
                 this.animation_speed = 0.1f;
                 break;
             case 3:
-                grid_columns = 20;
-                grid_lines = 20;
-                this.animation_speed = 0.2f;
+                grid_columns = 15;
+                grid_lines = 15;
+                this.number_of_colors = 5;
+                this.animation_speed = 0.1f;
                 break;
             case 4:
-                grid_columns = 25;
-                grid_lines = 25;
+                grid_columns = 20;
+                grid_lines = 20;
+                number_of_colors = 6;
                 this.animation_speed = 0.2f;
                 break;
             default:
@@ -120,11 +119,8 @@ public class Grid extends View implements Serializable {
         this.grid_columns = grid_columns;
         this.grid_lines = grid_lines;
 
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(AQUA);
-        colors.add(YELLOW);
-        colors.add(ORANGE);
-        colors.add(GREEN);
+        this.color_alpha = color_alpha * 255 / 100;
+        this.colors = colors;
         resetCells(colors);
 
         this.paint = new Paint();
@@ -137,13 +133,16 @@ public class Grid extends View implements Serializable {
         this.total_clicks = 0;
 
         this.shouldSendInformation = false;
+        this.shouldSendInformation = false;
+
+        this.should_animate = should_animate;
     }
 
     /**
      * Resets the entire game
      */
     public void reset(){
-        init(this.difficulty);
+        init(this.difficulty, this.colors, this.color_alpha, this.should_animate);
         invalidate();
     }
 
@@ -156,7 +155,7 @@ public class Grid extends View implements Serializable {
         ArrayList<Cell> cells = new ArrayList<>();
         for(int line = 0 ; line < grid_lines ; ++line){
             for(int column = 0 ; column < grid_columns ; ++column){
-                int random = (int) (Math.random() * colors.size());
+                int random = (int) (Math.random() * this.number_of_colors);
                 int color = colors.get(random);
                 Cell cell = new Cell(column, line, color);
                 cells.add(cell);
@@ -188,6 +187,16 @@ public class Grid extends View implements Serializable {
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
         this.activity = (Activity) context;
+    }
+
+    /**
+     * Used to change the color opacity
+     * @param color_alpha color alpha
+     */
+    public void setColorAlpha(int color_alpha) {
+        if(color_alpha > 255) color_alpha = 255;
+        if(color_alpha < 0) color_alpha = 0;
+        this.color_alpha = color_alpha;
     }
 
     /**
@@ -388,10 +397,10 @@ public class Grid extends View implements Serializable {
             boolean should_invalidate = false;
             for (Cell c : cells) {
                 paint.setColor(c.getColor());
-                paint.setAlpha(210);
+                paint.setAlpha(this.color_alpha);
                 float left,top,right,bottom;
 
-                if(c.isMoving()){
+                if(c.isMoving() && should_animate){
                     left =  c.getMovingColumn() * cell_width;
                     top =  c.getMovingLine() * cell_height;
                     right =  (c.getMovingColumn() + 1f) * cell_width;
@@ -443,26 +452,14 @@ public class Grid extends View implements Serializable {
             int line = (int)(event.getY() / cell_height);
 
             Cell clicked_cell = getCell(column, line);
-            int particle_resource = R.drawable.star_white;
+
             if(clicked_cell != null){
-
-                int color = clicked_cell.getColor();
-                if(color == AQUA)  particle_resource = R.drawable.star_aqua;
-                if(color == ORANGE)  particle_resource = R.drawable.star_orange;
-                if(color == YELLOW)  particle_resource = R.drawable.star_yellow;
-                if(color == GREEN)  particle_resource = R.drawable.star_green;
-
                 updateGrid(clicked_cell);
             }
 
-            // Particle image shift
-            final float x_shift =  20 / 2;
-            final float y_shift = - 22 / 2;
+            gridEventListener.onTouchEvent(clicked_cell, this.cell_width, this.cell_height, event);
 
-            ParticleSystem particles = new ParticleSystem(this.activity, 50, particle_resource, 100);
-            particles.setSpeedRange(0.2f, 0.5f);
-            particles.setAcceleration(0.0005f, 90);
-            particles.emit((int)(event.getX() + x_shift) , (int)(event.getY() + cell_height + y_shift), 50, 100);
+
 
             // If something changes and it needs to be reflected on screen, we need to call invalidate()
             invalidate();

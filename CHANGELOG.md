@@ -24,7 +24,7 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - ✔️ Cells animation
 - ✔ Interface animation
 - ✔ Last score information animation
-- 🏗 Settings to toggle animation, game colors, and particles
+- ✔ Settings to toggle animation, game colors, and particles with a previewer
 - 🏳 Statistics
 - 🏳 Sounds
 

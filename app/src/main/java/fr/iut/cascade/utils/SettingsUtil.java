@@ -5,9 +5,11 @@ import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import fr.iut.cascade.R;
+import fr.iut.cascade.SettingsActivity;
 
 /**
  * This file is part of Cascade.
@@ -179,5 +181,51 @@ public class SettingsUtil {
         }
 
         return score_list;
+    }
+
+    /**
+     * Used to initialize the LocalSettingsUtil class with the settings
+     */
+    public static void initLocalSettings(Context app_context) {
+        // Load particles
+        try{
+            LocalSettingsUtil.particles = (Integer) SettingsUtil.loadData(app_context, LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.PARTICLES_KEY, Integer.class);
+        }catch (Exception e){
+            LocalSettingsUtil.particles = LocalSettingsUtil.DEFAULT_PARTICLES;
+            LoggerUtil.log("SettingsUtils/initLocalSettings", "Couldn't load particles setting, the value has been set to the default value. Error message : " + e.toString(), LoggerUtil.MESSAGE_TYPE.ERROR);
+        }
+
+        // Load color intensity
+        try{
+            LocalSettingsUtil.color_intensity = (Integer) SettingsUtil.loadData(app_context, LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.COLOR_INTENSITY_KEY, Integer.class);
+        }catch (Exception e){
+            LocalSettingsUtil.color_intensity = LocalSettingsUtil.DEFAULT_COLOR_INTENSITY;
+            LoggerUtil.log("SettingsUtils/initLocalSettings", "Couldn't load color intensity setting, the value has been set to the default value. Error message : " + e.toString(), LoggerUtil.MESSAGE_TYPE.ERROR);
+        }
+
+        // Load animation
+        try{
+            LocalSettingsUtil.animation = (Boolean) SettingsUtil.loadData(app_context, LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.ANIMATION_KEY, Boolean.class);
+        }catch (Exception e){
+            LocalSettingsUtil.animation = LocalSettingsUtil.DEFAULT_ANIMATION;
+            LoggerUtil.log("SettingsUtils/initLocalSettings", "Couldn't load animation setting, the value has been set to the default value. Error message : " + e.toString(), LoggerUtil.MESSAGE_TYPE.ERROR);
+        }
+
+        // Init language
+        String selected_language = (String) loadData(app_context, LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.LANG_KEY, String.class);
+
+        // If it's null, we save the default value used for the language
+        if(selected_language == null) {
+            if(!Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("français")){
+                LocalSettingsUtil.language = LocalSettingsUtil.AVAILABLE_LANGUAGES[0];
+            }else{
+                LocalSettingsUtil.language = LocalSettingsUtil.AVAILABLE_LANGUAGES[1];
+            }
+        }else if(selected_language.equalsIgnoreCase(LocalSettingsUtil.AVAILABLE_LANGUAGES[0])){
+            LocalSettingsUtil.language = LocalSettingsUtil.AVAILABLE_LANGUAGES[0];
+        }else{
+            LocalSettingsUtil.language = LocalSettingsUtil.AVAILABLE_LANGUAGES[1];
+        }
+
     }
 }

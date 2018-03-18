@@ -1,9 +1,9 @@
 package fr.iut.cascade;
 
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import com.plattysoft.leonids.ParticleSystem;
 
 import java.util.ArrayList;
+
+import fr.iut.cascade.utils.LocalSettingsUtil;
+import fr.iut.cascade.utils.LoggerUtil;
+import fr.iut.cascade.utils.SettingsUtil;
 
 /**
  * This file is part of Cascade.
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity{
     private int difficulty;
     private ParticleSystem particleSystem;
 
+    public static LocalSettingsUtil localSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +54,16 @@ public class MainActivity extends AppCompatActivity{
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
-        
+
+        // Init the local settings at the application launch
+        SettingsUtil.initLocalSettings(getApplicationContext());
+
         // Default difficulty
         setDifficultyStars(2);
 
         initButtons();
     }
+
 
     /**
      * Called whenever a button is pressed
@@ -170,12 +180,12 @@ public class MainActivity extends AppCompatActivity{
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 // Create a particle system and start emitting
-                particleSystem = new ParticleSystem(this, 100, R.drawable.star_dark_green, 800);
+                particleSystem = new ParticleSystem(this, 100 * LocalSettingsUtil.particles / 50, R.drawable.star_dark_green, 800);
                 particleSystem.setScaleRange(0.7f, 1.3f);
                 particleSystem.setSpeedRange(0.05f, 0.1f);
                 particleSystem.setRotationSpeedRange(90, 180);
                 particleSystem.setFadeOut(200, new AccelerateInterpolator());
-                particleSystem.emit((int) event.getX(), (int) event.getY(), 40);
+                particleSystem.emit((int) event.getX(), (int) event.getY(), 40 * LocalSettingsUtil.particles / 50);
                 break;
             case MotionEvent.ACTION_MOVE:
                 particleSystem.updateEmitPoint((int) event.getX(), (int) event.getY());
