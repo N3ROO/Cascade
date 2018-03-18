@@ -45,7 +45,8 @@ public interface GridEventListener {
      * @param clicked_cell clicked_cell (null if none)
      * @param cell_width clicked_cell width
      * @param cell_height clicked_cell height
+     * @param has_destroyed_cells has destroyed cells
      * @param motionEvent motion event
      */
-    void onTouchEvent(Cell clicked_cell, float cell_width, float cell_height, MotionEvent motionEvent);
+    void onTouchEvent(Cell clicked_cell, float cell_width, float cell_height, boolean has_destroyed_cells, MotionEvent motionEvent);
 }

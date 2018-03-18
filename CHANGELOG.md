@@ -26,9 +26,9 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - ✔ Last score information animation
 - ✔ Settings to toggle animation, game colors, and particles
 - ✔ Settings previewer with a grid view
-- ✨ Changed score calculation to get an exponential one
+- ✔ Sounds
 - 🏳 Statistics
-- 🏳 Sounds
+- ✨ Changed score calculation to get an exponential one
 
 ### Version 3 "New game mode : race against time" - Release date : ??/??/??
 - 🏳 Game mode selection in the menu

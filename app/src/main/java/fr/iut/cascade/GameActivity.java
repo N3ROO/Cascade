@@ -29,6 +29,7 @@ import fr.iut.cascade.game.Grid;
 import fr.iut.cascade.game.listeners.GridEventListener;
 import fr.iut.cascade.utils.LocalSettingsUtil;
 import fr.iut.cascade.utils.SettingsUtil;
+import fr.iut.cascade.utils.SoundUtil;
 
 /**
  * This file is part of Cascade.
@@ -103,6 +104,7 @@ public class GameActivity extends AppCompatActivity {
         String difficulty_str = Integer.toString(difficulty);
         ((TextView) findViewById(R.id.difficultyValue)).setText(difficulty_str);
 
+
         grid.setGridEventListener(new GridEventListener() {
             @Override
             public void onScoreChanged(Grid grid, int score_increment) {
@@ -122,7 +124,7 @@ public class GameActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTouchEvent(Cell clicked_cell, float cell_width, float cell_height, MotionEvent motionEvent) {
+            public void onTouchEvent(Cell clicked_cell, float cell_width, float cell_height, boolean has_destroyed_cells, MotionEvent motionEvent) {
                 int particle_resource = R.drawable.star_white;
 
                 if(clicked_cell != null) {
@@ -133,6 +135,18 @@ public class GameActivity extends AppCompatActivity {
                     if (color == GREEN) particle_resource = R.drawable.star_green;
                     if (color == RED) particle_resource = R.drawable.star_red;
                     if (color == PURPLE) particle_resource = R.drawable.star_purple;
+
+                    if(has_destroyed_cells) {
+                        if (Math.random() < 0.5) {
+                            SoundUtil.playMusic(getApplicationContext(), R.raw.hit1, 1);
+                        }else{
+                            SoundUtil.playMusic(getApplicationContext(), R.raw.hit2, 0.8f);
+                        }
+                    }else {
+                        SoundUtil.playMusic(getApplicationContext(), R.raw.hit_alone, 1);
+                    }
+                } else{
+                    SoundUtil.playMusic(getApplicationContext(), R.raw.hit_failed, 1);
                 }
 
                 // Particle image shift
@@ -147,6 +161,8 @@ public class GameActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     /**
      * Shows the text indicating the last score increment
@@ -333,9 +349,11 @@ public class GameActivity extends AppCompatActivity {
                 0);                // toYDelta
         animate.setDuration(1000);
         animate.setFillAfter(false);
+
         animate.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
+                SoundUtil.playMusic(getApplicationContext(), R.raw.slide, 0.8f);
                 view_to_animate.setVisibility(View.VISIBLE);
             }
 
@@ -378,11 +396,11 @@ public class GameActivity extends AppCompatActivity {
 
                 // Remove the end screen
                 findViewById(R.id.end_layout).setVisibility(View.INVISIBLE);
-
                 break;
             default:
                 break;
         }
+        SoundUtil.playMusic(getApplicationContext(), R.raw.select, 1);
     }
 
     /**
@@ -415,5 +433,26 @@ public class GameActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    /**
+     * Plays a sounds when teh activity ends
+     * @param requestCode request code
+     * @param resultCode result code
+     * @param data data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        SoundUtil.playMusic(getApplicationContext(), R.raw.slide, 0.8f);
+    }
+
+    /**
+     * Called when the user clicks on back
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        SoundUtil.playMusic(getApplicationContext(), R.raw.back, 0.5f);
     }
 }

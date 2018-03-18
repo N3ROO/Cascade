@@ -34,6 +34,7 @@ import fr.iut.cascade.game.Grid;
 import fr.iut.cascade.game.listeners.GridEventListener;
 import fr.iut.cascade.utils.LocalSettingsUtil;
 import fr.iut.cascade.utils.SettingsUtil;
+import fr.iut.cascade.utils.SoundUtil;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -47,6 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_settings);
+
 
         initSelectors();
         initCheckBoxes();
@@ -75,7 +77,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTouchEvent(Cell clicked_cell, float cell_width, float cell_height, MotionEvent motionEvent) {
+            public void onTouchEvent(Cell clicked_cell, float cell_width, float cell_height, boolean has_destroyed_cells, MotionEvent motionEvent) {
                 int particle_resource = R.drawable.star_white;
 
                 if(clicked_cell != null) {
@@ -86,6 +88,18 @@ public class SettingsActivity extends AppCompatActivity {
                     if (color == GameActivity.GREEN) particle_resource = R.drawable.star_green;
                     if (color == GameActivity.RED) particle_resource = R.drawable.star_red;
                     if (color == GameActivity.PURPLE) particle_resource = R.drawable.star_purple;
+
+                    if(has_destroyed_cells) {
+                        if (Math.random() < 0.5) {
+                            SoundUtil.playMusic(getApplicationContext(), R.raw.hit1, 1);
+                        }else{
+                            SoundUtil.playMusic(getApplicationContext(), R.raw.hit2, 0.8f);
+                        }
+                    }else {
+                        SoundUtil.playMusic(getApplicationContext(), R.raw.hit_alone, 1);
+                    }
+                } else{
+                    SoundUtil.playMusic(getApplicationContext(), R.raw.hit_failed, 1);
                 }
 
                 // Particle image shift
@@ -363,5 +377,14 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    /**
+     * Called when the user clicks on back
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        SoundUtil.playMusic(getApplicationContext(), R.raw.back, 0.4f);
     }
 }

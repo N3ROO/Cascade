@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import fr.iut.cascade.utils.LocalSettingsUtil;
 import fr.iut.cascade.utils.SettingsUtil;
+import fr.iut.cascade.utils.SoundUtil;
 
 /**
  * This file is part of Cascade.
@@ -42,15 +43,12 @@ public class MainActivity extends AppCompatActivity{
     private int difficulty;
     private ParticleSystem particleSystem;
 
-    public static LocalSettingsUtil localSettings;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Hide system bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_main);
 
         // Init the local settings at the application launch
@@ -92,6 +90,7 @@ public class MainActivity extends AppCompatActivity{
             default:
                 break;
         }
+        SoundUtil.playMusic(getApplicationContext(), R.raw.select, 1);
     }
 
     /**
@@ -195,5 +194,12 @@ public class MainActivity extends AppCompatActivity{
         return true;
     }
 
-
+    /**
+     * Called when the user clicks on back
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        SoundUtil.playMusic(getApplicationContext(), R.raw.back, 0.4f);
+    }
 }

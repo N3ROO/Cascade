@@ -464,12 +464,11 @@ public class Grid extends View implements Serializable {
             Cell clicked_cell = getCell(column, line);
 
             if(clicked_cell != null){
+                gridEventListener.onTouchEvent(clicked_cell, this.cell_width, this.cell_height, hasSameColorNeighbor(clicked_cell), event);
                 updateGrid(clicked_cell);
+            }else{
+                gridEventListener.onTouchEvent(null, this.cell_width, this.cell_height, false, event);
             }
-
-            gridEventListener.onTouchEvent(clicked_cell, this.cell_width, this.cell_height, event);
-
-
 
             // If something changes and it needs to be reflected on screen, we need to call invalidate()
             invalidate();

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import fr.iut.cascade.utils.LocalSettingsUtil;
 import fr.iut.cascade.utils.SettingsUtil;
+import fr.iut.cascade.utils.SoundUtil;
 
 /**
  * This file is part of Cascade.
@@ -117,6 +118,7 @@ public class ScoreboardActivity extends AppCompatActivity {
             default:
                 break;
         }
+        SoundUtil.playMusic(getApplicationContext(), R.raw.select, 1);
     }
 
     /**
@@ -214,5 +216,14 @@ public class ScoreboardActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    /**
+     * Called when the user clicks on back
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        SoundUtil.playMusic(getApplicationContext(), R.raw.back, 0.4f);
     }
 }
