@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         // Init the local settings at the application launch
-        SettingsUtil.initLocalSettings(getApplicationContext());
+        SettingsUtil.initLocalSettings(this);
 
         // Default difficulty
         setDifficultyStars(2);

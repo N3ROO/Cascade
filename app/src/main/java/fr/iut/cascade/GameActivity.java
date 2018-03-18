@@ -65,15 +65,15 @@ public class GameActivity extends AppCompatActivity {
     private int difficulty;
 
     public final static String LAST_SCORE = "last_score";
-    private final static int FAST_SCORE_INFO_DISPLAY_DURATION = 2000;
-    private final static int FAST_SCORE_INFO_FADE_DURATION = 250;
+    public final static int FAST_SCORE_INFO_DISPLAY_DURATION = 2000;
+    public final static int FAST_SCORE_INFO_FADE_DURATION = 250;
 
-    private static int GREEN = Color.rgb(135 , 245, 50);
-    private static int YELLOW = Color.rgb(245, 245, 50);
-    private static int BLUE = Color.rgb(50,50,245);
-    private static int ORANGE = Color.rgb(245, 190, 50);
-    private static int RED = Color.rgb(245, 70, 50);
-    private static int PURPLE = Color.rgb(230, 50, 245);
+    public static final int GREEN = Color.rgb(135 , 245, 50);
+    public static final int YELLOW = Color.rgb(245, 245, 50);
+    public static final int BLUE = Color.rgb(50,50,245);
+    public static final int ORANGE = Color.rgb(245, 190, 50);
+    public static final int RED = Color.rgb(245, 70, 50);
+    public static final int PURPLE = Color.rgb(230, 50, 245);
 
 
     @Override

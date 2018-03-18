@@ -52,8 +52,6 @@ public class Grid extends View implements Serializable {
 
     private boolean shouldSendInformation;
 
-    private Activity activity;
-
     // stats
     private int best_combo;
     private int total_clicks;
@@ -75,8 +73,6 @@ public class Grid extends View implements Serializable {
 
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
-
-        this.activity = (Activity) context;
     }
 
     /**
@@ -111,6 +107,13 @@ public class Grid extends View implements Serializable {
                 grid_lines = 20;
                 number_of_colors = 6;
                 this.animation_speed = 0.2f;
+                break;
+            case 5 :
+                // This is for the visualization
+                grid_columns = 15;
+                grid_lines = 5;
+                number_of_colors = 6;
+                this.animation_speed = 0.1f;
                 break;
             default:
                 throw new IllegalArgumentException("The difficulty value is set to " + difficulty + " but has to be between 1 and 4 included");
@@ -173,7 +176,6 @@ public class Grid extends View implements Serializable {
         super(context, attrs);
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        this.activity = (Activity) context;
     }
 
     /**
@@ -186,7 +188,6 @@ public class Grid extends View implements Serializable {
         super(context, attrs, defStyle);
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        this.activity = (Activity) context;
     }
 
     /**
@@ -197,6 +198,15 @@ public class Grid extends View implements Serializable {
         if(color_alpha > 255) color_alpha = 255;
         if(color_alpha < 0) color_alpha = 0;
         this.color_alpha = color_alpha;
+        invalidate();
+    }
+
+    /**
+     * Specifies if the grid should animate the cells
+     * @param should_animate should animate
+     */
+    public void shouldAnimate(boolean should_animate) {
+        this.should_animate = should_animate;
     }
 
     /**
@@ -215,6 +225,7 @@ public class Grid extends View implements Serializable {
         Cell[][] cells = new Cell[grid_columns][grid_lines];
 
         for(Cell c : this.cells){
+            System.out.println(c.getColumn() + " " + c.getLine());
             cells[c.getColumn()][c.getLine()] = c;
         }
 

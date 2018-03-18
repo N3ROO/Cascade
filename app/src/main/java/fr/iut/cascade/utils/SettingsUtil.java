@@ -1,7 +1,12 @@
 package fr.iut.cascade.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -186,10 +191,10 @@ public class SettingsUtil {
     /**
      * Used to initialize the LocalSettingsUtil class with the settings
      */
-    public static void initLocalSettings(Context app_context) {
+    public static void initLocalSettings(Activity activity) {
         // Load particles
         try{
-            LocalSettingsUtil.particles = (Integer) SettingsUtil.loadData(app_context, LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.PARTICLES_KEY, Integer.class);
+            LocalSettingsUtil.particles = (Integer) SettingsUtil.loadData(activity.getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.PARTICLES_KEY, Integer.class);
         }catch (Exception e){
             LocalSettingsUtil.particles = LocalSettingsUtil.DEFAULT_PARTICLES;
             LoggerUtil.log("SettingsUtils/initLocalSettings", "Couldn't load particles setting, the value has been set to the default value. Error message : " + e.toString(), LoggerUtil.MESSAGE_TYPE.ERROR);
@@ -197,7 +202,7 @@ public class SettingsUtil {
 
         // Load color intensity
         try{
-            LocalSettingsUtil.color_intensity = (Integer) SettingsUtil.loadData(app_context, LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.COLOR_INTENSITY_KEY, Integer.class);
+            LocalSettingsUtil.color_intensity = (Integer) SettingsUtil.loadData(activity.getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.COLOR_INTENSITY_KEY, Integer.class);
         }catch (Exception e){
             LocalSettingsUtil.color_intensity = LocalSettingsUtil.DEFAULT_COLOR_INTENSITY;
             LoggerUtil.log("SettingsUtils/initLocalSettings", "Couldn't load color intensity setting, the value has been set to the default value. Error message : " + e.toString(), LoggerUtil.MESSAGE_TYPE.ERROR);
@@ -205,14 +210,14 @@ public class SettingsUtil {
 
         // Load animation
         try{
-            LocalSettingsUtil.animation = (Boolean) SettingsUtil.loadData(app_context, LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.ANIMATION_KEY, Boolean.class);
+            LocalSettingsUtil.animation = (Boolean) SettingsUtil.loadData(activity.getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.ANIMATION_KEY, Boolean.class);
         }catch (Exception e){
             LocalSettingsUtil.animation = LocalSettingsUtil.DEFAULT_ANIMATION;
             LoggerUtil.log("SettingsUtils/initLocalSettings", "Couldn't load animation setting, the value has been set to the default value. Error message : " + e.toString(), LoggerUtil.MESSAGE_TYPE.ERROR);
         }
 
         // Init language
-        String selected_language = (String) loadData(app_context, LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.LANG_KEY, String.class);
+        String selected_language = (String) loadData(activity.getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.LANG_KEY, String.class);
 
         // If it's null, we save the default value used for the language
         if(selected_language == null) {
@@ -227,5 +232,29 @@ public class SettingsUtil {
             LocalSettingsUtil.language = LocalSettingsUtil.AVAILABLE_LANGUAGES[1];
         }
 
+        if (LocalSettingsUtil.language.equalsIgnoreCase(LocalSettingsUtil.AVAILABLE_LANGUAGES[0])) {
+            setLocale("en", activity, false);
+        } else {
+            setLocale("fr", activity, false);
+        }
+
+    }
+
+    /**
+     * Changes the app language
+     * @param lang language code (fr, en)
+     */
+    public static void setLocale(String lang, Activity activity, boolean should_refresh) {
+        Locale myLocale = new Locale(lang);
+        Resources res = activity.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        if(should_refresh) {
+            Intent refresh = new Intent(activity, activity.getClass());
+            activity.startActivity(refresh);
+            activity.finish();
+        }
     }
 }

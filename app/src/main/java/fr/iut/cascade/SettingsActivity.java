@@ -1,8 +1,6 @@
 package fr.iut.cascade;
 
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -10,25 +8,31 @@ import android.graphics.Typeface;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.plattysoft.leonids.ParticleSystem;
 
-import java.lang.reflect.Type;
-import java.util.Locale;
+import java.util.ArrayList;
 
+import fr.iut.cascade.game.Cell;
+import fr.iut.cascade.game.Grid;
+import fr.iut.cascade.game.listeners.GridEventListener;
 import fr.iut.cascade.utils.LocalSettingsUtil;
 import fr.iut.cascade.utils.SettingsUtil;
 
@@ -48,6 +52,135 @@ public class SettingsActivity extends AppCompatActivity {
         initSelectors();
         initCheckBoxes();
         initSpinners();
+
+        // Grid previewer
+        final Grid grid = findViewById(R.id.viewerGrid);
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(GameActivity.BLUE);
+        colors.add(GameActivity.RED);
+        colors.add(GameActivity.ORANGE);
+        colors.add(GameActivity.PURPLE);
+        colors.add(GameActivity.GREEN);
+        colors.add(GameActivity.YELLOW);
+        grid.init(5, colors, LocalSettingsUtil.color_intensity * 255 / 100, LocalSettingsUtil.animation);
+
+        grid.setGridEventListener(new GridEventListener() {
+            @Override
+            public void onScoreChanged(Grid grid, int score_increment) {
+                showInstantScoreInformation(score_increment);
+            }
+
+            @Override
+            public void onGameFinished(Grid grid) {
+                grid.reset();
+            }
+
+            @Override
+            public void onTouchEvent(Cell clicked_cell, float cell_width, float cell_height, MotionEvent motionEvent) {
+                int particle_resource = R.drawable.star_white;
+
+                if(clicked_cell != null) {
+                    int color = clicked_cell.getColor();
+                    if (color == GameActivity.BLUE) particle_resource = R.drawable.star_blue;
+                    if (color == GameActivity.ORANGE) particle_resource = R.drawable.star_orange;
+                    if (color == GameActivity.YELLOW) particle_resource = R.drawable.star_yellow;
+                    if (color == GameActivity.GREEN) particle_resource = R.drawable.star_green;
+                    if (color == GameActivity.RED) particle_resource = R.drawable.star_red;
+                    if (color == GameActivity.PURPLE) particle_resource = R.drawable.star_purple;
+                }
+
+                // Particle image shift
+                final float x_shift =  20 / 2;
+                final float y_shift = - 100;
+
+                ParticleSystem particles = new ParticleSystem((Activity) grid.getContext(), 50 * LocalSettingsUtil.particles / 50, particle_resource, 100);
+                particles.setSpeedRange(0.2f, 0.5f);
+                particles.setAcceleration(0.0005f, 90);
+                ViewGroup.MarginLayoutParams  lp = (ViewGroup.MarginLayoutParams) findViewById(R.id.viewerGrid).getLayoutParams();
+                particles.emit((int)(motionEvent.getX() + x_shift) + lp.getMarginStart(), (int)(motionEvent.getY() + cell_height + y_shift) + lp.topMargin, 50, 100);
+            }
+        });
+    }
+
+    /**
+     * Show the instant score information
+     * @param score_increment score increment
+     */
+    private void showInstantScoreInformation(int score_increment){
+        final TextView text = findViewById(R.id.instant_score_info_viewer);
+
+        // Animation of the text (fade in and then fade out)
+        final Animation in = new AlphaAnimation(0.0f, 1.0f);
+        final Animation out = new AlphaAnimation(1.0f, 0.0f);
+        in.setDuration(GameActivity.FAST_SCORE_INFO_FADE_DURATION);
+        out.setDuration(GameActivity.FAST_SCORE_INFO_FADE_DURATION);
+
+        // We say that the out animation will start later
+        out.setStartOffset(GameActivity.FAST_SCORE_INFO_DISPLAY_DURATION);
+
+        // Then android gives us a nice animation set ;)
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.addAnimation(in);
+        animationSet.addAnimation(out);
+
+        // Let's apply the animation to our text
+        String score_increment_str = Integer.toString(score_increment);
+        text.setText(score_increment_str);
+        text.setVisibility(View.VISIBLE);
+        text.startAnimation(animationSet);
+
+        // But, don't forget to turn off the text when the animation ends !
+        out.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                text.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+        // Now, we put particles according to the score increment
+        int particle_number;
+        int drawable_id;
+        int text_color;
+
+        if(score_increment < 100){
+            drawable_id = R.drawable.star_red;
+            particle_number = 5 * LocalSettingsUtil.particles / 50;
+            text_color = GameActivity.RED;
+        }else if(score_increment >= 100 && score_increment < 250){
+            drawable_id = R.drawable.star_orange;
+            particle_number = 10 * LocalSettingsUtil.particles / 50;
+            text_color = GameActivity.ORANGE;
+        }else if(score_increment >= 250 && score_increment < 700){
+            drawable_id = R.drawable.star_yellow;
+            particle_number = 15 * LocalSettingsUtil.particles / 50;
+            text_color = GameActivity.YELLOW;
+        }else if(score_increment >= 700 && score_increment < 1000){
+            drawable_id = R.drawable.star_green;
+            particle_number = 20 * LocalSettingsUtil.particles / 50;
+            text_color = GameActivity.GREEN;
+        }else if(score_increment >= 1000 && score_increment < 1600){
+            drawable_id = R.drawable.star_dark_green;
+            particle_number = 25 * LocalSettingsUtil.particles / 50;
+            text_color = GameActivity.GREEN;
+        }else{
+            drawable_id = R.drawable.animated_particle;
+            particle_number = 30 * LocalSettingsUtil.particles / 50;
+            text_color = GameActivity.BLUE;
+        }
+
+        text.setTextColor(text_color);
+
+
+        new ParticleSystem(this, 30 * LocalSettingsUtil.particles / 50, drawable_id, GameActivity.FAST_SCORE_INFO_DISPLAY_DURATION )
+                .setSpeedRange(0.1f, 0.2f)
+                .oneShot(text, particle_number);
+
     }
 
     /**
@@ -75,7 +208,7 @@ public class SettingsActivity extends AppCompatActivity {
         }else{
             language_selector.setSelection(1);
         }
-
+        final Activity activity = this;
         language_selector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -88,14 +221,13 @@ public class SettingsActivity extends AppCompatActivity {
                 }
 
                 String lang = ((Spinner) findViewById(R.id.langSelector)).getSelectedItem().toString();
-                System.out.println("lang: " + lang);
                 SettingsUtil.saveData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.LANG_KEY, lang);
 
                 if(!LocalSettingsUtil.language.equalsIgnoreCase(lang)) {
                     if (lang.equalsIgnoreCase(LocalSettingsUtil.AVAILABLE_LANGUAGES[1])){
-                        setLocale("fr");
+                        SettingsUtil.setLocale("fr", activity, true);
                     }else {
-                        setLocale("en");
+                        SettingsUtil.setLocale("en", activity, true);
                     }
                     LocalSettingsUtil.language = lang;
                 }
@@ -107,22 +239,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    /**
-     * Changes the app language
-     * @param lang language code (fr, en)
-     */
-    private void setLocale(String lang) {
-        Locale myLocale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
-        Intent refresh = new Intent(this, SettingsActivity.class);
-        startActivity(refresh);
-        finish();
     }
 
 
@@ -139,6 +255,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingsUtil.saveData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.ANIMATION_KEY, isChecked);
                 LocalSettingsUtil.animation = isChecked;
+                ((Grid) findViewById(R.id.viewerGrid)).shouldAnimate(LocalSettingsUtil.animation);
             }
         });
     }
@@ -203,6 +320,7 @@ public class SettingsActivity extends AppCompatActivity {
                     ((TextView) findViewById(R.id.titleColors)).setText(label);
                     SettingsUtil.saveData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.COLOR_INTENSITY_KEY, progress);
                     LocalSettingsUtil.color_intensity = progress;
+                    ((Grid) findViewById(R.id.viewerGrid)).setColorAlpha(LocalSettingsUtil.color_intensity * 255 / 100);
                 }
             }
 
