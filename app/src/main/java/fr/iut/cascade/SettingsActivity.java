@@ -109,8 +109,7 @@ public class SettingsActivity extends AppCompatActivity {
                 ParticleSystem particles = new ParticleSystem((Activity) grid.getContext(), 50 * LocalSettingsUtil.particles / 50, particle_resource, 100);
                 particles.setSpeedRange(0.2f, 0.5f);
                 particles.setAcceleration(0.0005f, 90);
-                ViewGroup.MarginLayoutParams  lp = (ViewGroup.MarginLayoutParams) findViewById(R.id.viewerGrid).getLayoutParams();
-                particles.emit((int)(motionEvent.getX() + x_shift) + lp.getMarginStart(), (int)(motionEvent.getY() + cell_height + y_shift) + lp.topMargin, 50, 100);
+                particles.emit((int) (motionEvent.getX() + x_shift + findViewById(R.id.viewerGrid).getX()), (int)(motionEvent.getY() + cell_height + y_shift + findViewById(R.id.viewerGrid).getY()), 50, 100);
             }
         });
     }

@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity{
                     view.performClick();
                 }else if(motionEvent.getAction() == MotionEvent.ACTION_UP && !LocalSettingsUtil.sound){
                     ((ImageView) view).setImageResource(R.mipmap.sound_enabled_default);
-                    SettingsUtil.saveData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.SOUND_KEY, false);
+                    SettingsUtil.saveData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.SOUND_KEY, true);
                     LocalSettingsUtil.sound = true;
                     view.performClick();
                 }
