@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Cascade</string>
-    <string name="not_record">Vous n\'avez battu aucun de vos records.</string>
+    <string name="not_record">Aucun records battu.</string>
     <string name="scoreboard_button">Records</string>
-    <string name="score_label">Score :</string>
+    <string name="score_label">Score : </string>
     <string name="play_button">Jouer</string>
-    <string name="image_content">Fond d\'écran</string>
+    <string name="image_content">ui image</string>
     <string name="plus_button">+</string>
+    <string name="difficulty_label">Difficulté : </string>
     <string name="minus_button">-</string>
+    <string name="game_credits">Réalisé par Lilian Gallon, projet de l\'IUT de Bordeaux. Version 2.0.</string>
+    <string name="best_record">Nouveau meilleur record</string>
+    <string name="record">Nouveau record #</string>
+    <string name="max_combo">Combo max :</string>
+    <string name="total_clicks">Total de clics :</string>
+    <string name="particles_selector">Particules</string>
+    <string name="color_intensity_selector">Intensité des couleurs</string>
+    <string name="animation_selector">Animation</string>
+    <string name="language">Langue :</string>
+    <string name="scoreboard_score_title">Scores</string>
+    <string name="scoreboard_combo_title">Combos</string>
 </resources>
