@@ -20,23 +20,23 @@ import fr.iut.cascade.utils.SoundUtil;
 
 /**
  * This file is part of Cascade.
- *
+ * <p>
  * Cascade is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * Cascade is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with Cascade. If not, see <http://www.gnu.org/licenses/>.
  * Author(s) : Lilian Gallon (N3RO)
  */
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     public final static String DIFFICULTY = "difficulty";
     public static final int DIFFICULTY_MIN = 1;
@@ -66,10 +66,11 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * Called whenever a button is pressed
+     *
      * @param view view that sent the method
      */
     public void onButtonClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.play_button:
                 Intent gameActivityIntent = new Intent(this, GameActivity.class);
                 gameActivityIntent.putExtra(DIFFICULTY, this.difficulty);
@@ -98,25 +99,27 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * Controller to update the difficulty bar (visual)
+     *
      * @param increment increment
      */
-    private void updateDifficultyStars(int increment){
-        if(increment < 0 && difficulty != DIFFICULTY_MIN){
+    private void updateDifficultyStars(int increment) {
+        if (increment < 0 && difficulty != DIFFICULTY_MIN) {
             setDifficultyStars(this.difficulty + increment);
-        }else if(increment > 0 && difficulty != DIFFICULTY_MAX) {
+        } else if (increment > 0 && difficulty != DIFFICULTY_MAX) {
             setDifficultyStars(this.difficulty + increment);
         }
     }
 
     /**
      * Changes the displayed image according to the selected difficulty
+     *
      * @param difficulty new difficulty
      */
-    private void setDifficultyStars(int difficulty){
+    private void setDifficultyStars(int difficulty) {
         ImageView difficultyStars = findViewById(R.id.end_screen_difficulty);
 
-        switch (difficulty){
-            case 1 :
+        switch (difficulty) {
+            case 1:
                 difficultyStars.setImageResource(R.mipmap.dif_1);
                 break;
             case 2:
@@ -136,7 +139,7 @@ public class MainActivity extends AppCompatActivity{
     /**
      * Init the buttons dynamic (pushed / released)
      */
-    private void initButtons(){
+    private void initButtons() {
         ArrayList<int[]> buttons = new ArrayList<>();
         buttons.add(new int[]{R.id.play_button, R.mipmap.play_default, R.mipmap.play_pushed});
         buttons.add(new int[]{R.id.plus_button, R.mipmap.plus_default, R.mipmap.plus_pushed});
@@ -155,11 +158,11 @@ public class MainActivity extends AppCompatActivity{
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
                     // Pressed
-                    if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                         ((ImageView) view).setImageResource(button_res_pushed);
                     }
                     // Released
-                    if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                         ((ImageView) view).setImageResource(button_res_default);
                         view.performClick();
                     }
@@ -168,7 +171,7 @@ public class MainActivity extends AppCompatActivity{
             });
         }
 
-        if(LocalSettingsUtil.sound)
+        if (LocalSettingsUtil.sound)
             ((ImageView) findViewById(R.id.sound_button)).setImageResource(R.mipmap.sound_enabled_default);
         else
             ((ImageView) findViewById(R.id.sound_button)).setImageResource(R.mipmap.sound_disabled_default);
@@ -177,19 +180,19 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 // Pressed && setting sounds on => need to toggle of and show "sound disabled"
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN && LocalSettingsUtil.sound){
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && LocalSettingsUtil.sound) {
                     ((ImageView) view).setImageResource(R.mipmap.sound_enabled_default);
-                }else if(motionEvent.getAction() == MotionEvent.ACTION_DOWN && !LocalSettingsUtil.sound){
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !LocalSettingsUtil.sound) {
                     ((ImageView) view).setImageResource(R.mipmap.sound_disabled_pushed);
                 }
 
                 // Release
-                if(motionEvent.getAction() == MotionEvent.ACTION_UP && LocalSettingsUtil.sound){
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP && LocalSettingsUtil.sound) {
                     ((ImageView) view).setImageResource(R.mipmap.sound_disabled_default);
                     SettingsUtil.saveData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.SOUND_KEY, false);
                     LocalSettingsUtil.sound = false;
                     view.performClick();
-                }else if(motionEvent.getAction() == MotionEvent.ACTION_UP && !LocalSettingsUtil.sound){
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP && !LocalSettingsUtil.sound) {
                     ((ImageView) view).setImageResource(R.mipmap.sound_enabled_default);
                     SettingsUtil.saveData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.SOUND_KEY, true);
                     LocalSettingsUtil.sound = true;
@@ -202,6 +205,7 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * Called when the user touches the screen
+     *
      * @param event event
      * @return true ;)
      */

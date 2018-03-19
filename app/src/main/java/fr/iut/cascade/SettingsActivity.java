@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -80,7 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onTouchEvent(Cell clicked_cell, float cell_width, float cell_height, boolean has_destroyed_cells, MotionEvent motionEvent) {
                 int particle_resource = R.drawable.star_white;
 
-                if(clicked_cell != null) {
+                if (clicked_cell != null) {
                     int color = clicked_cell.getColor();
                     if (color == GameActivity.BLUE) particle_resource = R.drawable.star_blue;
                     if (color == GameActivity.ORANGE) particle_resource = R.drawable.star_orange;
@@ -89,36 +88,37 @@ public class SettingsActivity extends AppCompatActivity {
                     if (color == GameActivity.RED) particle_resource = R.drawable.star_red;
                     if (color == GameActivity.PURPLE) particle_resource = R.drawable.star_purple;
 
-                    if(has_destroyed_cells) {
+                    if (has_destroyed_cells) {
                         if (Math.random() < 0.5) {
                             SoundUtil.playMusic(getApplicationContext(), R.raw.hit1, 1);
-                        }else{
+                        } else {
                             SoundUtil.playMusic(getApplicationContext(), R.raw.hit2, 0.8f);
                         }
-                    }else {
+                    } else {
                         SoundUtil.playMusic(getApplicationContext(), R.raw.hit_alone, 1);
                     }
-                } else{
+                } else {
                     SoundUtil.playMusic(getApplicationContext(), R.raw.hit_failed, 1);
                 }
 
                 // Particle image shift
-                final float x_shift =  20 / 2;
-                final float y_shift = - 100;
+                final float x_shift = 20 / 2;
+                final float y_shift = -100;
 
                 ParticleSystem particles = new ParticleSystem((Activity) grid.getContext(), 50 * LocalSettingsUtil.particles / 50, particle_resource, 100);
                 particles.setSpeedRange(0.2f, 0.5f);
                 particles.setAcceleration(0.0005f, 90);
-                particles.emit((int) (motionEvent.getX() + x_shift + findViewById(R.id.viewerGrid).getX()), (int)(motionEvent.getY() + cell_height + y_shift + findViewById(R.id.viewerGrid).getY()), 50, 100);
+                particles.emit((int) (motionEvent.getX() + x_shift + findViewById(R.id.viewerGrid).getX()), (int) (motionEvent.getY() + cell_height + y_shift + findViewById(R.id.viewerGrid).getY()), 50, 100);
             }
         });
     }
 
     /**
      * Show the instant score information
+     *
      * @param score_increment score increment
      */
-    private void showInstantScoreInformation(int score_increment){
+    private void showInstantScoreInformation(int score_increment) {
         final TextView text = findViewById(R.id.instant_score_info_viewer);
 
         // Animation of the text (fade in and then fade out)
@@ -144,7 +144,8 @@ public class SettingsActivity extends AppCompatActivity {
         // But, don't forget to turn off the text when the animation ends !
         out.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -152,7 +153,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
 
         // Now, we put particles according to the score increment
@@ -160,27 +162,27 @@ public class SettingsActivity extends AppCompatActivity {
         int drawable_id;
         int text_color;
 
-        if(score_increment < 100){
+        if (score_increment < 100) {
             drawable_id = R.drawable.star_red;
             particle_number = 5 * LocalSettingsUtil.particles / 50;
             text_color = GameActivity.RED;
-        }else if(score_increment >= 100 && score_increment < 250){
+        } else if (score_increment >= 100 && score_increment < 250) {
             drawable_id = R.drawable.star_orange;
             particle_number = 10 * LocalSettingsUtil.particles / 50;
             text_color = GameActivity.ORANGE;
-        }else if(score_increment >= 250 && score_increment < 700){
+        } else if (score_increment >= 250 && score_increment < 700) {
             drawable_id = R.drawable.star_yellow;
             particle_number = 15 * LocalSettingsUtil.particles / 50;
             text_color = GameActivity.YELLOW;
-        }else if(score_increment >= 700 && score_increment < 1000){
+        } else if (score_increment >= 700 && score_increment < 1000) {
             drawable_id = R.drawable.star_green;
             particle_number = 20 * LocalSettingsUtil.particles / 50;
             text_color = GameActivity.GREEN;
-        }else if(score_increment >= 1000 && score_increment < 1600){
+        } else if (score_increment >= 1000 && score_increment < 1600) {
             drawable_id = R.drawable.star_dark_green;
             particle_number = 25 * LocalSettingsUtil.particles / 50;
             text_color = GameActivity.GREEN;
-        }else{
+        } else {
             drawable_id = R.drawable.animated_particle;
             particle_number = 30 * LocalSettingsUtil.particles / 50;
             text_color = GameActivity.BLUE;
@@ -189,7 +191,7 @@ public class SettingsActivity extends AppCompatActivity {
         text.setTextColor(text_color);
 
 
-        new ParticleSystem(this, 30 * LocalSettingsUtil.particles / 50, drawable_id, GameActivity.FAST_SCORE_INFO_DISPLAY_DURATION )
+        new ParticleSystem(this, 30 * LocalSettingsUtil.particles / 50, drawable_id, GameActivity.FAST_SCORE_INFO_DISPLAY_DURATION)
                 .setSpeedRange(0.1f, 0.2f)
                 .oneShot(text, particle_number);
 
@@ -198,7 +200,7 @@ public class SettingsActivity extends AppCompatActivity {
     /**
      * Used to init the spinners
      */
-    private void initSpinners(){
+    private void initSpinners() {
         Spinner language_selector = findViewById(R.id.langSelector);
 
         // Set entries list
@@ -210,14 +212,14 @@ public class SettingsActivity extends AppCompatActivity {
         String selected_language = (String) SettingsUtil.loadData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.LANG_KEY, String.class);
 
         // If it's null, we save the default value used for the language
-        if(selected_language == null) {
+        if (selected_language == null) {
             if (LocalSettingsUtil.language.equalsIgnoreCase(LocalSettingsUtil.AVAILABLE_LANGUAGES[0]))
                 language_selector.setSelection(0);
             else
                 language_selector.setSelection(1);
-        }else if(selected_language.equalsIgnoreCase(LocalSettingsUtil.AVAILABLE_LANGUAGES[0])){
+        } else if (selected_language.equalsIgnoreCase(LocalSettingsUtil.AVAILABLE_LANGUAGES[0])) {
             language_selector.setSelection(0);
-        }else{
+        } else {
             language_selector.setSelection(1);
         }
         final Activity activity = this;
@@ -225,7 +227,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TextView selected_item = ((TextView) parent.getSelectedView());
-                if(selected_item != null) {
+                if (selected_item != null) {
                     selected_item.setTextColor(getResources().getColor(R.color.white));
                     Typeface font = ResourcesCompat.getFont(getApplicationContext(), R.font.baloo);
                     selected_item.setTypeface(font);
@@ -235,10 +237,10 @@ public class SettingsActivity extends AppCompatActivity {
                 String lang = ((Spinner) findViewById(R.id.langSelector)).getSelectedItem().toString();
                 SettingsUtil.saveData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.LANG_KEY, lang);
 
-                if(!LocalSettingsUtil.language.equalsIgnoreCase(lang)) {
-                    if (lang.equalsIgnoreCase(LocalSettingsUtil.AVAILABLE_LANGUAGES[1])){
+                if (!LocalSettingsUtil.language.equalsIgnoreCase(lang)) {
+                    if (lang.equalsIgnoreCase(LocalSettingsUtil.AVAILABLE_LANGUAGES[1])) {
                         SettingsUtil.setLocale("fr", activity, true);
-                    }else {
+                    } else {
                         SettingsUtil.setLocale("en", activity, true);
                     }
                     LocalSettingsUtil.language = lang;
@@ -257,7 +259,7 @@ public class SettingsActivity extends AppCompatActivity {
     /**
      * Used to init the checkboxes
      */
-    private void initCheckBoxes(){
+    private void initCheckBoxes() {
         CheckBox checkBox = findViewById(R.id.animationSelector);
         boolean is_checked = (Boolean) SettingsUtil.loadData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.ANIMATION_KEY, Boolean.class);
         checkBox.setChecked(is_checked);
@@ -276,7 +278,7 @@ public class SettingsActivity extends AppCompatActivity {
     /**
      * Used to init the style and the listeners of the selectors
      */
-    private void initSelectors(){
+    private void initSelectors() {
         // Get the selectors
         SeekBar particles_selector = findViewById(R.id.particlesSelector);
 
@@ -291,7 +293,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Load the data
         int particles_progress = (Integer) SettingsUtil.loadData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.PARTICLES_KEY, Integer.class);
-        if(particles_progress == Integer.MAX_VALUE){
+        if (particles_progress == Integer.MAX_VALUE) {
             // In this case we found nothing so we need to set it to default
             particles_progress = LocalSettingsUtil.DEFAULT_PARTICLES;
         }
@@ -299,7 +301,7 @@ public class SettingsActivity extends AppCompatActivity {
         particles_selector.setMax(LocalSettingsUtil.MAX_PARTICLES);
 
         int color_intensity_progress = (Integer) SettingsUtil.loadData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.COLOR_INTENSITY_KEY, Integer.class);
-        if(color_intensity_progress == Integer.MAX_VALUE){
+        if (color_intensity_progress == Integer.MAX_VALUE) {
             // In this case we found nothing so we need to set it to default
             color_intensity_progress = LocalSettingsUtil.DEFAULT_PARTICLES;
         }
@@ -318,13 +320,13 @@ public class SettingsActivity extends AppCompatActivity {
         SeekBar.OnSeekBarChangeListener listener = new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(seekBar.getId() == R.id.particlesSelector){
+                if (seekBar.getId() == R.id.particlesSelector) {
                     String label = getString(R.string.particles_selector) + " : " + progress + "%";
                     ((TextView) findViewById(R.id.titleParticles)).setText(label);
                     SettingsUtil.saveData(getApplicationContext(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, LocalSettingsUtil.PARTICLES_KEY, progress);
                     LocalSettingsUtil.particles = progress;
-                }else if(seekBar.getId() == R.id.colorIntensitySelector){
-                    if(progress < LocalSettingsUtil.MIN_COLOR_INTENSITY){
+                } else if (seekBar.getId() == R.id.colorIntensitySelector) {
+                    if (progress < LocalSettingsUtil.MIN_COLOR_INTENSITY) {
                         progress = LocalSettingsUtil.MIN_COLOR_INTENSITY;
                         seekBar.setProgress(progress);
                     }
@@ -353,6 +355,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     /**
      * Called when the user touches the screen
+     *
      * @param event event
      * @return true ;)
      */

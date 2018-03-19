@@ -1,4 +1,4 @@
-## Changelog ![Stable version](https://img.shields.io/badge/Last_stable_version-1.1-green.svg)
+## Changelog ![Stable version](https://img.shields.io/badge/Last_stable_version-2.0-green.svg)
 This changelog includes only user-sided updates. It indicates the advancement for each functionality.
 ### Legend :
 ❌ Removed | ✔️ Added | 💫 Fixed | ✨ Improved | 🏗️ Unfinished | 🏳️ Not started yet
@@ -17,7 +17,7 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - 💫 issue #2 Grid for difficulty 4 had the wrong number of columns
 - 💫 issue #3 "not record" displaying its ID instead of its string value
 
-### Version 2 "User friendly interface" - Release date : ??/??/??
+### Version 2 "User friendly interface" - Release date : 19/03/18
 - ✔ Clean overall theme
 - ✔ End screen with useful information (score place, score total, restart option, best combo, number of clicks)
 - ✔️ Visual effects on touch
@@ -27,7 +27,7 @@ This changelog includes only user-sided updates. It indicates the advancement fo
 - ✔ Settings to toggle animation, game colors, and particles
 - ✔ Settings previewer with a grid view
 - ✔ Sounds
-- 🏳 Statistics
+- ✔ Statistics
 - ✨ Changed score calculation to get an exponential one
 
 ### Version 3 "Google play compatibility" - Release date : ??/??/??

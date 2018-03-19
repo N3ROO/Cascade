@@ -5,17 +5,17 @@ import android.media.MediaPlayer;
 
 /**
  * This file is part of Cascade.
- *
+ * <p>
  * Cascade is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * Cascade is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with Cascade. If not, see <http://www.gnu.org/licenses/>.
  * Author(s) : Lilian Gallon (N3RO)
@@ -30,14 +30,15 @@ public class SoundUtil {
 
     /**
      * Plays a music (mediaPlayer is better for long sounds => for musics)
+     *
      * @param context context
      * @param id      sound id
-     * @param volume volume (between 0 and 1)
+     * @param volume  volume (between 0 and 1)
      */
-    public static void playMusic(Context context, int id, float volume){
-        if(!LocalSettingsUtil.sound) return;
+    public static void playMusic(Context context, int id, float volume) {
+        if (!LocalSettingsUtil.sound) return;
         try {
-            if(mediaPlayer != null) {
+            if (mediaPlayer != null) {
                 if (mediaPlayer.isPlaying()) {
                     // *stops* the current ongoing music with that object.
                     mediaPlayer.stop();
@@ -60,7 +61,7 @@ public class SoundUtil {
                 }
             });
             */
-        }catch (Exception e){
+        } catch (Exception e) {
             LoggerUtil.log("SoundUtil/Playsound", "An error occurred while trying to play the sound " + id + ". Here is the detailed message : " + e.toString(), LoggerUtil.MESSAGE_TYPE.ERROR);
         }
     }

@@ -4,31 +4,31 @@ import android.util.Log;
 
 /**
  * This file is part of Cascade.
- *
+ * <p>
  * Cascade is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * Cascade is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with Cascade. If not, see <http://www.gnu.org/licenses/>.
  * Author(s) : Lilian Gallon (N3RO)
  */
 
-public class LoggerUtil {
+class LoggerUtil {
 
-    public enum MESSAGE_TYPE{
+    public enum MESSAGE_TYPE {
         VERBOSE, DEBUG, INFO, WARNING, ERROR, WTF
     }
 
-    public static void log(String tag, String message, MESSAGE_TYPE message_type){
+    static void log(String tag, String message, MESSAGE_TYPE message_type) {
         String time = Long.toString(System.currentTimeMillis());
-        switch (message_type){
+        switch (message_type) {
             case VERBOSE:
                 Log.v("[" + time + "]: " + tag, message);
                 break;

@@ -9,7 +9,7 @@
     <string name="plus_button">+</string>
     <string name="difficulty_label">Difficulté : </string>
     <string name="minus_button">-</string>
-    <string name="game_credits">Réalisé par Lilian Gallon, un projet pour l\'IUT de Bordeaux.</string>
+    <string name="game_credits">Réalisé par Lilian Gallon, projet de l\'IUT de Bordeaux. Version 2.0.</string>
     <string name="best_record">Nouveau meilleur record</string>
     <string name="record">Nouveau record #</string>
     <string name="max_combo">Combo max :</string>

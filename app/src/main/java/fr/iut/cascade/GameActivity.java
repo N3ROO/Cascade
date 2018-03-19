@@ -33,17 +33,17 @@ import fr.iut.cascade.utils.SoundUtil;
 
 /**
  * This file is part of Cascade.
- *
+ * <p>
  * Cascade is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * Cascade is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with Cascade. If not, see <http://www.gnu.org/licenses/>.
  * Author(s) : Lilian Gallon (N3RO)
@@ -62,9 +62,9 @@ public class GameActivity extends AppCompatActivity {
     public final static int FAST_SCORE_INFO_DISPLAY_DURATION = 2000;
     public final static int FAST_SCORE_INFO_FADE_DURATION = 250;
 
-    public static final int GREEN = Color.rgb(135 , 245, 50);
+    public static final int GREEN = Color.rgb(135, 245, 50);
     public static final int YELLOW = Color.rgb(245, 245, 50);
-    public static final int BLUE = Color.rgb(50,50,245);
+    public static final int BLUE = Color.rgb(50, 50, 245);
     public static final int ORANGE = Color.rgb(245, 190, 50);
     public static final int RED = Color.rgb(245, 70, 50);
     public static final int PURPLE = Color.rgb(230, 50, 245);
@@ -86,7 +86,7 @@ public class GameActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.difficulty = extras.getInt(MainActivity.DIFFICULTY);
-        }else{
+        } else {
             throw new IllegalStateException("The user shouldn't be able to play without choosing the difficulty, has he cheated ?");
         }
 
@@ -129,7 +129,7 @@ public class GameActivity extends AppCompatActivity {
             public void onTouchEvent(Cell clicked_cell, float cell_width, float cell_height, boolean has_destroyed_cells, MotionEvent motionEvent) {
                 int particle_resource = R.drawable.star_white;
 
-                if(clicked_cell != null) {
+                if (clicked_cell != null) {
                     int color = clicked_cell.getColor();
                     if (color == BLUE) particle_resource = R.drawable.star_blue;
                     if (color == ORANGE) particle_resource = R.drawable.star_orange;
@@ -138,39 +138,39 @@ public class GameActivity extends AppCompatActivity {
                     if (color == RED) particle_resource = R.drawable.star_red;
                     if (color == PURPLE) particle_resource = R.drawable.star_purple;
 
-                    if(has_destroyed_cells) {
+                    if (has_destroyed_cells) {
                         if (Math.random() < 0.5) {
                             SoundUtil.playMusic(getApplicationContext(), R.raw.hit1, 1);
-                        }else{
+                        } else {
                             SoundUtil.playMusic(getApplicationContext(), R.raw.hit2, 0.8f);
                         }
-                    }else {
+                    } else {
                         SoundUtil.playMusic(getApplicationContext(), R.raw.hit_alone, 1);
                     }
-                } else{
+                } else {
                     SoundUtil.playMusic(getApplicationContext(), R.raw.hit_failed, 1);
                 }
 
                 // Particle image shift
-                final float x_shift =  20 / 2;
-                final float y_shift = - 22 / 2;
+                final float x_shift = 20 / 2;
+                final float y_shift = -22 / 2;
 
                 ParticleSystem particles = new ParticleSystem((Activity) grid.getContext(), 50 * LocalSettingsUtil.particles / 50, particle_resource, 100);
                 particles.setSpeedRange(0.2f, 0.5f);
                 particles.setAcceleration(0.0005f, 90);
-                particles.emit((int)(motionEvent.getX() + x_shift) , (int)(motionEvent.getY() + cell_height + y_shift), 50, 100);
+                particles.emit((int) (motionEvent.getX() + x_shift), (int) (motionEvent.getY() + cell_height + y_shift), 50, 100);
             }
         });
 
     }
 
 
-
     /**
      * Shows the text indicating the last score increment
+     *
      * @param score_increment score_increment
      */
-    private void showInstantScoreInformation(int score_increment){
+    private void showInstantScoreInformation(int score_increment) {
         final TextView text = findViewById(R.id.instant_score_info);
 
         // Animation of the text (fade in and then fade out)
@@ -196,7 +196,8 @@ public class GameActivity extends AppCompatActivity {
         // But, don't forget to turn off the text when the animation ends !
         out.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -204,7 +205,8 @@ public class GameActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
 
         // Now, we put particles according to the score increment
@@ -212,27 +214,27 @@ public class GameActivity extends AppCompatActivity {
         int drawable_id;
         int text_color;
 
-        if(score_increment < 100){
+        if (score_increment < 100) {
             drawable_id = R.drawable.star_red;
             particle_number = 5 * LocalSettingsUtil.particles / 50;
             text_color = RED;
-        }else if(score_increment >= 100 && score_increment < 250){
+        } else if (score_increment >= 100 && score_increment < 250) {
             drawable_id = R.drawable.star_orange;
             particle_number = 10 * LocalSettingsUtil.particles / 50;
             text_color = ORANGE;
-        }else if(score_increment >= 250 && score_increment < 700){
+        } else if (score_increment >= 250 && score_increment < 700) {
             drawable_id = R.drawable.star_yellow;
             particle_number = 15 * LocalSettingsUtil.particles / 50;
             text_color = YELLOW;
-        }else if(score_increment >= 700 && score_increment < 1000){
+        } else if (score_increment >= 700 && score_increment < 1000) {
             drawable_id = R.drawable.star_green;
             particle_number = 20 * LocalSettingsUtil.particles / 50;
             text_color = GREEN;
-        }else if(score_increment >= 1000 && score_increment < 1600){
+        } else if (score_increment >= 1000 && score_increment < 1600) {
             drawable_id = R.drawable.star_dark_green;
             particle_number = 25 * LocalSettingsUtil.particles / 50;
             text_color = GREEN;
-        }else{
+        } else {
             drawable_id = R.drawable.animated_particle;
             particle_number = 30 * LocalSettingsUtil.particles / 50;
             text_color = BLUE;
@@ -241,7 +243,7 @@ public class GameActivity extends AppCompatActivity {
         text.setTextColor(text_color);
 
 
-        new ParticleSystem(this, 30 * LocalSettingsUtil.particles / 50, drawable_id, FAST_SCORE_INFO_DISPLAY_DURATION )
+        new ParticleSystem(this, 30 * LocalSettingsUtil.particles / 50, drawable_id, FAST_SCORE_INFO_DISPLAY_DURATION)
                 .setSpeedRange(0.1f, 0.2f)
                 .oneShot(text, particle_number);
 
@@ -249,13 +251,14 @@ public class GameActivity extends AppCompatActivity {
 
     /**
      * Shows the end screen with animation
-     * @param grid the grid when the game has finished
+     *
+     * @param grid        the grid when the game has finished
      * @param score_place the score place in the scoreboard
      * @param combo_place the combo place in the scoreboard
      */
-    private void showEndScreen(Grid grid, int score_place, int combo_place){
+    private void showEndScreen(Grid grid, int score_place, int combo_place) {
         final int score = grid.getScore();
-       // String score_str = Integer.toString(score);
+        // String score_str = Integer.toString(score);
         String place_str = Integer.toString(score_place);
 
         // Get the views
@@ -268,11 +271,11 @@ public class GameActivity extends AppCompatActivity {
 
 
         // Set up the views
-        if(score_place == -1){
+        if (score_place == -1) {
             end_place.setText(getString(R.string.not_record));
-        } else if(score_place == 1){
+        } else if (score_place == 1) {
             end_place.setText(getString(R.string.best_record));
-        } else{
+        } else {
             String message = getString(R.string.record) + place_str;
             end_place.setText(message);
         }
@@ -280,18 +283,18 @@ public class GameActivity extends AppCompatActivity {
         end_score.setText("0");
 
         String max_combo;
-        if(combo_place == -1){
+        if (combo_place == -1) {
             max_combo = getString(R.string.max_combo) + " " + Integer.toString(grid.getBestCombo()) + " (" + Integer.toString(grid.getBestComboScore()) + ")";
-        }else{
-            max_combo = getString(R.string.max_combo) + " #" + Integer.toString(combo_place) + " "+ Integer.toString(grid.getBestCombo()) + " (" + Integer.toString(grid.getBestComboScore()) + ")";
+        } else {
+            max_combo = getString(R.string.max_combo) + " #" + Integer.toString(combo_place) + " " + Integer.toString(grid.getBestCombo()) + " (" + Integer.toString(grid.getBestComboScore()) + ")";
         }
         end_combo.setText(max_combo);
 
-        String total_clicks = getString(R.string.total_clicks) + " " +Integer.toString(grid.getTotalClicks());
+        String total_clicks = getString(R.string.total_clicks) + " " + Integer.toString(grid.getTotalClicks());
         end_clicks.setText(total_clicks);
 
-        switch (difficulty){
-            case 1 :
+        switch (difficulty) {
+            case 1:
                 end_difficulty.setImageResource(R.mipmap.dif_1);
                 break;
             case 2:
@@ -343,11 +346,12 @@ public class GameActivity extends AppCompatActivity {
 
     /**
      * Recursive method that animate the views one by one
+     *
      * @param views_to_animate list of the views to animate in the end layout
-     * @param index index to start with (should be 0)
+     * @param index            index to start with (should be 0)
      */
-    private void slideViewsInEndLayout(final ArrayList<View> views_to_animate, final int index){
-        if(index > views_to_animate.size() - 1) return;
+    private void slideViewsInEndLayout(final ArrayList<View> views_to_animate, final int index) {
+        if (index > views_to_animate.size() - 1) return;
 
         final View view_to_animate = views_to_animate.get(index);
         TranslateAnimation animate = new TranslateAnimation(
@@ -368,7 +372,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 // If its not the last view to animate, we will start the animation for the next one
-                if(index != views_to_animate.size())
+                if (index != views_to_animate.size())
                     slideViewsInEndLayout(views_to_animate, index + 1);
             }
 
@@ -381,13 +385,13 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * Called whenever a button is pressed
+     *
      * @param view view that sent the method
      */
     public void onButtonClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.scoreboard_button:
                 Intent scoreboardIntent = new Intent(this, ScoreboardActivity.class);
                 scoreboardIntent.putExtra(MainActivity.DIFFICULTY, this.difficulty);
@@ -415,7 +419,7 @@ public class GameActivity extends AppCompatActivity {
     /**
      * Init the buttons dynamic (pushed / released)
      */
-    private void initButtons(){
+    private void initButtons() {
         ArrayList<int[]> buttons = new ArrayList<>();
         buttons.add(new int[]{R.id.restart_button, R.mipmap.restart_default, R.mipmap.restart_pushed});
         buttons.add(new int[]{R.id.scoreboard_button, R.mipmap.scoreboard_default, R.mipmap.scoreboard_pushed});
@@ -430,11 +434,11 @@ public class GameActivity extends AppCompatActivity {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
                     // Pressed
-                    if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                         ((ImageView) view).setImageResource(button_res_pushed);
                     }
                     // Released
-                    if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                         ((ImageView) view).setImageResource(button_res_default);
                         view.performClick();
                     }
@@ -446,9 +450,10 @@ public class GameActivity extends AppCompatActivity {
 
     /**
      * Plays a sounds when teh activity ends
+     *
      * @param requestCode request code
-     * @param resultCode result code
-     * @param data data
+     * @param resultCode  result code
+     * @param data        data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
