@@ -58,6 +58,7 @@ public class GameActivity extends AppCompatActivity {
     private int difficulty;
 
     public final static String LAST_SCORE = "last_score";
+    public final static String LAST_COMBO = "last_combo";
     public final static int FAST_SCORE_INFO_DISPLAY_DURATION = 2000;
     public final static int FAST_SCORE_INFO_FADE_DURATION = 250;
 
@@ -118,9 +119,10 @@ public class GameActivity extends AppCompatActivity {
                 // Get the final score
                 int score = grid.getScore();
                 // Save the score and get the place
-                int place = SettingsUtil.saveScore(score, grid.getDifficulty(), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, getApplicationContext());
+                int score_place = SettingsUtil.saveScore(score, Integer.toString(grid.getDifficulty()), 10, LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, getApplicationContext());
+                int combo_place = SettingsUtil.saveScore(grid.getBestCombo(), Integer.toString(grid.getDifficulty()) + "c", 5, LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, getApplicationContext());
                 // Set up the end screen
-                showEndScreen(grid, place);
+                showEndScreen(grid, score_place, combo_place);
             }
 
             @Override
@@ -248,11 +250,13 @@ public class GameActivity extends AppCompatActivity {
     /**
      * Shows the end screen with animation
      * @param grid the grid when the game has finished
+     * @param score_place the score place in the scoreboard
+     * @param combo_place the combo place in the scoreboard
      */
-    private void showEndScreen(Grid grid, int place){
+    private void showEndScreen(Grid grid, int score_place, int combo_place){
         final int score = grid.getScore();
        // String score_str = Integer.toString(score);
-        String place_str = Integer.toString(place);
+        String place_str = Integer.toString(score_place);
 
         // Get the views
         LinearLayout end_layout = findViewById(R.id.end_layout);
@@ -264,9 +268,9 @@ public class GameActivity extends AppCompatActivity {
 
 
         // Set up the views
-        if(place == -1){
+        if(score_place == -1){
             end_place.setText(getString(R.string.not_record));
-        } else if(place == 1){
+        } else if(score_place == 1){
             end_place.setText(getString(R.string.best_record));
         } else{
             String message = getString(R.string.record) + place_str;
@@ -275,8 +279,12 @@ public class GameActivity extends AppCompatActivity {
 
         end_score.setText("0");
 
-
-        String max_combo = getString(R.string.max_combo) + " " + Integer.toString(grid.getBestCombo()) + " (" + Integer.toString(grid.getBestComboScore()) + ")";
+        String max_combo;
+        if(combo_place == -1){
+            max_combo = getString(R.string.max_combo) + " " + Integer.toString(grid.getBestCombo()) + " (" + Integer.toString(grid.getBestComboScore()) + ")";
+        }else{
+            max_combo = getString(R.string.max_combo) + " #" + Integer.toString(combo_place) + " "+ Integer.toString(grid.getBestCombo()) + " (" + Integer.toString(grid.getBestComboScore()) + ")";
+        }
         end_combo.setText(max_combo);
 
         String total_clicks = getString(R.string.total_clicks) + " " +Integer.toString(grid.getTotalClicks());
@@ -384,6 +392,7 @@ public class GameActivity extends AppCompatActivity {
                 Intent scoreboardIntent = new Intent(this, ScoreboardActivity.class);
                 scoreboardIntent.putExtra(MainActivity.DIFFICULTY, this.difficulty);
                 scoreboardIntent.putExtra(LAST_SCORE, ((Grid) findViewById(R.id.grid)).getScore());
+                scoreboardIntent.putExtra(LAST_COMBO, ((Grid) findViewById(R.id.grid)).getBestCombo());
                 startActivity(scoreboardIntent);
                 break;
             case R.id.restart_button:

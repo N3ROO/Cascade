@@ -8,7 +8,7 @@
     <string name="score_label">Score : </string>
     <string name="difficulty_label">Difficulty : </string>
     <string name="not_record">No records beaten.</string>
-    <string name="credits">Made by Lilian Gallon, a project for \"IUT de Bordeaux\".</string>
+    <string name="game_credits">Made by Lilian Gallon, a project for \"IUT de Bordeaux\".</string>
     <string name="best_record">New best record !</string>
     <string name="record">New record #</string>
     <string name="max_combo">Best combo :</string>
@@ -17,4 +17,6 @@
     <string name="color_intensity_selector">Color intensity</string>
     <string name="animation_selector">Animation</string>
     <string name="language">Lang :</string>
+    <string name="scoreboard_score_title">Best scores</string>
+    <string name="scoreboard_combo_title">Best combos</string>
 </resources>

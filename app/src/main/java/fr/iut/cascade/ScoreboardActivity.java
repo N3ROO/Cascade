@@ -42,6 +42,7 @@ public class ScoreboardActivity extends AppCompatActivity {
 
     private int difficulty;
     private int[] last_score;
+    private int[] last_combo;
     private ParticleSystem particleSystem;
 
     @Override
@@ -55,6 +56,7 @@ public class ScoreboardActivity extends AppCompatActivity {
         // Default values
         difficulty = 2;
         last_score = new int[]{-1, -1};
+        last_combo = new int[]{-1, -1};
 
         initButtons();
 
@@ -65,6 +67,10 @@ public class ScoreboardActivity extends AppCompatActivity {
             if(getIntent().hasExtra(GameActivity.LAST_SCORE)){
                 this.last_score[0] = this.difficulty;
                 this.last_score[1] = extras.getInt(GameActivity.LAST_SCORE);
+            }
+            if(getIntent().hasExtra(GameActivity.LAST_COMBO)){
+                this.last_combo[0] = this.difficulty;
+                this.last_combo[1] = extras.getInt(GameActivity.LAST_COMBO);
             }
         }else{
             throw new IllegalStateException("The user shouldn't be able to play without choosing the difficulty, has he cheated ?");
@@ -83,24 +89,57 @@ public class ScoreboardActivity extends AppCompatActivity {
         Typeface font = ResourcesCompat.getFont(getApplicationContext(), R.font.rubik_mono_one);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0f);
 
-        ArrayList<Integer> score_list = SettingsUtil.loadScore(this.difficulty, LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, getApplicationContext());
-        for(int score : score_list){
-            TextView textView = new TextView(this);
-            String score_str = Integer.toString(score);
-            textView.setText(score_str);
-            textView.setLayoutParams(layoutParams);
-
-            if(this.last_score[0] == this.difficulty && this.last_score[1] == score)
-                textView.setTextColor(getResources().getColor(R.color.greenTheme));
-            else
-                textView.setTextColor(getResources().getColor(R.color.white));
-
-            textView.setTextSize(30);
-            textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            //android:fontFamily="@font/rubik_mono_one"
-            textView.setTypeface(font);
-            layout.addView(textView);
+        // This boolean is used to prevent indicating in green multiple scores that have the same value (we only want to indicate the last score the user made)
+        boolean last_score_was_indicated = false;
+        ArrayList<Integer> score_list = SettingsUtil.loadScore(Integer.toString(this.difficulty), LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, getApplicationContext());
+        if(score_list.size() != 0){
+            addText(getString(R.string.scoreboard_score_title), layoutParams, layout, R.color.white, font, 20, View.TEXT_ALIGNMENT_TEXT_START);
         }
+        for(int score : score_list){
+            if(this.last_score[0] == this.difficulty && this.last_score[1] == score && !last_score_was_indicated) {
+                addText(Integer.toString(score), layoutParams, layout, R.color.greenTheme, font, 18, View.TEXT_ALIGNMENT_CENTER);
+                last_score_was_indicated = true;
+            }else {
+                addText(Integer.toString(score), layoutParams, layout, R.color.white, font, 18, View.TEXT_ALIGNMENT_CENTER);
+            }
+        }
+
+        boolean last_combo_was_indicated = false;
+        ArrayList<Integer> combo_list = SettingsUtil.loadScore(Integer.toString(this.difficulty) + "c", LocalSettingsUtil.SHARED_PREFERENCES_SETTINGS_NAME, getApplicationContext());
+        if(combo_list.size() != 0){
+            LinearLayout.LayoutParams layoutParamsCombo = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0f);
+            layoutParamsCombo.setMargins(0, 40, 0, 0);
+            addText(getString(R.string.scoreboard_combo_title), layoutParamsCombo, layout, R.color.white, font, 20,  View.TEXT_ALIGNMENT_TEXT_START);
+        }
+        for(int combo : combo_list){
+            if(this.last_combo[0] == this.difficulty && this.last_combo[1] == combo && !last_combo_was_indicated) {
+                addText(Integer.toString(combo), layoutParams, layout, R.color.greenTheme, font, 18, View.TEXT_ALIGNMENT_CENTER);
+                last_combo_was_indicated = true;
+            }else {
+                addText(Integer.toString(combo), layoutParams, layout, R.color.white, font, 18, View.TEXT_ALIGNMENT_CENTER);
+            }
+        }
+    }
+
+    /**
+     * Adds a text
+     * @param label text label
+     * @param layoutParams layout params of the text
+     * @param layout layout on which the text should be put
+     * @param color_id color of the text
+     * @param font of the text
+     * @param size of the text
+     * @param text_alignment of the text
+     */
+    private void addText(String label, LinearLayout.LayoutParams layoutParams, LinearLayout layout, int color_id, Typeface font, int size, int text_alignment){
+        TextView textView = new TextView(this);
+        textView.setText(label);
+        textView.setLayoutParams(layoutParams);
+        textView.setTextColor(getResources().getColor(color_id));
+        textView.setTextSize(size);
+        textView.setTextAlignment(text_alignment);
+        textView.setTypeface(font);
+        layout.addView(textView);
     }
 
     /**

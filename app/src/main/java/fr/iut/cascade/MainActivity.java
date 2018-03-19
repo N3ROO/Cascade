@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.plattysoft.leonids.ParticleSystem;
 
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity{
 
         // Default difficulty
         setDifficultyStars(2);
+
+        ((TextView) findViewById(R.id.creditsText)).setText(getString(R.string.game_credits));
 
         initButtons();
     }
@@ -231,5 +234,16 @@ public class MainActivity extends AppCompatActivity{
     public void onBackPressed() {
         super.onBackPressed();
         SoundUtil.playMusic(getApplicationContext(), R.raw.back, 0.4f);
+    }
+
+    /**
+     * Called when the activity is re-entered (since onCreate isn't called)
+     * Here we need this method to force the text view to adapt to the current selected language
+     * otherwise it does not update.
+     */
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        ((TextView) findViewById(R.id.creditsText)).setText(getString(R.string.game_credits));
     }
 }

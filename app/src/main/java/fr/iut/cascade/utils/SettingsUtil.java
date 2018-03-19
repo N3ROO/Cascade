@@ -104,14 +104,15 @@ public class SettingsUtil {
      * and so on (max of 10 for the moment)
      *
      * @param score_to_add new score
-     * @param difficulty difficulty of the score
+     * @param tag tag where to put the save
+     * @param max_records_number max values in the scoreboard
      * @param location location of the scoreboard
      * @param app_context context of the app
      * @return the place of the score in the scoreboard (-1 if not found)
      */
-    public static int saveScore(int score_to_add, int difficulty,  String location, Context app_context){
+    public static int saveScore(int score_to_add, String tag, int max_records_number,  String location, Context app_context){
 
-        ArrayList<Integer> score_list = loadScore(difficulty, location, app_context);
+        ArrayList<Integer> score_list = loadScore(tag, location, app_context);
 
         int index = 0;
         boolean place_found = false;
@@ -125,7 +126,7 @@ public class SettingsUtil {
         }
 
         // It isn't a best score we don't save it obviously
-        if(!place_found && score_list.size() >= 10){
+        if(!place_found && score_list.size() >= max_records_number){
             return -1;
         }
 
@@ -138,7 +139,7 @@ public class SettingsUtil {
         }else{
             score_list.add(score_to_add);
         }
-        while (score_list.size() > 10)
+        while (score_list.size() > max_records_number)
             score_list.remove(score_list.size() - 1);
 
         // Now we format the result
@@ -152,7 +153,7 @@ public class SettingsUtil {
         // Now we can save!
         SharedPreferences scoreboard = app_context.getSharedPreferences(location,0);
         SharedPreferences.Editor scoreboard_editor = scoreboard.edit();
-        scoreboard_editor.putString(Integer.toString(difficulty), scoreboard_values.toString());
+        scoreboard_editor.putString(tag, scoreboard_values.toString());
 
         // Apply better than commit since it stores the data in the background, so the application continues
         // its execution whereas commit does it directly
@@ -164,12 +165,12 @@ public class SettingsUtil {
     /**
      * Loads the score
      */
-    public static ArrayList<Integer> loadScore(int difficulty, String location, Context app_context){
+    public static ArrayList<Integer> loadScore(String tag, String location, Context app_context){
         ArrayList<Integer> score_list = new ArrayList<>();
 
         String value_if_nothing_is_found = "empty";
         SharedPreferences scoreboard = app_context.getSharedPreferences(location, 0);
-        String scoreboard_value = scoreboard.getString(Integer.toString(difficulty), value_if_nothing_is_found);
+        String scoreboard_value = scoreboard.getString(tag, value_if_nothing_is_found);
 
         // If nothing is found, the second argument is returned, so here, "value_if_nothing_is_found"
         if(scoreboard_value.equalsIgnoreCase(value_if_nothing_is_found))

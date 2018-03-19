@@ -117,9 +117,9 @@
         android:layout_marginBottom="5dp"
         android:layout_marginStart="5dp"
         android:layout_weight="1"
-        android:text="@string/credits"
         android:textAppearance="@style/TextAppearance.Compat.Notification"
         android:textSize="12sp"
+        android:text="@string/game_credits"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
