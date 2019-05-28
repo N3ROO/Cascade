@@ -2,6 +2,8 @@
 
 The goal of the game is to destroy a brick wall in a as less clicks as possible. But ... care to not let unbreakable bricks...
 
+![preview](.github/screenshot.png)
+
 ## Explanations
 
 - You can't destroy a single brick : the brick must have at least a same color neighbor,
