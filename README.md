@@ -4,6 +4,8 @@ The goal of the game is to destroy a brick wall in a as less clicks as possible.
 
 ![preview](.github/screenshot.png)
 
+Made for the Introduction to mobile programming course at the Bordeaux Institute of Technology (grade: 19/20).
+
 ## Explanations
 
 - You can't destroy a single brick : the brick must have at least a same color neighbor,
